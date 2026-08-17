@@ -55,35 +55,9 @@ async def seed_root_user() -> None:
                 existing_root = result.scalar_one_or_none()
 
                 if existing_root:
-                    needs_update = False
-
-                    if not existing_root.is_superuser:
-                        existing_root.is_superuser = True
-                        needs_update = True
-
-                    if not existing_root.is_active:
-                        existing_root.is_active = True
-                        needs_update = True
-
-                    if not existing_root.is_email_verified:
-                        existing_root.is_email_verified = True
-                        needs_update = True
-
-                    if existing_root.login_locked_until is not None:
-                        existing_root.login_locked_until = None
-                        existing_root.failed_login_attempts = 0
-                        needs_update = True
-
-                    if needs_update:
-                        existing_root.updated_at = datetime.now(timezone.utc)
-                        log.warning(
-                            f"Root user state repaired (Superuser/Active/Unlocked verified) for '{existing_root.username}'."
-                        )
-                    else:
-                        log.info(
-                            f"Root user '{existing_root.username}' is verified and up-to-date."
-                        )
-
+                    log.info(
+                        f"Root user '{existing_root.username}' already exists (Active: {existing_root.is_active}, Superuser: {existing_root.is_superuser}). Seed skipped."
+                    )
                     return
 
                 log.info("Root user not detected. Provisioning root superuser...")
