@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from app.core.config import settings
 from app.core.security import hash_password
 from app.database.postgres import AsyncSessionLocal, Base, engine
-from app.domains.iam.models import User
+from app.models import User
 from app.shared.logger import log
 
 SEED_LOCK_KEY: int = zlib.crc32(b"falcon_root_seed_lock")
