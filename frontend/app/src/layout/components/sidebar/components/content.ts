@@ -21,12 +21,12 @@ export interface SidebarGroupSection {
 
 export const DATA: SidebarGroupSection[] = [
     {
-        title: "layout.platform",
+        title: "layout.home",
         items: [
             {
                 name: "layout.dashboard",
                 icon: LayoutDashboardIcon,
-                link: "/dashboard"
+                link: "/"
             },
         ]
     },

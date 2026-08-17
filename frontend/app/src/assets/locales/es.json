@@ -4,7 +4,11 @@
         "platform": "Plataforma",
         "security": "Seguridad",
         "settings": "Ajustes",
-        "home": "Inicio"
+        "home": "Inicio",
+        "toggleTheme": "Cambiar Tema",
+        "language": "Idioma",
+        "logout": "Cerrar Sesión",
+        "preferences_group": "Preferencias"
     },
     "pages": {
         "private": {

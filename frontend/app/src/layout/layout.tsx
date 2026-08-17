@@ -2,6 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '@/context/auth'
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { LeftBar } from './components/sidebar/component'
+import { Header } from './components/header/component'
 
 const Layout = () => {
     
@@ -22,7 +23,7 @@ const Layout = () => {
                 <LeftBar />
 
                 <main className="flex flex-col flex-1 overflow-hidden">
-                    {/* <Header /> */}
+                    <Header />
                     <div className="flex-1 overflow-auto p-4">
                         <Outlet />
                     </div>
