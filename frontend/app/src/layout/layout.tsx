@@ -16,7 +16,18 @@ const Layout = () => {
 
     return (
         <SidebarProvider>
-            <Outlet />
+            <div className="flex min-h-dvh max-h-dvh h-dvh overflow-hidden w-full">
+
+                <LeftBar />
+
+                <main className="flex flex-col flex-1 overflow-hidden">
+                    {/* <Header /> */}
+                    <div className="flex-1 overflow-auto p-4">
+                        <Outlet />
+                    </div>
+                </main>
+                
+            </div>
         </SidebarProvider>
     )
 }
