@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
+    MAX_FAILED_ATTEMPTS: int = 5
+    LOCKOUT_DURATION_MINUTES: int = 15
+    PRE_AUTH_EXPIRE_MINUTES: int = 5
+
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
     TEMPLATES_DIR: Path = BASE_DIR / "templates"
 
