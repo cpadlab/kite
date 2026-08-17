@@ -68,7 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const cachedCredentialsRef = useRef<Omit<LoginCredentials, 'totp_code'> | null>(null)
 
     useEffect(() => {
-        const initializeSession = () => {
+        const initializeSession = async () => {
             try {
                 const storedToken = localStorage.getItem(ACCESS_TOKEN_KEY)
                 if (storedToken) {
@@ -76,14 +76,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     if (decoded && decoded.exp * 1000 > Date.now()) {
                         setAccessToken(storedToken)
                         setAccessTokenState(storedToken)
+                        
+                        const profile = await loginService.getMe()
                         setUser({
-                            id: decoded.sub,
-                            username: decoded.username,
-                            email: decoded.email,
-                            firstName: decoded.first_name,
-                            lastName: decoded.last_name,
-                            tenantId: decoded.tenant_id,
-                            scopes: decoded.scopes,
+                            id: profile.id,
+                            username: profile.username,
+                            email: profile.email,
+                            firstName: profile.first_name,
+                            lastName: profile.last_name,
+                            tenantId: profile.tenant_id,
+                            scopes: profile.scopes,
                         })
                         setIsAuthenticated(true)
                     } else {
@@ -93,6 +95,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 }
             } catch (err) {
                 console.error('Session initialization failed:', err)
+                localStorage.removeItem(ACCESS_TOKEN_KEY)
+                clearSession()
+                setUser(null)
+                setIsAuthenticated(false)
             } finally {
                 setIsLoading(false)
             }

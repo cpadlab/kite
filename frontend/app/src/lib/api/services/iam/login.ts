@@ -1,5 +1,5 @@
 import { api, clearSession, setAccessToken } from '../../client'
-import type { LoginCredentials, TokenResponse } from '../../../../types/iam'
+import type { LoginCredentials, TokenResponse, UserProfileResponse } from '../../../../types/iam'
 
 export const loginService = {
     
@@ -18,6 +18,10 @@ export const loginService = {
         }
 
         return response
+    },
+
+    async getMe(): Promise<UserProfileResponse> {
+        return await api.get<UserProfileResponse>('/auth/me')
     },
 
     logout(): void {

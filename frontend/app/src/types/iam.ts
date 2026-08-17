@@ -27,3 +27,17 @@ export interface TOTPSetupResponse {
 export interface Verify2FAPayload {
     code: string
 }
+
+export interface UserProfileResponse {
+    id: string
+    tenant_id?: string
+    first_name: string
+    last_name: string
+    username: string
+    email: string
+    is_active: boolean
+    is_superuser: boolean
+    is_email_verified: boolean
+    is_2fa_enabled: boolean
+    scopes: string[]
+}
