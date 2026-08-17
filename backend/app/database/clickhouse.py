@@ -1,4 +1,5 @@
 from collections.abc import AsyncGenerator
+import asyncio
 import clickhouse_connect
 from clickhouse_connect.driver.asyncclient import AsyncClient
 from clickhouse_connect.driver.exceptions import ClickHouseError
@@ -39,29 +40,35 @@ class ClickHouseManager:
             Exception: For any other unexpected initialization failures.
         """
         if self._client is None:
-            try:
-                
-                self._client = await clickhouse_connect.get_async_client(
-                    host=settings.CLICKHOUSE_HOST,
-                    port=settings.CLICKHOUSE_PORT,
-                    username=settings.CLICKHOUSE_USER,
-                    password=settings.CLICKHOUSE_PASSWORD,
-                    database=settings.CLICKHOUSE_DB,
-                    connect_timeout=settings.CLICKHOUSE_CONNECT_TIMEOUT,
-                    send_receive_timeout=settings.CLICKHOUSE_SEND_RECEIVE_TIMEOUT,
-                    compress=settings.CLICKHOUSE_COMPRESS,
-                )
+            retries = 10
+            delay = 3
+            for attempt in range(1, retries + 1):
+                try:
+                    self._client = await clickhouse_connect.get_async_client(
+                        host=settings.CLICKHOUSE_HOST,
+                        port=settings.CLICKHOUSE_PORT,
+                        username=settings.CLICKHOUSE_USER,
+                        password=settings.CLICKHOUSE_PASSWORD,
+                        database=settings.CLICKHOUSE_DB,
+                        connect_timeout=settings.CLICKHOUSE_CONNECT_TIMEOUT,
+                        send_receive_timeout=settings.CLICKHOUSE_SEND_RECEIVE_TIMEOUT,
+                        compress=settings.CLICKHOUSE_COMPRESS,
+                    )
 
-                is_alive = await self._client.ping()
-                if not is_alive:
-                    raise ConnectionError("ClickHouse server ping failed (returned False).")
+                    is_alive = await self._client.ping()
+                    if not is_alive:
+                        raise ConnectionError("ClickHouse server ping failed (returned False).")
 
-                log.info("ClickHouse connection successfully established.")
+                    log.info("ClickHouse connection successfully established.")
+                    break
 
-            except (ClickHouseError, Exception) as exc:
-                log.error(f"Failed to initialize ClickHouse client: {exc}")
-                self._client = None
-                raise exc
+                except (ClickHouseError, Exception) as exc:
+                    self._client = None
+                    if attempt == retries:
+                        log.error(f"Failed to initialize ClickHouse client after {retries} attempts: {exc}")
+                        raise exc
+                    log.warning(f"Failed to initialize ClickHouse client (attempt {attempt}/{retries}): {exc}. Retrying in {delay}s...")
+                    await asyncio.sleep(delay)
 
         return self._client
 
