@@ -5,6 +5,10 @@ from pydantic import computed_field
 
 class Settings(BaseSettings):
 
+    PROJECT_TITLE: str = "Kite API"
+    PROJECT_VERSION: str = "1.0.0"
+    CORS_ORIGINS: list[str] = ["*"]
+
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
 
