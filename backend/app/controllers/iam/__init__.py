@@ -14,10 +14,6 @@ from app.controllers.iam.totp import (
     handle_totp_enable,
     handle_totp_disable,
 )
-from app.controllers.iam.register import (
-    register_user,
-    UserAlreadyExistsError,
-)
 
 __all__ = [
     "authenticate_user",
@@ -32,6 +28,4 @@ __all__ = [
     "handle_totp_setup",
     "handle_totp_enable",
     "handle_totp_disable",
-    "register_user",
-    "UserAlreadyExistsError",
 ]
