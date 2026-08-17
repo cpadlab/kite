@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '@/context/auth'
 import { SidebarProvider } from "@/components/ui/sidebar"
+import { LeftBar } from './components/sidebar/component'
 
 const Layout = () => {
     

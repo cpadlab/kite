@@ -1,4 +1,11 @@
 {
+    "layout": {
+        "dashboard": "Dashboard",
+        "platform": "Plataforma",
+        "security": "Seguridad",
+        "settings": "Ajustes",
+        "home": "Inicio"
+    },
     "pages": {
         "private": {
             "home": {
