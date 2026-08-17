@@ -2,7 +2,7 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from sqlalchemy import text
-
+from app.controllers.seed import seed_root_user
 from app.core.config import settings
 from app.database.clickhouse import close_clickhouse, init_clickhouse
 from app.database.postgres import engine
@@ -46,6 +46,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         await init_redis()
 
         log.info("All database engines connected successfully.")
+
+        await seed_root_user()
 
     except Exception as exc:
         log.critical(f"Database initialization failed during startup: {exc}")
