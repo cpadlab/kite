@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Alert: Successful Sign-In</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #111827;
+            margin: 0;
+            padding: 24px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .logo {
+            width: 48px;
+            height: 48px;
+            fill: #4f46e5;
+            margin-right: 12px;
+        }
+        .brand-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+        .title {
+            margin-top: 0;
+            font-size: 18px;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #374151;
+            margin: 0 0 16px 0;
+        }
+        .info-card {
+            background-color: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 13px;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .info-value {
+            color: #111827;
+            font-weight: 600;
+            font-family: monospace;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-new {
+            background-color: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+        .badge-known {
+            background-color: #eef2ff;
+            color: #4f46e5;
+            border: 1px solid #c7d2fe;
+        }
+        .warning-box {
+            background-color: #fffbebfb;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #92400e;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4f46e5;
+            color: #ffffff !important;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        .footer {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 32px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <svg class="logo" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 128 192 L 0 256 L 0 192 L 128 128 Z M 256 192 L 128 256 L 128 192 L 256 128 Z M 128 64 L 128 128 L 0 64 L 0 0 Z M 256 64 L 256 128 L 128 64 L 128 0 Z" />
+        </svg>
+        <h1 class="brand-title">{{ project_title }}</h1>
+    </div>
+
+    <h2 class="title">New sign-in activity detected</h2>
+    <p>Hello <strong>{{ recipient_name }}</strong>,</p>
+    <p>A new sign-in was recorded for your <strong>{{ project_title }}</strong> account (<strong>{{ username }}</strong>) with the following security details:</p>
+
+    <div class="info-card">
+        <div class="info-row">
+            <span class="info-label">Account / Username:</span>
+            <span class="info-value">{{ username }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Device Status:</span>
+            <span>
+                {% if is_new_device %}
+                <span class="badge badge-new">New Device / Unrecognized</span>
+                {% else %}
+                <span class="badge badge-known">Known Device</span>
+                {% endif %}
+            </span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">IP Address:</span>
+            <span class="info-value">{{ ip_address }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Device Type:</span>
+            <span class="info-value">{{ device_type }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">User Agent:</span>
+            <span class="info-value" style="font-size:11px;">{{ user_agent }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Timestamp (UTC):</span>
+            <span class="info-value">{{ login_time }}</span>
+        </div>
+    </div>
+
+    {% if is_new_device %}
+    <div class="warning-box">
+        <strong>⚠️ Security Warning:</strong> If this sign-in was not authorized by you, your account credentials might be compromised. Please change your password and revoke active sessions immediately.
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        <p>&copy; {{ project_title }}. All rights reserved.</p>
+    </div>
+</body>
+</html>

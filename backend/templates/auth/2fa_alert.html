@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Factor Authentication Enabled</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #111827;
+            margin: 0;
+            padding: 24px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .logo {
+            width: 48px;
+            height: 48px;
+            fill: #4f46e5;
+            margin-right: 12px;
+        }
+        .brand-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+        .title {
+            margin-top: 0;
+            font-size: 18px;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #374151;
+            margin: 0 0 16px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4f46e5;
+            color: #ffffff !important;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        .footer {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 32px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <svg class="logo" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 128 192 L 0 256 L 0 192 L 128 128 Z M 256 192 L 128 256 L 128 192 L 256 128 Z M 128 64 L 128 128 L 0 64 L 0 0 Z M 256 64 L 256 128 L 128 64 L 128 0 Z" />
+        </svg>
+        <h1 class="brand-title">{{ project_title }}</h1>
+    </div>
+
+    <h2 class="title">Two-Factor Authentication (2FA) Activated</h2>
+    <p>Hello <strong>{{ recipient_name }}</strong>,</p>
+    <p>Two-Factor Authentication (TOTP) has been successfully enabled on your account (<strong>{{ username }}</strong>).</p>
+    <p>Your account is now protected with Time-based One-Time Passwords. Please ensure your emergency backup codes are stored in a safe location.</p>
+    
+    <div class="footer">
+        <p>&copy; {{ project_title }}. All rights reserved.</p>
+    </div>
+</body>
+</html>

@@ -71,6 +71,7 @@ async def seed_root_user() -> None:
                     is_active=True,
                     is_superuser=True,
                     is_email_verified=True,
+                    scopes=["*"],
                     is_2fa_enabled=False,
                     backup_codes=[],
                     failed_login_attempts=0,

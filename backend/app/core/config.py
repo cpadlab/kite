@@ -17,6 +17,11 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
 
+    SECRET_KEY: str
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
     TEMPLATES_DIR: Path = BASE_DIR / "templates"
 
