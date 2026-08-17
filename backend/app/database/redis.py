@@ -27,7 +27,12 @@ async def init_redis() -> Redis:
         try:
 
             _redis_pool = ConnectionPool.from_url(
-                settings.REDIS_URL, max_connections=50, decode_responses=True, socket_timeout=5.0, socket_connect_timeout=5.0, health_check_interval=30,
+                settings.REDIS_URL,
+                max_connections=settings.REDIS_MAX_CONNECTIONS,
+                decode_responses=settings.REDIS_DECODE_RESPONSES,
+                socket_timeout=settings.REDIS_SOCKET_TIMEOUT,
+                socket_connect_timeout=settings.REDIS_SOCKET_CONNECT_TIMEOUT,
+                health_check_interval=settings.REDIS_HEALTH_CHECK_INTERVAL,
             )
             client = Redis(connection_pool=_redis_pool)
 
@@ -68,7 +73,7 @@ async def get_redis() -> AsyncGenerator[Redis, None]:
         await init_redis()
 
     client = Redis(connection_pool=_redis_pool)
-    
+
     try:
         yield client
     finally:

@@ -42,9 +42,14 @@ class ClickHouseManager:
             try:
                 
                 self._client = await clickhouse_connect.get_async_client(
-                    host=settings.CLICKHOUSE_HOST, port=settings.CLICKHOUSE_PORT, username=settings.CLICKHOUSE_USER,
-                    password=settings.CLICKHOUSE_PASSWORD, database=settings.CLICKHOUSE_DB, connect_timeout=10,
-                    send_receive_timeout=30, compress=True,
+                    host=settings.CLICKHOUSE_HOST,
+                    port=settings.CLICKHOUSE_PORT,
+                    username=settings.CLICKHOUSE_USER,
+                    password=settings.CLICKHOUSE_PASSWORD,
+                    database=settings.CLICKHOUSE_DB,
+                    connect_timeout=settings.CLICKHOUSE_CONNECT_TIMEOUT,
+                    send_receive_timeout=settings.CLICKHOUSE_SEND_RECEIVE_TIMEOUT,
+                    compress=settings.CLICKHOUSE_COMPRESS,
                 )
 
                 is_alive = await self._client.ping()

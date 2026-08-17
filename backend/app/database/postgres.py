@@ -10,11 +10,11 @@ from app.shared.logger import log
 engine: AsyncEngine = create_async_engine(
     settings.POSTGRES_DATABASE_URL,
     echo=settings.DEBUG,
-    pool_pre_ping=True,
-    pool_size=20,
-    max_overflow=10,
-    pool_timeout=30,
-    pool_recycle=1800,
+    pool_pre_ping=settings.POSTGRES_POOL_PRE_PING,
+    pool_size=settings.POSTGRES_POOL_SIZE,
+    max_overflow=settings.POSTGRES_MAX_OVERFLOW,
+    pool_timeout=settings.POSTGRES_POOL_TIMEOUT,
+    pool_recycle=settings.POSTGRES_POOL_RECYCLE,
 )
 
 AsyncSessionLocal = async_sessionmaker(
