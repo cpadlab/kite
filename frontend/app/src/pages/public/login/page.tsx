@@ -19,11 +19,11 @@ export default function LoginPage() {
             <div className="w-full max-w-md md:min-w-md min-w-full space-y-4 flex flex-col items-center relative z-10">
 
                 <div className='text-center space-y-2'>
-                    <div className='flex justify-center'>
-                        <div className='flex p-2 dark:bg-transparent bg-primary-foreground rounded-lg items-center gap-2 justify-center'>
-                            <Logo className="size-6 fill-primary" />
-                            <h2 className="text-2xl leading-none font-bold dark:text-primary-foreground text-primary">{t('pages.public.login.title')}</h2>
+                    <div className='flex justify-center items-center gap-2'>
+                        <div className='flex p-2 dark:bg-primary bg-primary-foreground rounded-lg'>
+                            <Logo className="size-6 fill-primary dark:fill-primary-foreground" />
                         </div>
+                        <h2 className="text-2xl leading-none font-bold dark:text-primary-foreground text-primary">{t('pages.public.login.title')}</h2>
                     </div>
                     <p className="text-sm text-muted-foreground font-medium">{t('pages.public.login.subtitle')}</p>
                 </div>

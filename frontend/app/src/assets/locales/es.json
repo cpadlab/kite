@@ -1,35 +1,37 @@
 {
-  "pages": {
-    "public": {
-      "login": {
-        "title": "Kite",
-        "subtitle": "Plataforma de Telemetría Segura para APIs",
-        "identifier_label": "Usuario o Correo Electrónico",
-        "identifier_placeholder": "Introduce tu usuario o correo",
-        "password_label": "Contraseña",
-        "password_placeholder": "••••••••",
-        "submit_button": "Iniciar Sesión",
-        "loading": "Procesando...",
-        "auditNotice": "Sesión de auditoría registrada bajo monitoreo de seguridad.",
-        "errors": {
-          "identifier_min": "El usuario o correo electrónico debe tener al menos 3 caracteres.",
-          "identifier_max": "El usuario o correo electrónico no puede superar los 255 caracteres.",
-          "password_min": "La contraseña debe tener al menos 8 caracteres.",
-          "password_max": "La contraseña no puede superar los 128 caracteres."
+    "pages": {
+        "public": {
+            "login": {
+                "title": "Kite",
+                "subtitle": "Plataforma de Telemetría Segura para APIs",
+                "identifier_label": "Usuario o Correo Electrónico",
+                "identifier_placeholder": "Introduce tu usuario o correo",
+                "password_label": "Contraseña",
+                "password_placeholder": "••••••••",
+                "forgot_password": "¿Olvidaste tu contraseña?",
+                "error_title": "Error",
+                "submit_button": "Iniciar Sesión",
+                "loading": "Procesando...",
+                "auditNotice": "Sesión de auditoría registrada bajo monitoreo de seguridad.",
+                "errors": {
+                    "identifier_min": "El usuario o correo electrónico debe tener al menos 3 caracteres.",
+                    "identifier_max": "El usuario o correo electrónico no puede superar los 255 caracteres.",
+                    "password_min": "La contraseña debe tener al menos 8 caracteres.",
+                    "password_max": "La contraseña no puede superar los 128 caracteres."
+                }
+            },
+            "totp": {
+                "title": "Autenticación de Doble Factor",
+                "description": "Introduce el código de verificación de 6 dígitos de tu app de autenticación o un código de respaldo.",
+                "label": "Código de Seguridad",
+                "submit_button": "Verificar y Entrar",
+                "loading": "Procesando..."
+            }
         }
-      },
-      "totp": {
-        "title": "Autenticación de Doble Factor",
-        "description": "Introduce el código de verificación de 6 dígitos de tu app de autenticación o un código de respaldo.",
-        "label": "Código de Seguridad",
-        "submit_button": "Verificar y Entrar",
-        "loading": "Procesando..."
-      }
+    },
+    "theme": {
+        "light": "Claro",
+        "dark": "Oscuro",
+        "system": "Sistema"
     }
-  },
-  "theme": {
-    "light": "Claro",
-    "dark": "Oscuro",
-    "system": "Sistema"
-  }
 }
