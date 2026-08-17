@@ -4,6 +4,7 @@
             "login": {
                 "title": "Kite",
                 "subtitle": "Plataforma de Telemetría Segura para APIs",
+                "description": "Inicio de Sesión",
                 "identifier_label": "Usuario o Correo Electrónico",
                 "identifier_placeholder": "Introduce tu usuario o correo",
                 "password_label": "Contraseña",

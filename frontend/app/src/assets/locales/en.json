@@ -6,6 +6,7 @@
                 "subtitle": "Secure API Telemetry Platform",
                 "identifier_label": "Username or Email Address",
                 "identifier_placeholder": "Enter your username or email",
+                "description": "Log In",
                 "password_label": "Password",
                 "password_placeholder": "••••••••",
                 "forgot_password": "Forgot password?",

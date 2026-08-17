@@ -15,7 +15,6 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-            
             <div className="w-full max-w-md md:min-w-md min-w-full space-y-4 flex flex-col items-center relative z-10">
 
                 <div className='text-center space-y-2'>
@@ -25,7 +24,11 @@ export default function LoginPage() {
                         </div>
                         <h2 className="text-2xl leading-none font-bold dark:text-primary-foreground text-primary">{t('pages.public.login.title')}</h2>
                     </div>
-                    <p className="text-sm text-muted-foreground font-medium">{t('pages.public.login.subtitle')}</p>
+                </div>
+
+                <div className="space-y-2 text-center w-full">
+                    <h1 className="text-2xl font-semibold">{t('pages.public.login.description')}</h1>
+                    <p className="text-sm text-muted-foreground">{t('pages.public.login.subtitle')}</p>
                 </div>
 
                 <div className="space-y-4 w-full">
