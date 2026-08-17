@@ -36,8 +36,16 @@ export interface ApiError {
     details?: unknown
 }
 
+const getBaseURL = (): string => {
+    const envUrl = import.meta.env.VITE_API_URL as string | undefined
+    if (envUrl) {
+        return envUrl.endsWith('/api/v1') ? envUrl : `${envUrl.replace(/\/$/, '')}/api/v1`
+    }
+    return 'http://localhost:8000/api/v1'
+}
+
 export const apiClient: AxiosInstance = axios.create({
-    baseURL: (import.meta.env.VITE_API_URL as string) || '/api/v1',
+    baseURL: getBaseURL(),
     timeout: 15000,
     withCredentials: true,
     headers: {

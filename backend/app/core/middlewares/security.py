@@ -17,6 +17,9 @@ class SecurityMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         """
         """
+        if request.method == "OPTIONS":
+            return await call_next(request)
+
         path = request.url.path
 
         if path == "/health":
