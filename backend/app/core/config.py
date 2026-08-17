@@ -11,6 +11,12 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: int
 
+    CLICKHOUSE_HOST: str
+    CLICKHOUSE_PORT: int
+    CLICKHOUSE_USER: str
+    CLICKHOUSE_PASSWORD: str
+    CLICKHOUSE_DB: str
+
     @computed_field
     @property
     def POSTGRES_DATABASE_URL(self) -> str:
