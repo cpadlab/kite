@@ -9,9 +9,7 @@ from app.database.postgres import AsyncSessionLocal, Base, engine
 from app.domains.iam.models import User
 from app.shared.logger import log
 
-# Identificador determinista de 64-bit para el Advisory Lock de Postgres
 SEED_LOCK_KEY: int = zlib.crc32(b"falcon_root_seed_lock")
-
 
 async def seed_root_user() -> None:
     """
@@ -43,6 +41,7 @@ async def seed_root_user() -> None:
     async with AsyncSessionLocal() as session:
         async with session.begin():
             try:
+                
                 await session.execute(
                     text("SELECT pg_advisory_xact_lock(:lock_key)"),
                     {"lock_key": SEED_LOCK_KEY},
@@ -87,7 +86,6 @@ async def seed_root_user() -> None:
 
                     return
 
-                # 3. Creación del Usuario Root inicial
                 log.info("Root user not detected. Provisioning root superuser...")
 
                 root_user = User(
