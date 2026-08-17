@@ -1,3 +1,4 @@
+import { DashboardContent } from "./content";
 
 
 const PlatformDashboardPage = () => {

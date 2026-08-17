@@ -48,6 +48,8 @@ def create_access_token(
     user_id: uuid.UUID,
     username: str,
     email: str,
+    first_name: str,
+    last_name: str,
     is_superuser: bool,
     tenant_id: uuid.UUID | None,
     scopes: list[str],
@@ -61,6 +63,8 @@ def create_access_token(
         user_id: Unique UUID identifier of the authenticated user.
         username: User account handle.
         email: Primary email address of the user.
+        first_name: First name of the user.
+        last_name: Last name of the user.
         is_superuser: Administrative privilege status flag.
         tenant_id: Multi-tenant organization UUID context.
         scopes: List of granted permission strings or scopes.
@@ -77,6 +81,8 @@ def create_access_token(
         "sub": str(user_id),
         "username": username,
         "email": email,
+        "first_name": first_name,
+        "last_name": last_name,
         "is_superuser": is_superuser,
         "tenant_id": str(tenant_id) if tenant_id else None,
         "scopes": scopes if not is_superuser else ["*"],
@@ -295,6 +301,8 @@ async def authenticate_user(
         user_id=user.id,
         username=user.username,
         email=user.email,
+        first_name=user.first_name,
+        last_name=user.last_name,
         is_superuser=user.is_superuser,
         tenant_id=user.tenant_id,
         scopes=user.scopes or [],

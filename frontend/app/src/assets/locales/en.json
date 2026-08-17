@@ -1,5 +1,12 @@
 {
     "pages": {
+        "private": {
+            "home": {
+                "dashboard": {
+                    "welcome": "Welcome, {{name}}"
+                }
+            }
+        },
         "public": {
             "login": {
                 "title": "Kite",

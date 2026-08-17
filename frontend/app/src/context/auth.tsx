@@ -7,6 +7,8 @@ export interface AuthUser {
     id: string
     username: string
     email: string
+    firstName: string
+    lastName: string
     tenantId?: string
     scopes: string[]
 }
@@ -32,6 +34,8 @@ interface DecodedToken {
     sub: string
     username: string
     email: string
+    first_name: string
+    last_name: string
     tenant_id?: string
     scopes: string[]
     exp: number
@@ -76,6 +80,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                             id: decoded.sub,
                             username: decoded.username,
                             email: decoded.email,
+                            firstName: decoded.first_name,
+                            lastName: decoded.last_name,
                             tenantId: decoded.tenant_id,
                             scopes: decoded.scopes,
                         })
@@ -120,6 +126,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             id: decoded.sub,
             username: decoded.username,
             email: decoded.email,
+            firstName: decoded.first_name,
+            lastName: decoded.last_name,
             tenantId: decoded.tenant_id,
             scopes: decoded.scopes,
         })
