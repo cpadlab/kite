@@ -17,10 +17,20 @@ class Settings(BaseSettings):
     CLICKHOUSE_PASSWORD: str
     CLICKHOUSE_DB: str
 
+    REDIS_PASSWORD: str
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_DB: int
+
     @computed_field
     @property
     def POSTGRES_DATABASE_URL(self) -> str:
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
+    @computed_field
+    @property
+    def REDIS_URL(self) -> str:
+        return f"redis://:{self.REDIS_PASSWORD}@{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
  
     model_config = SettingsConfigDict(
         env_file=".env",

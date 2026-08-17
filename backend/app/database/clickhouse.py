@@ -1,9 +1,3 @@
-"""ClickHouse client configuration and lifecycle management module.
-
-Provides an asynchronous client manager, connection validation, lifespan lifecycle hooks,
-and a FastAPI dependency injector for ClickHouse operations.
-"""
-
 from collections.abc import AsyncGenerator
 import clickhouse_connect
 from clickhouse_connect.driver.asyncclient import AsyncClient
