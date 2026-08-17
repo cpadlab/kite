@@ -1,3 +1,25 @@
 {
-    
+    "login": {
+        "title": "Kite Telemetry",
+        "subtitle": "Secure API Telemetry & Observability Platform",
+        "cardTitle": "Sign In",
+        "cardDescription": "Enter your credentials to access your dashboard.",
+        "identifierLabel": "Username or Email Address",
+        "identifierPlaceholder": "Enter your username or email",
+        "passwordLabel": "Password",
+        "passwordPlaceholder": "••••••••",
+        "totpTitle": "Two-Factor Authentication",
+        "totpDescription": "Enter the 6-digit verification code from your authenticator app or an emergency backup code.",
+        "totpLabel": "Security Verification Code",
+        "totpPlaceholder": "000000",
+        "submitButton": "Sign In",
+        "submitVerifyButton": "Verify & Login",
+        "loading": "Processing...",
+        "auditNotice": "Audit session logged under security monitoring."
+    },
+    "theme": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    }
 }

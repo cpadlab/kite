@@ -1,1 +1,25 @@
-{}
+{
+  "login": {
+    "title": "Kite Telemetry",
+    "subtitle": "Plataforma de Telemetría Segura para APIs",
+    "cardTitle": "Iniciar Sesión",
+    "cardDescription": "Introduce tus credenciales para acceder al panel.",
+    "identifierLabel": "Usuario o Correo Electrónico",
+    "identifierPlaceholder": "Introduce tu usuario o correo",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "••••••••",
+    "totpTitle": "Autenticación de Doble Factor",
+    "totpDescription": "Introduce el código de verificación de 6 dígitos de tu app de autenticación o un código de respaldo.",
+    "totpLabel": "Código de Seguridad",
+    "totpPlaceholder": "000000",
+    "submitButton": "Iniciar Sesión",
+    "submitVerifyButton": "Verificar y Entrar",
+    "loading": "Procesando...",
+    "auditNotice": "Sesión de auditoría registrada bajo monitoreo de seguridad."
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  }
+}
