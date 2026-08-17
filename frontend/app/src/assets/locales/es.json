@@ -1,25 +1,29 @@
 {
-  "login": {
-    "title": "Kite Telemetry",
-    "subtitle": "Plataforma de Telemetría Segura para APIs",
-    "cardTitle": "Iniciar Sesión",
-    "cardDescription": "Introduce tus credenciales para acceder al panel.",
-    "identifierLabel": "Usuario o Correo Electrónico",
-    "identifierPlaceholder": "Introduce tu usuario o correo",
-    "passwordLabel": "Contraseña",
-    "passwordPlaceholder": "••••••••",
-    "totpTitle": "Autenticación de Doble Factor",
-    "totpDescription": "Introduce el código de verificación de 6 dígitos de tu app de autenticación o un código de respaldo.",
-    "totpLabel": "Código de Seguridad",
-    "totpPlaceholder": "000000",
-    "submitButton": "Iniciar Sesión",
-    "submitVerifyButton": "Verificar y Entrar",
-    "loading": "Procesando...",
-    "auditNotice": "Sesión de auditoría registrada bajo monitoreo de seguridad."
-  },
-  "theme": {
-    "light": "Claro",
-    "dark": "Oscuro",
-    "system": "Sistema"
-  }
+    "pages": {
+        "public": {
+            "login": {
+                "title": "Kite Telemetry",
+                "subtitle": "Plataforma de Telemetría Segura para APIs",
+                "identifier_label": "Usuario o Correo Electrónico",
+                "identifier_placeholder": "Introduce tu usuario o correo",
+                "password_label": "Contraseña",
+                "password_placeholder": "••••••••",
+                "submit_button": "Iniciar Sesión",
+                "loading": "Procesando...",
+                "auditNotice": "Sesión de auditoría registrada bajo monitoreo de seguridad."
+            },
+            "totp": {
+                "title": "Autenticación de Doble Factor",
+                "description": "Introduce el código de verificación de 6 dígitos de tu app de autenticación o un código de respaldo.",
+                "label": "Código de Seguridad",
+                "submit_button": "Verificar y Entrar",
+                "loading": "Procesando..."
+            }
+        }
+    },
+    "theme": {
+        "light": "Claro",
+        "dark": "Oscuro",
+        "system": "Sistema"
+    }
 }

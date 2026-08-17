@@ -1,21 +1,24 @@
 {
-    "login": {
-        "title": "Kite Telemetry",
-        "subtitle": "Secure API Telemetry & Observability Platform",
-        "cardTitle": "Sign In",
-        "cardDescription": "Enter your credentials to access your dashboard.",
-        "identifierLabel": "Username or Email Address",
-        "identifierPlaceholder": "Enter your username or email",
-        "passwordLabel": "Password",
-        "passwordPlaceholder": "••••••••",
-        "totpTitle": "Two-Factor Authentication",
-        "totpDescription": "Enter the 6-digit verification code from your authenticator app or an emergency backup code.",
-        "totpLabel": "Security Verification Code",
-        "totpPlaceholder": "000000",
-        "submitButton": "Sign In",
-        "submitVerifyButton": "Verify & Login",
-        "loading": "Processing...",
-        "auditNotice": "Audit session logged under security monitoring."
+    "pages": {
+        "public": {
+            "login": {
+                "title": "Kite",
+                "subtitle": "Secure API Telemetry Platform",
+                "identifier_label": "Username or Email Address",
+                "identifier_placeholder": "Enter your username or email",
+                "password_label": "Password",
+                "password_placeholder": "••••••••",
+                "submit_button": "Sign In",
+                "loading": "Processing..."
+            },
+            "totp": {
+                "title": "Two-Factor Authentication",
+                "description": "Enter the 6-digit verification code from your authenticator app or an emergency backup code.",
+                "label": "Security Verification Code",
+                "submit_button": "Verify & Login",
+                "loading": "Processing..."
+            }
+        }
     },
     "theme": {
         "light": "Light",
