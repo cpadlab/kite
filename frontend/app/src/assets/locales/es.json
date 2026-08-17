@@ -26,7 +26,10 @@
                 "description": "Introduce el código de verificación de 6 dígitos de tu app de autenticación o un código de respaldo.",
                 "label": "Código de Seguridad",
                 "submit_button": "Verificar y Entrar",
-                "loading": "Procesando..."
+                "loading": "Procesando...",
+                "errors": {
+                    "code_length": "El código debe tener exactamente 6 dígitos."
+                }
             }
         }
     },

@@ -25,7 +25,10 @@
                 "description": "Enter the 6-digit verification code from your authenticator app or an emergency backup code.",
                 "label": "Security Verification Code",
                 "submit_button": "Verify & Login",
-                "loading": "Processing..."
+                "loading": "Processing...",
+                "errors": {
+                    "code_length": "The code must be exactly 6 digits."
+                }
             }
         }
     },
