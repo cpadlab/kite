@@ -34,6 +34,9 @@ async def seed_root_user() -> None:
     try:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
+            await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS tenant_id UUID;"))
+            await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS scopes JSONB DEFAULT '[]'::jsonb;"))
+            await conn.execute(text("ALTER TABLE sessions ADD COLUMN IF NOT EXISTS tenant_id UUID;"))
     except SQLAlchemyError as ddl_exc:
         log.critical(f"DDL schema synchronization failed: {ddl_exc}")
         raise ddl_exc
