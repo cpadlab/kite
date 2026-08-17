@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     MAX_FAILED_ATTEMPTS: int = 5
     LOCKOUT_DURATION_MINUTES: int = 15
     PRE_AUTH_EXPIRE_MINUTES: int = 5
+    MAX_SKEW_SECONDS: int = 300
 
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
     TEMPLATES_DIR: Path = BASE_DIR / "templates"
