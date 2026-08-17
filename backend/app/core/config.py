@@ -8,10 +8,10 @@ class Settings(BaseSettings):
     PROJECT_TITLE: str = "Kite API"
     PROJECT_VERSION: str = "1.0.0"
     
-    CORS_ORIGINS: list[str] = ["*"]
+    CORS_ORIGINS: str = "*"
     CORS_ALLOW_CREDENTIALS: bool = True
-    CORS_ALLOW_METHODS: list[str] = ["*"]
-    CORS_ALLOW_HEADERS: list[str] = ["*"]
+    CORS_ALLOW_METHODS: str = "*"
+    CORS_ALLOW_HEADERS: str = "*"
 
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
@@ -56,12 +56,26 @@ class Settings(BaseSettings):
     def REDIS_URL(self) -> str:
         return f"redis://:{self.REDIS_PASSWORD}@{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
 
-    @field_validator("CORS_ORIGINS", "CORS_ALLOW_METHODS", "CORS_ALLOW_HEADERS", mode="before")
-    @classmethod
-    def assemble_cors_list(cls, v: str | list[str]) -> list[str]:
-        if isinstance(v, str) and not v.startswith("["):
-            return [i.strip() for i in v.split(",") if i.strip()]
-        return v
+    @computed_field
+    @property
+    def cors_origins(self) -> list[str]:
+        if not self.CORS_ORIGINS or self.CORS_ORIGINS.strip() == "*":
+            return ["*"]
+        return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
+
+    @computed_field
+    @property
+    def cors_methods(self) -> list[str]:
+        if not self.CORS_ALLOW_METHODS or self.CORS_ALLOW_METHODS.strip() == "*":
+            return ["*"]
+        return [method.strip() for method in self.CORS_ALLOW_METHODS.split(",") if method.strip()]
+
+    @computed_field
+    @property
+    def cors_headers(self) -> list[str]:
+        if not self.CORS_ALLOW_HEADERS or self.CORS_ALLOW_HEADERS.strip() == "*":
+            return ["*"]
+        return [header.strip() for header in self.CORS_ALLOW_HEADERS.split(",") if header.strip()]
  
     model_config = SettingsConfigDict(
         env_file=".env",

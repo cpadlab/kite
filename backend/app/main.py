@@ -19,10 +19,10 @@ app = api
 
 api.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=settings.cors_origins,
     allow_credentials=settings.CORS_ALLOW_CREDENTIALS,
-    allow_methods=settings.CORS_ALLOW_METHODS,
-    allow_headers=settings.CORS_ALLOW_HEADERS,
+    allow_methods=settings.cors_methods,
+    allow_headers=settings.cors_headers,
 )
 api.add_middleware(RequestContextMiddleware)
 
