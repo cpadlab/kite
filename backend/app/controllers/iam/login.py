@@ -12,13 +12,14 @@ from app.core.exceptions import (
     AuthenticationError,
     TwoFactorInvalidError,
 )
-from app.core.security import verify_password
+import secrets
+from app.core.security import verify_password, hash_password
 from app.models.iam import User, UserSession
 from app.schemas.iam import LoginCredentialsSchema, TokenResponseSchema
 from app.shared.email import email_service
 from app.shared.logger import log
 
-DUMMY_ARGON2_HASH = "$argon2id$v=19$m=65536,t=3,p=4$anVzdG1vY2toYXNoaW5n$dummyverificationhashforsecurity"
+DUMMY_ARGON2_HASH = hash_password(secrets.token_hex(32))
 
 
 def _parse_device_type(user_agent: str | None) -> str:
