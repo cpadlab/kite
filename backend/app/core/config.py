@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
 
+    BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
+    TEMPLATES_DIR: Path = BASE_DIR / "templates"
+
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
@@ -45,6 +48,16 @@ class Settings(BaseSettings):
     REDIS_SOCKET_TIMEOUT: float = 5.0
     REDIS_SOCKET_CONNECT_TIMEOUT: float = 5.0
     REDIS_HEALTH_CHECK_INTERVAL: int = 30
+
+    SMTP_HOST: str = "localhost"
+    SMTP_PORT: int = 1025
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    SMTP_STARTTLS: bool = False
+    SMTP_SSL: bool = False
+    SMTP_FROM_EMAIL: str = "no-reply@kitec.dev"
+    SMTP_FROM_NAME: str = "Kite"
+    SMTP_TIMEOUT: float = 15.0
 
     @computed_field
     @property
