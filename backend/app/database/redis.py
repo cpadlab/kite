@@ -3,7 +3,7 @@ from collections.abc import AsyncGenerator
 from redis.asyncio import ConnectionPool, Redis
 
 from app.core.config import settings
-from app.core.logger import log
+from app.shared.logger import log
 
 _redis_pool: ConnectionPool | None = None
 
