@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.lifespan import lifespan
 from app.core.middlewares.request_context import RequestContextMiddleware
+from app.endpoints.auth import router as auth_router
 from app.endpoints.health import router as health_router
 
 api: FastAPI = FastAPI(
@@ -27,3 +28,4 @@ api.add_middleware(
 api.add_middleware(RequestContextMiddleware)
 
 api.include_router(health_router)
+api.include_router(auth_router, prefix="/api/v1")
