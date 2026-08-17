@@ -35,7 +35,6 @@ class UserReadSchema(BaseModel):
     failed_login_attempts: int
     login_locked_until: datetime | None = None
     invited_by_id: uuid.UUID | None = None
-    sessions: list[SessionReadSchema] = []
 
     model_config = ConfigDict(
         from_attributes=True

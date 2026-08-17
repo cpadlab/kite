@@ -9,6 +9,7 @@ from app.schemas.iam import (
     TokenResponseSchema,
     TOTPSetupResponseSchema,
     Verify2FAPayloadSchema,
+    UserReadSchema,
 )
 from app.controllers.iam import (
     handle_login,
@@ -103,3 +104,21 @@ async def disable_2fa(
     Requires bearer token authentication.
     """
     return await handle_totp_disable(payload=payload, session=db, current_user=current_user)
+
+
+@router.get(
+    "/me",
+    response_model=UserReadSchema,
+    status_code=status.HTTP_200_OK,
+    summary="Get profile details of the currently authenticated user",
+)
+async def get_me(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    """
+    GET /auth/me
+    -
+    Returns the profile details of the currently authenticated user session.
+    Requires bearer token authentication.
+    """
+    return current_user
