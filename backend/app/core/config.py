@@ -59,6 +59,18 @@ class Settings(BaseSettings):
     SMTP_FROM_NAME: str = "Kite"
     SMTP_TIMEOUT: float = 15.0
 
+    ROOT_USER_EMAIL: str
+    ROOT_USER_USERNAME: str
+    ROOT_USER_FIRST_NAME: str
+    ROOT_USER_LAST_NAME: str
+    ROOT_USER_PASSWORD: str
+
+    ARGON2_TIME_COST: int = 3
+    ARGON2_MEMORY_COST: int = 65536
+    ARGON2_PARALLELISM: int = 4
+    ARGON2_HASH_LEN: int = 32
+    ARGON2_SALT_LEN: int = 16
+
     @computed_field
     @property
     def POSTGRES_DATABASE_URL(self) -> str:
