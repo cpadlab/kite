@@ -10,10 +10,11 @@ from app.database.models import BaseModel
 
 class User(BaseModel):
     """
-    Core User entity with security auditing, 2FA, and invitation tracking.
+    Core User entity with security auditing, 2FA, tenant isolation, and scopes.
     """
     __tablename__ = "users"
 
+    tenant_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), index=True, nullable=True)
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
     username: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
@@ -23,6 +24,8 @@ class User(BaseModel):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     is_superuser: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     is_email_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+
+    scopes: Mapped[list[str]] = mapped_column(JSONB, default=list, nullable=False)
 
     is_2fa_enabled: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     totp_secret: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
@@ -55,6 +58,8 @@ class UserSession(BaseModel):
         nullable=False,
         index=True,
     )
+
+    tenant_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), index=True, nullable=True)
 
     token_jti: Mapped[str] = mapped_column(String(64), unique=True, index=True, nullable=False)
 
