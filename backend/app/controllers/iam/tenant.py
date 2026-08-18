@@ -83,6 +83,8 @@ async def create_tenant_and_invite_owner(
     invitation = TenantInvitation(
         tenant_id=new_tenant.id,
         email=clean_email,
+        first_name=payload.owner_first_name.strip(),
+        last_name=payload.owner_last_name.strip(),
         token=token,
         role="owner",
         status="pending",
@@ -287,10 +289,36 @@ async def list_all_tenants(
     result = await session.execute(stmt)
     tenants = result.scalars().all()
 
+    tenant_items = []
+    for t in tenants:
+        item = TenantReadSchema.model_validate(t)
+        
+        user_stmt = select(User).where(User.tenant_id == t.id, User.role == "owner")
+        owner_user = (await session.execute(user_stmt)).scalar_one_or_none()
+
+        if owner_user:
+            item.owner_name = f"{owner_user.first_name} {owner_user.last_name}"
+            item.owner_email = owner_user.email
+            item.owner_status = "accepted"
+        else:
+            inv_stmt = select(TenantInvitation).where(
+                TenantInvitation.tenant_id == t.id
+            ).order_by(TenantInvitation.created_at.desc())
+            inv = (await session.execute(inv_stmt)).scalars().first()
+            if inv:
+                if inv.first_name and inv.last_name:
+                    item.owner_name = f"{inv.first_name} {inv.last_name}"
+                else:
+                    item.owner_name = inv.email.split("@")[0]
+                item.owner_email = inv.email
+                item.owner_status = inv.status
+
+        tenant_items.append(item)
+
     total_pages = math.ceil(total / page_size) if total > 0 else 1
 
     return PaginatedTenantResponseSchema(
-        items=[TenantReadSchema.model_validate(t) for t in tenants],
+        items=tenant_items,
         total=total,
         page=page,
         page_size=page_size,

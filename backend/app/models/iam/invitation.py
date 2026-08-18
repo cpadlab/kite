@@ -27,6 +27,8 @@ class TenantInvitation(BaseModel):
     )
 
     email: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    first_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    last_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     token: Mapped[str] = mapped_column(String(128), unique=True, index=True, nullable=False)
 
     role: Mapped[str] = mapped_column(String(50), default="owner", nullable=False)

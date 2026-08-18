@@ -30,7 +30,7 @@ const SettingsSecurityPage = () => {
     }, [fetchStatus])
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4">
             
             <div className='space-y-4'>
                 <PageBreadcrumb category={{ label: 'layout.settings', icon: Settings2Icon }} current={{ label: 'layout.security', icon: LockIcon }} items={SettingsBreadcrumbData} />
@@ -40,7 +40,7 @@ const SettingsSecurityPage = () => {
                 </div>
             </div>
 
-            <section className="space-y-6">
+            <section className="space-y-4">
                 <TOTPSection is2FAEnabled={is2FAEnabled} isLoadingStatus={isLoading} onStatusChange={(enabled) => setIs2FAEnabled(enabled)} />
                 <BackupCodesSection is2FAEnabled={Boolean(is2FAEnabled)} isLoadingStatus={isLoading} />
             </section>

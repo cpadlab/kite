@@ -59,6 +59,9 @@ export interface TenantItem {
     storage_used_bytes: number
     is_active: boolean
     created_at: string
+    owner_name?: string
+    owner_email?: string
+    owner_status?: string
 }
 
 export interface PaginatedTenantResponse {

@@ -15,7 +15,7 @@ export const TOTPCard: React.FC<TOTPCardProps> = ({ is2FAEnabled, isSettingUp, o
     const { t } = useTranslation()
 
     return (
-        <div className="border-t pt-6 transition-all">
+        <div className="border-t pt-4 transition-all">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 
                 <div className="flex items-start gap-4">

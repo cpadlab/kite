@@ -25,6 +25,10 @@ class TenantReadSchema(BaseModel):
     is_active: bool
     created_at: datetime
 
+    owner_name: Optional[str] = None
+    owner_email: Optional[str] = None
+    owner_status: Optional[str] = None
+
     model_config = ConfigDict(from_attributes=True)
 
 
