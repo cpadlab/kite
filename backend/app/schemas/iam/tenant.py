@@ -15,6 +15,16 @@ class TenantCreateSchema(BaseModel):
     owner_username: str = Field(..., min_length=3, max_length=50)
 
 
+class UserAuditInfoSchema(BaseModel):
+    id: uuid.UUID
+    first_name: str
+    last_name: str
+    username: str
+    email: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class TenantReadSchema(BaseModel):
     id: uuid.UUID
     name: str
@@ -24,10 +34,14 @@ class TenantReadSchema(BaseModel):
     storage_used_bytes: int
     is_active: bool
     created_at: datetime
+    updated_at: datetime
 
     owner_name: Optional[str] = None
     owner_email: Optional[str] = None
     owner_status: Optional[str] = None
+
+    created_by: Optional[UserAuditInfoSchema] = None
+    updated_by: Optional[UserAuditInfoSchema] = None
 
     model_config = ConfigDict(from_attributes=True)
 

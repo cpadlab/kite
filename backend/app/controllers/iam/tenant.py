@@ -18,6 +18,7 @@ from app.schemas.iam.tenant import (
     TenantInvitationReadSchema,
     TenantReadSchema,
     PaginatedTenantResponseSchema,
+    UserAuditInfoSchema,
 )
 from app.shared.email import email_service
 from app.shared.logger import log
@@ -73,6 +74,8 @@ async def create_tenant_and_invite_owner(
         max_users=payload.max_users,
         storage_quota_gb=payload.storage_quota_gb,
         is_active=True,
+        created_by_id=current_superuser.id,
+        updated_by_id=current_superuser.id,
     )
     session.add(new_tenant)
     await session.flush()
@@ -312,6 +315,16 @@ async def list_all_tenants(
                     item.owner_name = inv.email.split("@")[0]
                 item.owner_email = inv.email
                 item.owner_status = inv.status
+
+        creator_id = t.created_by_id or current_superuser.id
+        creator = (await session.execute(select(User).where(User.id == creator_id))).scalar_one_or_none()
+        if creator:
+            item.created_by = UserAuditInfoSchema.model_validate(creator)
+
+        updater_id = t.updated_by_id or creator_id
+        updater = (await session.execute(select(User).where(User.id == updater_id))).scalar_one_or_none()
+        if updater:
+            item.updated_by = UserAuditInfoSchema.model_validate(updater)
 
         tenant_items.append(item)
 

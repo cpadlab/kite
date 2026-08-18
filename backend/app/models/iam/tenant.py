@@ -1,6 +1,7 @@
 import uuid
-from typing import List, TYPE_CHECKING
-from sqlalchemy import Boolean, Integer, String, BigInteger
+from typing import List, Optional, TYPE_CHECKING
+from sqlalchemy import Boolean, Integer, String, BigInteger, ForeignKey
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.models import BaseModel
@@ -26,7 +27,26 @@ class Tenant(BaseModel):
 
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
-    users: Mapped[List["User"]] = relationship("User", back_populates="tenant", cascade="all, delete-orphan")
+    created_by_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    updated_by_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+
+    users: Mapped[List["User"]] = relationship(
+        "User",
+        back_populates="tenant",
+        cascade="all, delete-orphan",
+        foreign_keys="User.tenant_id",
+    )
     invitations: Mapped[List["TenantInvitation"]] = relationship(
         "TenantInvitation", back_populates="tenant", cascade="all, delete-orphan"
     )
+
+    created_by: Mapped[Optional["User"]] = relationship("User", foreign_keys=[created_by_id])
+    updated_by: Mapped[Optional["User"]] = relationship("User", foreign_keys=[updated_by_id])

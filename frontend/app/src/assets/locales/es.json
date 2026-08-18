@@ -157,6 +157,45 @@
                     "messages": {
                         "success": "Empresa y propietario registrados correctamente. Invitación enviada.",
                         "error_default": "Ocurrió un error al registrar la empresa."
+                    },
+                    "table": {
+                        "search_placeholder": "Buscar empresa por nombre...",
+                        "clear_search": "Limpiar búsqueda",
+                        "sort_recent": "Más reciente",
+                        "sort_oldest": "Más antiguo",
+                        "sort_recent_desc": "Más reciente primero",
+                        "sort_oldest_asc": "Más antiguo primero",
+                        "columns_button": "Columnas",
+                        "empty_state": "No se encontraron empresas ni organizaciones registradas.",
+                        "showing_info": "Mostrando <1>{{showing}}</1> de <3>{{total}}</3> empresas",
+                        "page_info": "Página <1>{{page}}</1> de <3>{{totalPages}}</3>",
+                        "prev_page": "Página anterior",
+                        "next_page": "Página siguiente",
+                        "columns": {
+                            "name": "Nombre de la Empresa",
+                            "owner": "Propietario Asignado",
+                            "max_users": "Licencias Usuarios",
+                            "storage_quota_gb": "Almacenamiento (GB)",
+                            "created_at": "Fecha Creación",
+                            "created_by": "Creado Por",
+                            "updated_at": "Última Actualización",
+                            "updated_by": "Actualizado Por"
+                        },
+                        "owner_status": {
+                            "pending": "Pendiente",
+                            "accepted": "Aceptado"
+                        },
+                        "actions": {
+                            "title": "Acciones de Tenant",
+                            "view_limits": "Ver límites",
+                            "disable": "Desactivar",
+                            "delete": "Eliminar"
+                        },
+                        "copy": {
+                            "id_label": "Copiar ID de empresa",
+                            "email_label": "Copiar correo de propietario",
+                            "default_label": "Copiar"
+                        }
                     }
                 }
             }

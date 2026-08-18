@@ -156,6 +156,45 @@
                     "messages": {
                         "success": "Company and owner registered successfully. Invitation sent.",
                         "error_default": "An error occurred while registering the company."
+                    },
+                    "table": {
+                        "search_placeholder": "Search company by name...",
+                        "clear_search": "Clear search",
+                        "sort_recent": "Most recent",
+                        "sort_oldest": "Oldest",
+                        "sort_recent_desc": "Most recent first",
+                        "sort_oldest_asc": "Oldest first",
+                        "columns_button": "Columns",
+                        "empty_state": "No registered companies or organizations found.",
+                        "showing_info": "Showing <1>{{showing}}</1> of <3>{{total}}</3> companies",
+                        "page_info": "Page <1>{{page}}</1> of <3>{{totalPages}}</3>",
+                        "prev_page": "Previous page",
+                        "next_page": "Next page",
+                        "columns": {
+                            "name": "Company Name",
+                            "owner": "Assigned Owner",
+                            "max_users": "User Seats",
+                            "storage_quota_gb": "Storage (GB)",
+                            "created_at": "Created Date",
+                            "created_by": "Created By",
+                            "updated_at": "Last Updated",
+                            "updated_by": "Updated By"
+                        },
+                        "owner_status": {
+                            "pending": "Pending",
+                            "accepted": "Accepted"
+                        },
+                        "actions": {
+                            "title": "Tenant Actions",
+                            "view_limits": "View limits",
+                            "disable": "Disable",
+                            "delete": "Delete"
+                        },
+                        "copy": {
+                            "id_label": "Copy company ID",
+                            "email_label": "Copy owner email",
+                            "default_label": "Copy"
+                        }
                     }
                 }
             }
