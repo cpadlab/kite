@@ -1,20 +1,30 @@
 import uuid
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB, UUID as PG_UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.models import BaseModel
 
+if TYPE_CHECKING:
+    from app.models.iam.tenant import Tenant
+
 
 class User(BaseModel):
     """
-    Core User entity with security auditing, 2FA, tenant isolation, and scopes.
+    Core User entity with security auditing, 2FA, tenant isolation, role, and scopes.
     """
     __tablename__ = "users"
 
-    tenant_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), index=True, nullable=True)
+    tenant_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("tenants.id", ondelete="SET NULL"),
+        index=True,
+        nullable=True,
+    )
+    role: Mapped[Optional[str]] = mapped_column(String(50), nullable=True, default=None)
+
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
     username: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
@@ -42,6 +52,7 @@ class User(BaseModel):
         nullable=True,
     )
 
+    tenant: Mapped[Optional["Tenant"]] = relationship("Tenant", back_populates="users")
     invited_by: Mapped[Optional["User"]] = relationship("User", remote_side="User.id", foreign_keys=[invited_by_id])
     sessions: Mapped[List["UserSession"]] = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
 
