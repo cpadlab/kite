@@ -87,19 +87,23 @@ async def verify_and_enable_totp(
     user.is_2fa_enabled = True
     await session.commit()
 
-    try:
-        await email_service.send_email(
-            to=user.email,
-            subject=f"[{settings.PROJECT_TITLE}] 2FA Enabled Successfully",
-            template_name="auth/2fa_alert.html",
-            context={
-                "recipient_name": f"{user.first_name} {user.last_name}",
-                "username": user.username,
-                "disabled": False,
-            },
-        )
-    except Exception as exc:
-        log.error(f"Failed to dispatch 2FA alert email for {user.username}: {exc}")
+    async def _send_2fa_alert():
+        try:
+            await email_service.send_email(
+                to=user.email,
+                subject=f"[{settings.PROJECT_TITLE}] 2FA Enabled Successfully",
+                template_name="auth/2fa_alert.html",
+                context={
+                    "recipient_name": f"{user.first_name} {user.last_name}",
+                    "username": user.username,
+                    "disabled": False,
+                },
+            )
+        except Exception as exc:
+            log.error(f"Failed to dispatch 2FA alert email for {user.username}: {exc}")
+
+    import asyncio
+    asyncio.create_task(_send_2fa_alert())
 
     return True
 
@@ -144,19 +148,23 @@ async def disable_totp(
     user.backup_codes = []
     await session.commit()
 
-    try:
-        await email_service.send_email(
-            to=user.email,
-            subject=f"[{settings.PROJECT_TITLE}] SECURITY ALERT: 2FA Disabled",
-            template_name="auth/2fa_alert.html",
-            context={
-                "recipient_name": f"{user.first_name} {user.last_name}",
-                "username": user.username,
-                "disabled": True,
-            },
-        )
-    except Exception as exc:
-        log.error(f"Failed to dispatch 2FA disable alert email for {user.username}: {exc}")
+    async def _send_2fa_disable_alert():
+        try:
+            await email_service.send_email(
+                to=user.email,
+                subject=f"[{settings.PROJECT_TITLE}] SECURITY ALERT: 2FA Disabled",
+                template_name="auth/2fa_alert.html",
+                context={
+                    "recipient_name": f"{user.first_name} {user.last_name}",
+                    "username": user.username,
+                    "disabled": True,
+                },
+            )
+        except Exception as exc:
+            log.error(f"Failed to dispatch 2FA disable alert email for {user.username}: {exc}")
+
+    import asyncio
+    asyncio.create_task(_send_2fa_disable_alert())
 
     return True
 

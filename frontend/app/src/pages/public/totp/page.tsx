@@ -36,15 +36,6 @@ export default function TOTPPage() {
 
     const codeValue = watch('code') || ''
 
-    if (isAuthenticated && !isLoading) {
-        return <Navigate to="/" replace />
-    }
-
-    // Temporary bypass to allow direct access without state
-    // if (!state || !state.identifier || !state.password) {
-    //     return <Navigate to="/404" replace />
-    // }
-
     useEffect(() => {
         if (codeValue.length === 6) {
             handleSubmit(onSubmit, onInvalid)()
@@ -61,6 +52,10 @@ export default function TOTPPage() {
             clearError()
         }
     }, [authError, clearError, t])
+
+    if (isAuthenticated && !isLoading) {
+        return <Navigate to="/" replace />
+    }
 
     const onSubmit = async (data: TotpSchemaType) => {
         if (isLoading) return

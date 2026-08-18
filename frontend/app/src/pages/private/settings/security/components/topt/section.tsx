@@ -7,7 +7,7 @@ import { loginService } from '@/lib/api/services/iam/login'
 import type { TOTPSetupResponse } from '@/types/iam'
 
 import { TOTPCard } from './components/card'
-import { Setup2FADialog } from './components/modals/setup-dialog'
+import { Setup2FADialog } from './components/modals/setup/dialog'
 import { Disable2FADialog } from './components/modals/disable-dialog'
 
 export const TOTPSection: React.FC = () => {

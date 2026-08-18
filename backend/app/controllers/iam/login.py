@@ -330,24 +330,28 @@ async def authenticate_user(
 
     log.info(f"User '{user.username}' authenticated. Session {user_session.id} created (New device: {is_new_device}).")
 
-    try:
-        await email_service.send_email(
-            to=user.email,
-            subject=f"[{settings.PROJECT_TITLE}] Security Alert: Sign-In from {device_type}",
-            template_name="auth/login_notification.html",
-            context={
-                "project_title": settings.PROJECT_TITLE,
-                "recipient_name": f"{user.first_name} {user.last_name}",
-                "username": user.username,
-                "ip_address": ip_address or "Unknown",
-                "device_type": device_type,
-                "user_agent": user_agent or "Unknown",
-                "login_time": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
-                "is_new_device": is_new_device,
-            },
-        )
-    except Exception as exc:
-        log.error(f"Failed to send login notification email to {user.email}: {exc}")
+    async def _send_login_notification():
+        try:
+            await email_service.send_email(
+                to=user.email,
+                subject=f"[{settings.PROJECT_TITLE}] Security Alert: Sign-In from {device_type}",
+                template_name="auth/login_notification.html",
+                context={
+                    "project_title": settings.PROJECT_TITLE,
+                    "recipient_name": f"{user.first_name} {user.last_name}",
+                    "username": user.username,
+                    "ip_address": ip_address or "Unknown",
+                    "device_type": device_type,
+                    "user_agent": user_agent or "Unknown",
+                    "login_time": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    "is_new_device": is_new_device,
+                },
+            )
+        except Exception as exc:
+            log.error(f"Failed to send login notification email to {user.email}: {exc}")
+
+    import asyncio
+    asyncio.create_task(_send_login_notification())
 
     return TokenResponseSchema(
         access_token=access_token,
