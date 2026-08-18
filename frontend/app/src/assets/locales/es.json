@@ -64,6 +64,43 @@
                 "dashboard": {
                     "welcome": "Bienvenido, {{name}}"
                 }
+            },
+            "settings": {
+                "security": {
+                    "title": "Configuración de Seguridad",
+                    "subtitle": "Gestiona las opciones de autenticación y seguridad de tu cuenta.",
+                    "totp": {
+                        "title": "Autenticación de Doble Factor (2FA)",
+                        "description": "Añade una capa adicional de seguridad a tu cuenta utilizando una aplicación de autenticación TOTP (como Google Authenticator, Authy o 1Password).",
+                        "status_active": "Activado",
+                        "status_inactive": "Desactivado",
+                        "active_description": "Tu cuenta está protegida con verificación en dos pasos. Se requerirá un código TOTP cada vez que inicies sesión.",
+                        "inactive_description": "Tu cuenta no está usando la autenticación de doble factor. Te recomendamos activarla para mayor seguridad.",
+                        "setup_button": "Configurar 2FA",
+                        "disable_button": "Desactivar 2FA",
+                        "setup_modal_title": "Configurar Autenticación de Doble Factor",
+                        "setup_step1_title": "1. Escanea el código QR",
+                        "setup_step1_desc": "Abre tu aplicación de autenticación y escanea este código QR o ingresa la clave de forma manual.",
+                        "secret_label": "Clave Secreta Manual",
+                        "copy_secret": "Copiar clave",
+                        "copied": "¡Copiado!",
+                        "setup_step2_title": "2. Códigos de respaldo",
+                        "setup_step2_desc": "Guarda estos códigos de emergencia en un lugar seguro. Si pierdes acceso a tu app, podrás usarlos para iniciar sesión.",
+                        "copy_backup_codes": "Copiar códigos",
+                        "download_backup_codes": "Descargar códigos",
+                        "setup_step3_title": "3. Confirma la activación",
+                        "setup_step3_desc": "Introduce el código de 6 dígitos de tu aplicación de autenticación para activar el servicio.",
+                        "enable_submit": "Verificar y Activar",
+                        "disable_modal_title": "Desactivar Autenticación de Doble Factor",
+                        "disable_modal_desc": "Para confirmar la desactivación de 2FA, por favor introduce un código de verificación de 6 dígitos o un código de respaldo.",
+                        "disable_submit": "Confirmar y Desactivar",
+                        "cancel": "Cancelar",
+                        "verifying": "Verificando...",
+                        "success_enabled": "La autenticación de doble factor ha sido activada correctamente.",
+                        "success_disabled": "La autenticación de doble factor ha sido desactivada correctamente.",
+                        "invalid_code": "El código introducido no es válido. Por favor inténtalo de nuevo."
+                    }
+                }
             }
         },
         "public": {
