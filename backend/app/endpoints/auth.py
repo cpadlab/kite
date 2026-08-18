@@ -126,6 +126,9 @@ async def get_backup_codes(
     return await handle_get_backup_codes(payload=payload, session=db, current_user=current_user)
 
 
+from sqlalchemy import select
+from app.models.iam import User, Tenant
+
 @router.get(
     "/me",
     response_model=UserReadSchema,
@@ -134,11 +137,21 @@ async def get_backup_codes(
 )
 async def get_me(
     current_user: User = Depends(get_current_user),
-) -> User:
+    db: AsyncSession = Depends(get_db_session),
+) -> UserReadSchema:
     """
     GET /auth/me
     -
     Returns the profile details of the currently authenticated user session.
     Requires bearer token authentication.
     """
-    return current_user
+    user_schema = UserReadSchema.model_validate(current_user)
+    
+    if current_user.tenant_id:
+        stmt = select(Tenant).where(Tenant.id == current_user.tenant_id)
+        tenant_obj = (await db.execute(stmt)).scalar_one_or_none()
+        
+        if tenant_obj:
+            user_schema.tenant_name = tenant_obj.name
+
+    return user_schema
