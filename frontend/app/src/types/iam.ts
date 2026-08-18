@@ -112,3 +112,38 @@ export interface AcceptInvitationPayload {
     last_name?: string
     username?: string
 }
+
+export interface ApiKeyItem {
+    id: string
+    tenant_id: string
+    name: string
+    key_prefix: string
+    scopes: string[]
+    is_active: boolean
+    created_at: string
+    updated_at: string
+    expires_at: string
+    last_used_at?: string | null
+    last_used_ip?: string | null
+    created_by?: UserAuditInfo | null
+}
+
+export interface ApiKeyCreatePayload {
+    name: string
+    scopes: string[]
+    expiration_days: number
+}
+
+export interface ApiKeyCreatedResponse {
+    api_key: ApiKeyItem
+    secret_key: string
+    message: string
+}
+
+export interface PaginatedApiKeyResponse {
+    items: ApiKeyItem[]
+    total: number
+    page: number
+    page_size: number
+    total_pages: number
+}

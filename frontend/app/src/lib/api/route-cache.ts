@@ -1,5 +1,6 @@
 import { tenantService } from './services/iam/tenant'
 import { loginService } from './services/iam/login'
+import { apiKeyService } from './services/iam/api-key'
 
 const cache = new Map<string, { data: unknown; timestamp: number }>()
 
@@ -35,6 +36,11 @@ export const routePreloaders: Record<string, () => Promise<unknown>> = {
     '/settings/security': async () => {
         const data = await loginService.getMe()
         routeCache.set('/settings/security', data)
+        return data
+    },
+    '/tenant/api-keys': async () => {
+        const data = await apiKeyService.getApiKeys({ page: 1, page_size: 10, sort_order: 'desc' })
+        routeCache.set('/tenant/api-keys', data)
         return data
     },
 }

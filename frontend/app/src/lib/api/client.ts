@@ -169,3 +169,5 @@ export const api = {
     delete: <T>(url: string, config?: AxiosRequestConfig): Promise<T> =>
         apiClient.delete<T>(url, config).then((res) => res.data),
 }
+
+export default apiClient
