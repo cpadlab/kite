@@ -7,7 +7,7 @@ import { Search } from "./components/search"
 
 export const Header = () => {
     return (
-        <header className="h-[64.8px] flex bg-sidebar justify-between items-center gap-4 px-4 border-b">
+        <header className="h-[67px] flex bg-sidebar justify-between items-center gap-4 px-4 border-b">
             
             <div className="flex items-center gap-2">
                 <SidebarTrigger render={

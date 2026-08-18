@@ -10,6 +10,7 @@ export interface AuthUser {
     firstName: string
     lastName: string
     tenantId?: string
+    tenantName?: string
     scopes: string[]
     isSuperuser: boolean
 }
@@ -87,6 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                             firstName: profile.first_name,
                             lastName: profile.last_name,
                             tenantId: profile.tenant_id,
+                            tenantName: profile.tenant_name,
                             scopes: profile.scopes,
                             isSuperuser: profile.is_superuser ?? false,
                         })
@@ -122,7 +124,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, [])
 
-    const handleSuccessfulAuthentication = useCallback((token: string) => {
+    const handleSuccessfulAuthentication = useCallback(async (token: string) => {
         const decoded = decodeJwt(token)
         if (!decoded) {
             throw new Error('Failed to parse authentication payload.')
@@ -131,6 +133,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem(ACCESS_TOKEN_KEY, token)
         setAccessToken(token)
         setAccessTokenState(token)
+
+        let tenantName: string | undefined = undefined
+        try {
+            const profile = await loginService.getMe()
+            tenantName = profile.tenant_name
+        } catch {}
+
         setUser({
             id: decoded.sub,
             username: decoded.username,
@@ -138,6 +147,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             firstName: decoded.first_name,
             lastName: decoded.last_name,
             tenantId: decoded.tenant_id,
+            tenantName: tenantName,
             scopes: decoded.scopes,
             isSuperuser: decoded.is_superuser ?? false,
         })
