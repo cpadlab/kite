@@ -74,6 +74,9 @@ class TenantInvitationPublicSchema(BaseModel):
     token: str
     email: str
     tenant_name: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    username: Optional[str] = None
     status: str
     expires_at: datetime
     is_valid: bool

@@ -160,6 +160,8 @@ async def validate_invitation_token(
         token=token,
         email=invitation.email,
         tenant_name=tenant_name,
+        first_name=invitation.first_name,
+        last_name=invitation.last_name,
         status=invitation.status if not is_expired else "expired",
         expires_at=invitation.expires_at,
         is_valid=is_valid,
@@ -219,8 +221,8 @@ async def accept_tenant_invitation(
             suggested_username = f"{suggested_username}_{secrets.token_hex(2)}"
 
         target_user = User(
-            first_name=payload.first_name.strip() if payload.first_name else "Tenant",
-            last_name=payload.last_name.strip() if payload.last_name else "Owner",
+            first_name=payload.first_name.strip() if payload.first_name else (invitation.first_name or "Tenant"),
+            last_name=payload.last_name.strip() if payload.last_name else (invitation.last_name or "Owner"),
             username=suggested_username,
             email=clean_email,
             hashed_password=hash_password(payload.password),
