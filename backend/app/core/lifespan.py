@@ -5,34 +5,28 @@ from sqlalchemy import text
 from app.controllers.seed import seed_root_user
 from app.core.config import settings
 from app.database.clickhouse import close_clickhouse, init_clickhouse
-from app.database.postgres import engine
+from app.database.postgres import engine, AsyncSessionLocal
 from app.database.redis import close_redis, init_redis
 from app.shared.logger import log, setup_logging
+import asyncio
+from app.controllers.iam.api_key import check_api_key_expiration_reminders
+
+
+async def _api_key_expiration_scheduler():
+    """
+    """
+    while True:
+        try:
+            async with AsyncSessionLocal() as session:
+                await check_api_key_expiration_reminders(session)
+        except Exception as exc:
+            log.error(f"Error checking API key expiration reminders: {exc}")
+        await asyncio.sleep(3600)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    """Manage the asynchronous startup and shutdown lifecycles of the FastAPI application.
-
-    **Startup:**
-    - Configures application-wide logging handlers and formatters.
-    - Validates connectivity to the PostgreSQL instance via a probe query (`SELECT 1`).
-    - Initializes the ClickHouse client and Dragonfly/Redis connection pool.
-
-    **Shutdown:**
-    - Closes the ClickHouse client session.
-    - Disconnects the Dragonfly/Redis connection pool.
-    - Disposes of all active SQLAlchemy connection pools.
-
-    Args:
-        app: The running FastAPI application instance.
-
-    Yields:
-        None: Yields control back to FastAPI to begin processing incoming requests.
-
-    Raises:
-        Exception: If any database or cache connection fails during startup,
-            aborting application initialization.
+    """
     """
     setup_logging()
     log.info(f"Starting {settings.ENVIRONMENT.upper()} environment...")
@@ -53,10 +47,13 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         log.critical(f"Database initialization failed during startup: {exc}")
         raise exc
 
+    reminder_task = asyncio.create_task(_api_key_expiration_scheduler())
+
     log.info("API startup complete. Ready to receive traffic.")
     yield
 
     log.info("Shutting down application resources...")
+    reminder_task.cancel()
     await close_clickhouse()
     await close_redis()
     await engine.dispose()
