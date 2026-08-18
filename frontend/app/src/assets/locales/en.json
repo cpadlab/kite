@@ -264,7 +264,7 @@
             "strong": "Strong password",
             "very_strong": "Very strong password",
             "must_contain": "Must contain:",
-            "min_12_chars": "At least 12 characters",
+            "min_8_chars": "At least 8 characters",
             "min_lowercase": "At least 1 lowercase letter",
             "min_uppercase": "At least 1 uppercase letter",
             "min_number": "At least 1 number",

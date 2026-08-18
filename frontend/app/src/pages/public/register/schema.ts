@@ -5,7 +5,7 @@ export const registerSchema = (t: (key: string) => string) =>
         .object({
             password: z
                 .string()
-                .min(12, t('components.password_strength.min_12_chars'))
+                .min(8, t('components.password_strength.min_8_chars'))
                 .regex(/[a-z]/, t('components.password_strength.min_lowercase'))
                 .regex(/[A-Z]/, t('components.password_strength.min_uppercase'))
                 .regex(/[0-9]/, t('components.password_strength.min_number'))

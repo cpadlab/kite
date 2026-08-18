@@ -42,8 +42,8 @@ export const InputPasswordStrength: React.FC<InputPasswordStrengthProps> = ({
     const requirements = useMemo(
         () => [
             {
-                regex: /.{12,}/,
-                text: t('components.password_strength.min_12_chars', 'Al menos 12 caracteres'),
+                regex: /.{8,}/,
+                text: t('components.password_strength.min_8_chars', 'Al menos 8 caracteres'),
             },
             {
                 regex: /[a-z]/,
@@ -135,7 +135,7 @@ export const InputPasswordStrength: React.FC<InputPasswordStrengthProps> = ({
                     </li>
                 ))}
             </ul>
-            
+
         </div>
     )
 }
