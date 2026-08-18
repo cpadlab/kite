@@ -16,6 +16,7 @@ from app.controllers.iam import (
     handle_totp_setup,
     handle_totp_enable,
     handle_totp_disable,
+    handle_get_backup_codes,
 )
 
 router = APIRouter(prefix="/auth", tags=["Authentication & IAM"])
@@ -104,6 +105,25 @@ async def disable_2fa(
     Requires bearer token authentication.
     """
     return await handle_totp_disable(payload=payload, session=db, current_user=current_user)
+
+
+@router.post(
+    "/2fa/backup-codes",
+    status_code=status.HTTP_200_OK,
+    summary="Retrieve active backup codes by verifying a 6-digit TOTP code",
+)
+async def get_backup_codes(
+    payload: Verify2FAPayloadSchema,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db_session),
+) -> dict[str, list[str]]:
+    """
+    POST /auth/2fa/backup-codes
+    -
+    Verifies a 6-digit TOTP code and returns the user's active emergency backup codes.
+    Requires bearer token authentication.
+    """
+    return await handle_get_backup_codes(payload=payload, session=db, current_user=current_user)
 
 
 @router.get(

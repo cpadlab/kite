@@ -251,3 +251,47 @@ async def handle_totp_disable(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred while disabling 2FA.",
         )
+async def retrieve_backup_codes(
+    session: AsyncSession,
+    user: User,
+    code: str,
+) -> list[str]:
+    """
+    Retrieve active backup codes for the user after verifying a 6-digit TOTP code.
+    """
+    if not user.is_2fa_enabled or not user.totp_secret:
+        raise TwoFactorInvalidError("Two-factor authentication is not enabled.")
+
+    totp = pyotp.TOTP(user.totp_secret)
+    if not totp.verify(code):
+        raise TwoFactorInvalidError("Invalid TOTP verification code.")
+
+    return user.backup_codes or []
+
+
+async def handle_get_backup_codes(
+    payload: Verify2FAPayloadSchema,
+    session: AsyncSession,
+    current_user: User,
+) -> dict[str, list[str]]:
+    """
+    Controller wrapper to verify a TOTP code and return remaining emergency backup codes.
+    """
+    try:
+        codes = await retrieve_backup_codes(
+            session=session,
+            user=current_user,
+            code=payload.code,
+        )
+        return {"backup_codes": codes}
+    except TwoFactorInvalidError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        )
+    except Exception as exc:
+        log.error(f"Unexpected error retrieving backup codes: {exc}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected error occurred while retrieving backup codes.",
+        )

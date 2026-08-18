@@ -135,19 +135,20 @@ export const Disable2FADialog: React.FC<Disable2FADialogProps> = ({
                         </TabsContent>
 
                     </Tabs>
-                </form>
 
-                <AlertDialogFooter>
-                    <AlertDialogCancel type="button" onClick={() => onOpenChange(false)} disabled={isDisabling}>
-                        <XIcon />
-                        {t('pages.private.settings.security.totp.cancel')}
-                    </AlertDialogCancel>
-                    <AlertDialogAction type="submit" variant="destructive" disabled={isSubmitDisabled}>
-                        {isDisabling && <Loader2Icon className="size-4 animate-spin" />}
-                        {isDisabling ? t('pages.private.settings.security.totp.verifying') : t('pages.private.settings.security.totp.disable_submit')}
-                        {!isDisabling && <ChevronRightIcon />}
-                    </AlertDialogAction>
-                </AlertDialogFooter>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel type="button" onClick={() => onOpenChange(false)} disabled={isDisabling}>
+                            <XIcon />
+                            {t('pages.private.settings.security.totp.cancel')}
+                        </AlertDialogCancel>
+                        <AlertDialogAction type="submit" variant="destructive" disabled={isSubmitDisabled} onClick={handleConfirmDisable}>
+                            {isDisabling && <Loader2Icon className="size-4 animate-spin" />}
+                            {isDisabling ? t('pages.private.settings.security.totp.verifying') : t('pages.private.settings.security.totp.disable_submit')}
+                            {!isDisabling && <ChevronRightIcon />}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                    
+                </form>
 
             </AlertDialogContent>
         </AlertDialog>

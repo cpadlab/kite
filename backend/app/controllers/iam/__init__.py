@@ -10,9 +10,11 @@ from app.controllers.iam.totp import (
     generate_totp_setup,
     verify_and_enable_totp,
     disable_totp,
+    retrieve_backup_codes,
     handle_totp_setup,
     handle_totp_enable,
     handle_totp_disable,
+    handle_get_backup_codes,
 )
 
 __all__ = [
@@ -25,7 +27,9 @@ __all__ = [
     "generate_totp_setup",
     "verify_and_enable_totp",
     "disable_totp",
+    "retrieve_backup_codes",
     "handle_totp_setup",
     "handle_totp_enable",
     "handle_totp_disable",
+    "handle_get_backup_codes",
 ]
