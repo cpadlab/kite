@@ -11,6 +11,7 @@ export interface AuthUser {
     lastName: string
     tenantId?: string
     scopes: string[]
+    isSuperuser: boolean
 }
 
 export interface AuthContextType {
@@ -38,6 +39,7 @@ interface DecodedToken {
     last_name: string
     tenant_id?: string
     scopes: string[]
+    is_superuser?: boolean
     exp: number
 }
 
@@ -86,6 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                             lastName: profile.last_name,
                             tenantId: profile.tenant_id,
                             scopes: profile.scopes,
+                            isSuperuser: profile.is_superuser ?? false,
                         })
                         setIsAuthenticated(true)
                     } else {
@@ -136,6 +139,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             lastName: decoded.last_name,
             tenantId: decoded.tenant_id,
             scopes: decoded.scopes,
+            isSuperuser: decoded.is_superuser ?? false,
         })
         setIsAuthenticated(true)
         setRequires2FA(false)

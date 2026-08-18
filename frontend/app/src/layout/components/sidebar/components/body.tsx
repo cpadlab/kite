@@ -4,27 +4,34 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { ChevronRight } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '@/context/auth'
 import { DATA } from './content'
 
 export const Body = () => {
-
+    
     const { t } = useTranslation()
+    const { user } = useAuth()
+
+    const filteredData = DATA.filter((group) => {
+        if (group.requiresSuperuser && !user?.isSuperuser) {
+            return false
+        }
+        return true
+    })
 
     return (
         <SidebarContent className='relative'>
-            {DATA.map((group, groupIdx) => (
+            {filteredData.map((group, groupIdx) => (
                 <SidebarGroup key={groupIdx}>
-
                     {group.title && <SidebarGroupLabel>{t(group.title)}</SidebarGroupLabel>}
                     
                     <SidebarMenu>
                         {group.items.map((item) => {
-                            
                             if (item.items && item.items.length > 0) {
                                 return (
                                     <Collapsible key={t(item.name)} defaultOpen={item.isActive} className="group/collapsible">
-                                        
                                         <SidebarMenuItem>
+                                            
                                             <CollapsibleTrigger 
                                                 render={
                                                     <SidebarMenuButton tooltip={t(item.name)} className="w-full justify-between">
@@ -64,7 +71,6 @@ export const Body = () => {
 
                         })}
                     </SidebarMenu>
-                    
                 </SidebarGroup>
             ))}
         </SidebarContent>

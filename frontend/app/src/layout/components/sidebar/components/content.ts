@@ -1,4 +1,4 @@
-import { AstroidIcon, BellIcon, FileIcon, FunnelXIcon, HammerIcon, LayoutDashboardIcon, MonitorIcon, ShieldAlertIcon, ShieldIcon, SlidersHorizontalIcon, SquareStackIcon, UsersRoundIcon,CloudIcon,FlameIcon,SearchIcon,WorkflowIcon,CalendarIcon,HistoryIcon,FolderCogIcon,BoxesIcon,PuzzleIcon,StoreIcon,SettingsIcon,UserCircleIcon,PaletteIcon,LockIcon,KeyRoundIcon,LifeBuoyIcon,CodeXmlIcon,BookOpenTextIcon,MegaphoneIcon,AlertCircleIcon,FileTextIcon,ScaleIcon,type LucideIcon, Building2Icon } from 'lucide-react'
+import { LayoutDashboardIcon, LockIcon, Building2Icon, type LucideIcon } from 'lucide-react'
 
 export interface SidebarSubItem {
     name: string;
@@ -16,6 +16,7 @@ export interface SidebarItem {
 
 export interface SidebarGroupSection {
     title?: string;
+    requiresSuperuser?: boolean;
     items: SidebarItem[];
 }
 
@@ -32,6 +33,7 @@ export const DATA: SidebarGroupSection[] = [
     },
     {
         title: "layout.platform",
+        requiresSuperuser: true,
         items: [
             {
                 name: "layout.tenants",
