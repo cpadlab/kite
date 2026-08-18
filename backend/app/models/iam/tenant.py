@@ -42,7 +42,7 @@ class Tenant(BaseModel):
         "User",
         back_populates="tenant",
         cascade="all, delete-orphan",
-        foreign_keys="User.tenant_id",
+        foreign_keys="[User.tenant_id]",
     )
     invitations: Mapped[List["TenantInvitation"]] = relationship(
         "TenantInvitation", back_populates="tenant", cascade="all, delete-orphan"

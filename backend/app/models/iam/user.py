@@ -52,7 +52,7 @@ class User(BaseModel):
         nullable=True,
     )
 
-    tenant: Mapped[Optional["Tenant"]] = relationship("Tenant", back_populates="users")
+    tenant: Mapped[Optional["Tenant"]] = relationship("Tenant", back_populates="users", foreign_keys=[tenant_id])
     invited_by: Mapped[Optional["User"]] = relationship("User", remote_side="User.id", foreign_keys=[invited_by_id])
     sessions: Mapped[List["UserSession"]] = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
 
