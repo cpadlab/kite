@@ -146,8 +146,9 @@
                 "label": "Security Verification Code",
                 "submit_button": "Verify & Login",
                 "loading": "Processing...",
+                "back_to_login": "Go back to Sign In",
                 "errors": {
-                    "code_length": "The code must be exactly 6 digits."
+                    "code_length": "The code must be a 6-digit verification code or an 8-character backup code."
                 }
             }
         }

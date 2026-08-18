@@ -148,8 +148,9 @@
                 "label": "Código de Seguridad",
                 "submit_button": "Verificar y Entrar",
                 "loading": "Procesando...",
+                "back_to_login": "Volver al inicio de sesión",
                 "errors": {
-                    "code_length": "El código debe tener exactamente 6 dígitos."
+                    "code_length": "El código debe tener 6 dígitos o ser un código de respaldo de 8 caracteres."
                 }
             }
         }
