@@ -56,6 +56,15 @@ export const apiClient: AxiosInstance = axios.create({
     },
 })
 
+function getCsrfToken(): string | null {
+    if (csrfToken) return csrfToken
+    if (typeof document !== 'undefined') {
+        const match = document.cookie.match(/(?:^|; )csrf_token=([^;]*)/)
+        if (match) return decodeURIComponent(match[1])
+    }
+    return null
+}
+
 apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
 
@@ -63,8 +72,9 @@ apiClient.interceptors.request.use(
             config.headers.Authorization = `Bearer ${inMemoryAccessToken}`
         }
 
-        if (csrfToken) {
-            config.headers['X-CSRF-Token'] = csrfToken
+        const activeCsrf = getCsrfToken()
+        if (activeCsrf) {
+            config.headers['X-CSRF-Token'] = activeCsrf
         }
 
         config.headers['X-Kite-Client-Time'] = Date.now().toString()
