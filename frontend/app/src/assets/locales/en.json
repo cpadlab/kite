@@ -214,6 +214,102 @@
                         }
                     }
                 }
+            },
+            "tenant": {
+                "api_keys": {
+                    "cancel": "Cancel",
+                    "copy": "Copy",
+                    "copied": "Copied",
+                    "title": "Platform API Keys",
+                    "subtitle": "Manage and rotate integration API keys for external services and data pipelines for your organization.",
+                    "full_access": "Full Access (*)",
+                    "prefix_copied_toast": "Key prefix copied to clipboard.",
+                    "toolbar": {
+                        "search_placeholder": "Search key by name or prefix...",
+                        "create_button": "New API Key"
+                    },
+                    "status": {
+                        "active": "Active",
+                        "expiring_soon": "Expires in {{days}}d",
+                        "expired": "Expired"
+                    },
+                    "actions": {
+                        "rotate": "Rotate Key",
+                        "revoke": "Revoke Key"
+                    },
+                    "table": {
+                        "columns_button": "Columns",
+                        "sort_recent": "Most recent",
+                        "sort_oldest": "Oldest",
+                        "sort_recent_desc": "Most recent first",
+                        "sort_oldest_asc": "Oldest first",
+                        "empty_state": "No platform API keys found.",
+                        "showing_info": "Showing <1>{{showing}}</1> of <3>{{total}}</3> API keys",
+                        "page_info": "Page <1>{{page}}</1> of <3>{{totalPages}}</3>",
+                        "columns": {
+                            "name": "Name and Prefix",
+                            "scopes": "Scopes",
+                            "created_by": "Created By",
+                            "expires_at": "Expiration & Status",
+                            "actions": "Actions"
+                        }
+                    },
+                    "modals": {
+                        "create": {
+                            "title": "Create Platform API Key",
+                            "description": "Generate a new integration token with restricted scopes for your organization.",
+                            "fields": {
+                                "name": {
+                                    "label": "API Key Name",
+                                    "placeholder": "Ex: Ingestion Data Pipeline"
+                                },
+                                "expiration": {
+                                    "label": "Expiration Date (Max 1 Year)",
+                                    "hint": "Select the date when this API key will expire.",
+                                    "selected_hint": "Will expire on {{date}} (in {{days}} days)"
+                                },
+                                "scopes": {
+                                    "label": "Assigned Scopes"
+                                }
+                            },
+                            "errors": {
+                                "name_required": "Please enter a descriptive name for the API key."
+                            },
+                            "submit": "Generate API Key",
+                            "success_title": "API Key Generated",
+                            "error_title": "Error generating API key",
+                            "error_desc": "Could not generate platform API key."
+                        },
+                        "rotate": {
+                            "title": "Rotate Platform API Key",
+                            "description": "Are you sure you want to rotate the key \"{{name}}\"?",
+                            "warning_title": "Critical and Immediate Action",
+                            "warning_desc": "Rotating this key immediately invalidates the old secret token. All external services using the previous key will stop working until updated.",
+                            "confirm": "Rotate Key Now",
+                            "success_title": "API Key Rotated",
+                            "error_title": "Error rotating key",
+                            "error_desc": "An error occurred while rotating the API key."
+                        },
+                        "delete": {
+                            "title": "Revoke API Key",
+                            "description": "Are you sure you want to permanently revoke the API key \"{{name}}\"? This action cannot be undone.",
+                            "confirm": "Permanently Revoke",
+                            "success_title": "API Key Revoked",
+                            "error_title": "Error revoking key",
+                            "error_desc": "Could not revoke the API key."
+                        },
+                        "secret_dialog": {
+                            "title": "API Key Secret Generated",
+                            "description": "Copy your API key secret token right now.",
+                            "rotated_desc": "New API key secret token has been generated.",
+                            "warning_title": "Save it in a secure location!",
+                            "warning_desc": "For security reasons, this secret token will NEVER be shown again. If lost, you will need to rotate the key.",
+                            "key_label": "Secret API Key Token",
+                            "copied_toast": "Secret copied to clipboard.",
+                            "done_button": "I have saved the key securely"
+                        }
+                    }
+                }
             }
         },
         "public": {

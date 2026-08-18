@@ -4,6 +4,7 @@ import { AlertTriangleIcon, CopyIcon, CheckIcon, XIcon } from 'lucide-react'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
+import { Label } from '@/components/ui/label'
 
 interface SecretKeyBannerProps {
     secretKey: string | null
@@ -28,13 +29,10 @@ export const SecretKeyBanner: React.FC<SecretKeyBannerProps> = ({ secretKey, onC
     }
 
     return (
-        <Alert className="relative bg-amber-500/10 text-amber-900 dark:text-amber-200 border-amber-500/30 p-4 rounded-xl shadow-xs space-y-2">
+        <Alert className="relative bg-muted/50 p-4 rounded-xl">
             
-            <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-semibold text-sm">
-                    <AlertTriangleIcon className="size-4 shrink-0" />
-                    <span>{t('pages.private.tenant.api_keys.modals.secret_dialog.title')}</span>
-                </div>
+            <div className="flex items-center justify-between gap-2">
+                <Label>{t('pages.private.tenant.api_keys.modals.secret_dialog.title')}</Label>
                 <Button variant="ghost" size="icon-xs" onClick={onClose}>
                     <XIcon className="size-4" />
                 </Button>
@@ -44,14 +42,14 @@ export const SecretKeyBanner: React.FC<SecretKeyBannerProps> = ({ secretKey, onC
                 {t('pages.private.tenant.api_keys.modals.secret_dialog.warning_desc')}
             </p>
 
-            <div className="flex items-center gap-2 p-2.5 rounded-lg border bg-zinc-950 font-mono text-xs text-emerald-400 break-all select-all">
+            <div className="flex items-center gap-2 p-2.5 rounded-lg border bg-card font-mono text-xs text-muted-foreground break-all select-all mt-2">
                 <span className="flex-1">{secretKey}</span>
                 <Button type="button" size="sm" variant="secondary" onClick={handleCopySecretKey}>
                     {isCopied ? <CheckIcon className="size-3.5 text-emerald-500" /> : <CopyIcon className="size-3.5" />}
-                    <span>{isCopied ? t('common.copied') : t('common.copy')}</span>
+                    <span>{isCopied ? t('pages.private.tenant.api_keys.copied') : t('pages.private.tenant.api_keys.copy')}</span>
                 </Button>
             </div>
-            
+
         </Alert>
     )
 }

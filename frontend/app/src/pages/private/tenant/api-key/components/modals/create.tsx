@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { KeyRoundIcon, Loader2Icon, ChevronDownIcon } from 'lucide-react'
+import { KeyRoundIcon, Loader2Icon, ChevronDownIcon, KeyIcon, XIcon } from 'lucide-react'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
@@ -194,17 +194,14 @@ export const CreateApiKeyModal: React.FC<CreateApiKeyModalProps> = ({
                     </div>
 
                     <DialogFooter className="pt-4">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => onOpenChange(false)}
-                            disabled={isSubmitting}
-                        >
-                            {t('common.cancel')}
+                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
+                            <XIcon />
+                            {t('pages.private.tenant.api_keys.cancel')}
                         </Button>
                         <Button type="submit" disabled={isSubmitting || !name.trim() || !selectedDate}>
-                            {isSubmitting && <Loader2Icon className="size-4 animate-spin mr-2" />}
+                            {isSubmitting && <Loader2Icon className="size-4 animate-spin" />}
                             {t('pages.private.tenant.api_keys.modals.create.submit')}
+                            {!isSubmitting && <KeyIcon />}
                         </Button>
                     </DialogFooter>
 

@@ -18,6 +18,7 @@ const PlatformTenantsPage = lazy(() => import('./pages/private/platform/tenants/
 const TOTPPage = lazy(() => import('./pages/public/totp/page.tsx'))
 const DashboardPage = lazy(() => import('./pages/private/home/dashboard/page.tsx'))
 const SettingsSecurityPage = lazy(() => import('./pages/private/settings/security/page.tsx'))
+const TenantApiKeysPage = lazy(() => import('./pages/private/tenant/api-key/page.tsx'))
 
 function SuperUserGuard() {
 
@@ -59,6 +60,7 @@ function App() {
                             <Route element={<Layout />}>
                                 
                                 <Route path="/" element={<DashboardPage />} />
+                                <Route path="/tenant/api-keys" element={<TenantApiKeysPage />} />
                                 <Route path="/settings/security" element={<SettingsSecurityPage />} />
 
                                 <Route element={<SuperUserGuard />}>

@@ -215,6 +215,102 @@
                         }
                     }
                 }
+            },
+            "tenant": {
+                "api_keys": {
+                    "cancel": "Cancelar",
+                    "copy": "Copiar",
+                    "copied": "Copiado",
+                    "title": "Claves API de Plataforma",
+                    "subtitle": "Gestiona y rota las claves API de integración para servicios externos y tuberías de datos de tu organización.",
+                    "full_access": "Acceso Total (*)",
+                    "prefix_copied_toast": "Prefijo de clave copiado al portapapeles.",
+                    "toolbar": {
+                        "search_placeholder": "Buscar clave por nombre o prefijo...",
+                        "create_button": "Nueva Clave API"
+                    },
+                    "status": {
+                        "active": "Activa",
+                        "expiring_soon": "Expira en {{days}}d",
+                        "expired": "Expirada"
+                    },
+                    "actions": {
+                        "rotate": "Rotar Clave",
+                        "revoke": "Revocar Clave"
+                    },
+                    "table": {
+                        "columns_button": "Columnas",
+                        "sort_recent": "Más recientes",
+                        "sort_oldest": "Más antiguos",
+                        "sort_recent_desc": "Más recientes primero",
+                        "sort_oldest_asc": "Más antiguos primero",
+                        "empty_state": "No se encontraron claves API de plataforma.",
+                        "showing_info": "Mostrando <1>{{showing}}</1> de <3>{{total}}</3> claves API",
+                        "page_info": "Página <1>{{page}}</1> de <3>{{totalPages}}</3>",
+                        "columns": {
+                            "name": "Nombre y Prefijo",
+                            "scopes": "Permisos (Scopes)",
+                            "created_by": "Creada Por",
+                            "expires_at": "Vencimiento y Estado",
+                            "actions": "Acciones"
+                        }
+                    },
+                    "modals": {
+                        "create": {
+                            "title": "Crear Clave API de Plataforma",
+                            "description": "Genera un nuevo token de integración con permisos restringidos para tu organización.",
+                            "fields": {
+                                "name": {
+                                    "label": "Nombre de la Clave API",
+                                    "placeholder": "Ej: Tubería de Ingestión de Logs"
+                                },
+                                "expiration": {
+                                    "label": "Fecha de Vencimiento (Máximo 1 Año)",
+                                    "hint": "Selecciona la fecha límite en la que caducará esta clave API.",
+                                    "selected_hint": "Caducará el {{date}} (en {{days}} días)"
+                                },
+                                "scopes": {
+                                    "label": "Permisos Asignados (Scopes)"
+                                }
+                            },
+                            "errors": {
+                                "name_required": "Introduce un nombre descriptivo para la clave API."
+                            },
+                            "submit": "Generar Clave API",
+                            "success_title": "Clave API Generada",
+                            "error_title": "Error al generar la clave API",
+                            "error_desc": "No se pudo generar la clave API de plataforma."
+                        },
+                        "rotate": {
+                            "title": "Rotar Clave API de Plataforma",
+                            "description": "¿Estás seguro de que deseas rotar la clave \"{{name}}\"?",
+                            "warning_title": "Acción Crítica e Inmediata",
+                            "warning_desc": "Al rotar esta clave, el secreto anterior se invalidará de inmediato. Todas las aplicaciones externas que usen la clave anterior dejarán de funcionar hasta ser actualizadas.",
+                            "confirm": "Rotar Clave Ahora",
+                            "success_title": "Clave API Rotada",
+                            "error_title": "Error al rotar",
+                            "error_desc": "Ocurrió un error al rotar la clave API."
+                        },
+                        "delete": {
+                            "title": "Revocar Clave API",
+                            "description": "¿Estás seguro de que deseas revocar permanentemente la clave API \"{{name}}\"? Esta acción no se puede deshacer.",
+                            "confirm": "Revocar Permanentemente",
+                            "success_title": "Clave API Revocada",
+                            "error_title": "Error al revocar",
+                            "error_desc": "No se pudo revocar la clave API."
+                        },
+                        "secret_dialog": {
+                            "title": "Secreto de Clave API Generado",
+                            "description": "Copia tu secreto de clave API ahora mismo.",
+                            "rotated_desc": "Se ha generado el nuevo secreto de la clave API.",
+                            "warning_title": "¡Guardalo en un lugar seguro!",
+                            "warning_desc": "Por razones de seguridad, este secreto NUNCA volverá a mostrarse. Si lo pierdes, tendrás que volver a rotar la clave.",
+                            "key_label": "Clave API Secreta (Token)",
+                            "copied_toast": "Secreto copiado al portapapeles.",
+                            "done_button": "He guardado la clave de forma segura"
+                        }
+                    }
+                }
             }
         },
         "public": {
