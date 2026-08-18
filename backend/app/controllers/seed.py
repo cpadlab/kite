@@ -42,6 +42,27 @@ async def seed_root_user() -> None:
             await conn.execute(text("ALTER TABLE tenant_invitations ADD COLUMN IF NOT EXISTS last_name VARCHAR(100);"))
             await conn.execute(text("ALTER TABLE tenants ADD COLUMN IF NOT EXISTS created_by_id UUID;"))
             await conn.execute(text("ALTER TABLE tenants ADD COLUMN IF NOT EXISTS updated_by_id UUID;"))
+            await conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS tenant_api_keys (
+                    id UUID PRIMARY KEY,
+                    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+                    name VARCHAR(100) NOT NULL,
+                    key_prefix VARCHAR(16) NOT NULL,
+                    hashed_key VARCHAR(255) NOT NULL UNIQUE,
+                    scopes JSONB DEFAULT '[]'::jsonb NOT NULL,
+                    is_active BOOLEAN DEFAULT TRUE NOT NULL,
+                    expires_at TIMESTAMPTZ NOT NULL,
+                    created_by_id UUID REFERENCES users(id) ON DELETE SET NULL,
+                    last_used_at TIMESTAMPTZ,
+                    last_used_ip VARCHAR(45),
+                    reminder_30d_sent BOOLEAN DEFAULT FALSE NOT NULL,
+                    reminder_24h_sent BOOLEAN DEFAULT FALSE NOT NULL,
+                    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL
+                );
+            """))
+            await conn.execute(text("CREATE INDEX IF NOT EXISTS ix_tenant_api_keys_tenant_id ON tenant_api_keys(tenant_id);"))
+            await conn.execute(text("CREATE INDEX IF NOT EXISTS ix_tenant_api_keys_key_prefix ON tenant_api_keys(key_prefix);"))
     except SQLAlchemyError as ddl_exc:
         log.critical(f"DDL schema synchronization failed: {ddl_exc}")
         raise ddl_exc
