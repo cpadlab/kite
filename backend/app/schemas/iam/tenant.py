@@ -28,6 +28,16 @@ class TenantReadSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class PaginatedTenantResponseSchema(BaseModel):
+    """
+    """
+    items: list[TenantReadSchema]
+    total: int
+    page: int
+    page_size: int
+    total_pages: int
+
+
 class TenantInvitationReadSchema(BaseModel):
     id: uuid.UUID
     tenant_id: uuid.UUID

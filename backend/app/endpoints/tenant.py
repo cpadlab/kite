@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, status
+from typing import Literal, Optional
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import get_current_superuser
@@ -9,6 +10,7 @@ from app.schemas.iam.tenant import (
     TenantCreateSchema,
     TenantInvitationPublicSchema,
     TenantReadSchema,
+    PaginatedTenantResponseSchema,
 )
 from app.controllers.iam.tenant import (
     accept_tenant_invitation,
@@ -46,21 +48,33 @@ async def create_tenant(
 
 @router.get(
     "",
-    response_model=list[TenantReadSchema],
+    response_model=PaginatedTenantResponseSchema,
     status_code=status.HTTP_200_OK,
-    summary="List all tenant organizations (Superuser Only)",
+    summary="List paginated tenant organizations with search and sorting (Superuser Only)",
 )
 async def get_all_tenants(
+    search: Optional[str] = Query(default=None),
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=10, ge=1, le=100),
+    sort_order: Literal["asc", "desc"] = Query(default="desc"),
     current_user: User = Depends(get_current_superuser),
     db: AsyncSession = Depends(get_db_session),
-) -> list[TenantReadSchema]:
+) -> PaginatedTenantResponseSchema:
     """
     GET /tenants
     -
-    Returns a list of all tenant organizations registered in the platform.
+    Returns a paginated list of tenant organizations.
+    Supports filtering by company name, pagination, and sorting by creation date.
     Requires Superuser authorization.
     """
-    return await list_all_tenants(session=db, current_superuser=current_user)
+    return await list_all_tenants(
+        session=db,
+        current_superuser=current_user,
+        search=search,
+        page=page,
+        page_size=page_size,
+        sort_order=sort_order,
+    )
 
 
 @router.get(

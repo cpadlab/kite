@@ -5,6 +5,7 @@ from app.schemas.iam.session import SessionReadSchema
 from app.schemas.iam.tenant import (
     TenantCreateSchema,
     TenantReadSchema,
+    PaginatedTenantResponseSchema,
     TenantInvitationReadSchema,
     TenantInvitationPublicSchema,
     AcceptInvitationSchema,
@@ -20,6 +21,7 @@ __all__ = [
     "SessionReadSchema",
     "TenantCreateSchema",
     "TenantReadSchema",
+    "PaginatedTenantResponseSchema",
     "TenantInvitationReadSchema",
     "TenantInvitationPublicSchema",
     "AcceptInvitationSchema",

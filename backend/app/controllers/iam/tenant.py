@@ -1,7 +1,9 @@
 import asyncio
+import math
 import secrets
 import uuid
 from datetime import datetime, timedelta, timezone
+from typing import Optional
 from fastapi import HTTPException, status
 from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,6 +17,7 @@ from app.schemas.iam.tenant import (
     TenantInvitationPublicSchema,
     TenantInvitationReadSchema,
     TenantReadSchema,
+    PaginatedTenantResponseSchema,
 )
 from app.shared.email import email_service
 from app.shared.logger import log
@@ -247,8 +250,13 @@ async def accept_tenant_invitation(
 async def list_all_tenants(
     session: AsyncSession,
     current_superuser: User,
-) -> list[TenantReadSchema]:
+    search: Optional[str] = None,
+    page: int = 1,
+    page_size: int = 10,
+    sort_order: str = "desc",
+) -> PaginatedTenantResponseSchema:
     """
+    Retrieve paginated tenant organizations with name search and creation date sorting (Superuser only).
     """
     if not current_superuser.is_superuser:
         raise HTTPException(
@@ -256,8 +264,35 @@ async def list_all_tenants(
             detail="Superuser privileges required to list tenants.",
         )
 
-    stmt = select(Tenant).order_by(Tenant.created_at.desc())
+    stmt = select(Tenant)
+    count_stmt = select(func.count()).select_from(Tenant)
+
+    if search and search.strip():
+        clean_search = search.strip().lower()
+        search_filter = func.lower(Tenant.name).contains(clean_search)
+        stmt = stmt.where(search_filter)
+        count_stmt = count_stmt.where(search_filter)
+
+    total_result = await session.execute(count_stmt)
+    total = total_result.scalar_one()
+
+    if sort_order.lower() == "asc":
+        stmt = stmt.order_by(Tenant.created_at.asc())
+    else:
+        stmt = stmt.order_by(Tenant.created_at.desc())
+
+    offset = (page - 1) * page_size
+    stmt = stmt.offset(offset).limit(page_size)
+
     result = await session.execute(stmt)
     tenants = result.scalars().all()
-    
-    return [TenantReadSchema.model_validate(t) for t in tenants]
+
+    total_pages = math.ceil(total / page_size) if total > 0 else 1
+
+    return PaginatedTenantResponseSchema(
+        items=[TenantReadSchema.model_validate(t) for t in tenants],
+        total=total,
+        page=page,
+        page_size=page_size,
+        total_pages=total_pages,
+    )
