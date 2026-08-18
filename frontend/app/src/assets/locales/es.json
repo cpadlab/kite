@@ -1,4 +1,20 @@
 {
+    "scopes": {
+        "audit": {
+            "title": "Registros de Auditoría",
+            "description": "Permisos de eventos de seguridad y registros de auditoría de la plataforma.",
+            "actions": {
+                "read": {
+                    "label": "Lectura de Auditoría (audit:read)",
+                    "description": "Permite visualizar el historial de auditoría y registros de seguridad."
+                },
+                "write": {
+                    "label": "Escritura de Auditoría (audit:write)",
+                    "description": "Permite registrar eventos personalizados y exportar datos de auditoría."
+                }
+            }
+        }
+    },
     "layout": {
         "home": "Inicio",
         "dashboard": "Dashboard",

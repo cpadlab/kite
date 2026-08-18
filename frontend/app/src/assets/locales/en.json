@@ -1,4 +1,20 @@
 {
+    "scopes": {
+        "audit": {
+            "title": "Audit Logs",
+            "description": "Security events and platform audit logs management.",
+            "actions": {
+                "read": {
+                    "label": "Read Audit (audit:read)",
+                    "description": "Allows viewing security audit trails and log events."
+                },
+                "write": {
+                    "label": "Write Audit (audit:write)",
+                    "description": "Allows writing custom audit log entries and exporting audit data."
+                }
+            }
+        }
+    },
     "layout": {
         "home": "Home",
         "dashboard": "Dashboard",
