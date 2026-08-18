@@ -1,4 +1,4 @@
-import { AstroidIcon, BellIcon, FileIcon, FunnelXIcon, HammerIcon, LayoutDashboardIcon, MonitorIcon, ShieldAlertIcon, ShieldIcon, SlidersHorizontalIcon, SquareStackIcon, UsersRoundIcon,CloudIcon,FlameIcon,SearchIcon,WorkflowIcon,CalendarIcon,HistoryIcon,FolderCogIcon,BoxesIcon,PuzzleIcon,StoreIcon,SettingsIcon,UserCircleIcon,PaletteIcon,LockIcon,KeyRoundIcon,LifeBuoyIcon,CodeXmlIcon,BookOpenTextIcon,MegaphoneIcon,AlertCircleIcon,FileTextIcon,ScaleIcon,type LucideIcon } from 'lucide-react'
+import { AstroidIcon, BellIcon, FileIcon, FunnelXIcon, HammerIcon, LayoutDashboardIcon, MonitorIcon, ShieldAlertIcon, ShieldIcon, SlidersHorizontalIcon, SquareStackIcon, UsersRoundIcon,CloudIcon,FlameIcon,SearchIcon,WorkflowIcon,CalendarIcon,HistoryIcon,FolderCogIcon,BoxesIcon,PuzzleIcon,StoreIcon,SettingsIcon,UserCircleIcon,PaletteIcon,LockIcon,KeyRoundIcon,LifeBuoyIcon,CodeXmlIcon,BookOpenTextIcon,MegaphoneIcon,AlertCircleIcon,FileTextIcon,ScaleIcon,type LucideIcon, Building2Icon } from 'lucide-react'
 
 export interface SidebarSubItem {
     name: string;
@@ -27,6 +27,16 @@ export const DATA: SidebarGroupSection[] = [
                 name: "layout.dashboard",
                 icon: LayoutDashboardIcon,
                 link: "/"
+            },
+        ]
+    },
+    {
+        title: "layout.platform",
+        items: [
+            {
+                name: "layout.tenants",
+                icon: Building2Icon,
+                link: "/platform/tenants"
             },
         ]
     },

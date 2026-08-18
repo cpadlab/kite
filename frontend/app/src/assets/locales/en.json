@@ -26,6 +26,7 @@
         "policies": "Policies",
         "templates": "Templates",
         "notifications": "Notifications",
+        "tenants": "Tenants",
         "audit": "Audit",
         "preferences": "Preferences",
         "profile": "Profile",

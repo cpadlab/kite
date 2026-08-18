@@ -56,7 +56,8 @@
         "preferences_group": "Preferencias",
         "support_group": "Soporte",
         "developer_group": "Desarrollador",
-        "graphql_query": "Editor GraphQL"
+        "graphql_query": "Editor GraphQL",
+        "tenants": "Tenants"
     },
     "pages": {
         "private": {

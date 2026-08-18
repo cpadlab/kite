@@ -12,6 +12,7 @@ const PublicLayout = lazy(() => import('./pages/public/layout.tsx'))
 const Layout = lazy(() => import('./layout/layout.tsx'))
 
 const LoginPage = lazy(() => import('./pages/public/login/page.tsx'))
+const PlatformTenantsPage = lazy(() => import('./pages/private/platform/tenants/page.tsx'))
 const TOTPPage = lazy(() => import('./pages/public/totp/page.tsx'))
 const DashboardPage = lazy(() => import('./pages/private/home/dashboard/page.tsx'))
 const SettingsSecurityPage = lazy(() => import('./pages/private/settings/security/page.tsx'))
@@ -37,6 +38,8 @@ function App() {
                                 <Route path="/" element={<DashboardPage />} />
 
                                 <Route path="/settings/security" element={<SettingsSecurityPage />} />
+
+                                <Route path="/platform/tenants" element={<PlatformTenantsPage />} />
 
                             </Route>
 
