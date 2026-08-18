@@ -2,6 +2,13 @@ from app.schemas.iam.auth import LoginCredentialsSchema, TokenResponseSchema
 from app.schemas.iam.totp import TOTPSetupResponseSchema, Verify2FAPayloadSchema
 from app.schemas.iam.user import UserCreateSchema, UserReadSchema
 from app.schemas.iam.session import SessionReadSchema
+from app.schemas.iam.tenant import (
+    TenantCreateSchema,
+    TenantReadSchema,
+    TenantInvitationReadSchema,
+    TenantInvitationPublicSchema,
+    AcceptInvitationSchema,
+)
 
 __all__ = [
     "LoginCredentialsSchema",
@@ -11,4 +18,9 @@ __all__ = [
     "UserCreateSchema",
     "UserReadSchema",
     "SessionReadSchema",
+    "TenantCreateSchema",
+    "TenantReadSchema",
+    "TenantInvitationReadSchema",
+    "TenantInvitationPublicSchema",
+    "AcceptInvitationSchema",
 ]
