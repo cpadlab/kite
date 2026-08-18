@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { KeyRoundIcon, Building2Icon } from 'lucide-react'
 import { PageBreadcrumb } from '@/components/blocks/breadcrumb'
 import { ApiKeysTable } from './components/table/table'
+import { SecretKeyBanner } from './components/secret-banner'
 import { CreateApiKeyModal } from './components/modals/create'
 import { RotateApiKeyModal } from './components/modals/rotate'
 import { DeleteApiKeyModal } from './components/modals/delete'
@@ -12,7 +13,7 @@ import { routeCache } from '@/lib/api/route-cache'
 import { TenantsBreadcrumbData } from '../breadcrumb'
 
 const TenantApiKeysPage = () => {
-
+    
     const { t } = useTranslation()
 
     const [keys, setKeys] = useState<ApiKeyItem[]>([])
@@ -29,6 +30,8 @@ const TenantApiKeysPage = () => {
     const [isCreateOpen, setIsCreateOpen] = useState(false)
     const [rotateItem, setRotateItem] = useState<ApiKeyItem | null>(null)
     const [deleteItem, setDeleteItem] = useState<ApiKeyItem | null>(null)
+
+    const [createdSecretKey, setCreatedSecretKey] = useState<string | null>(null)
 
     const fetchApiKeys = useCallback(async () => {
         const cached = routeCache.get<PaginatedApiKeyResponse>('/tenant/api-keys')
@@ -84,10 +87,12 @@ const TenantApiKeysPage = () => {
                 </div>
             </div>
 
-            <ApiKeysTable data={keys} isLoading={isLoading} total={total} page={page} pageSize={pageSize} totalPages={totalPages} search={search} onSearchChange={handleSearchChange} sortOrder={sortOrder} onSortOrderChange={handleSortOrderChange} onPageChange={setPage} onOpenCreate={() => setIsCreateOpen(true)} onOpenRotate={(item) => setRotateItem(item)} onOpenDelete={(item) => setDeleteItem(item)}/>
+            <SecretKeyBanner secretKey={createdSecretKey} onClose={() => setCreatedSecretKey(null)} />
 
-            <CreateApiKeyModal isOpen={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={fetchApiKeys} />
-            <RotateApiKeyModal item={rotateItem} isOpen={Boolean(rotateItem)} onOpenChange={(open) => !open && setRotateItem(null)} onSuccess={fetchApiKeys} />
+            <ApiKeysTable data={keys} isLoading={isLoading} total={total} page={page} pageSize={pageSize} totalPages={totalPages} search={search} onSearchChange={handleSearchChange} sortOrder={sortOrder} onSortOrderChange={handleSortOrderChange} onPageChange={setPage} onOpenCreate={() => setIsCreateOpen(true)} onOpenRotate={(item) => setRotateItem(item)} onOpenDelete={(item) => setDeleteItem(item)} />
+
+            <CreateApiKeyModal isOpen={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={fetchApiKeys} onKeyGenerated={(key) => setCreatedSecretKey(key)} />
+            <RotateApiKeyModal item={rotateItem} isOpen={Boolean(rotateItem)} onOpenChange={(open) => !open && setRotateItem(null)} onSuccess={fetchApiKeys} onKeyGenerated={(key) => setCreatedSecretKey(key)} />
             <DeleteApiKeyModal item={deleteItem} isOpen={Boolean(deleteItem)} onOpenChange={(open) => !open && setDeleteItem(null)} onSuccess={fetchApiKeys} />
 
         </div>
