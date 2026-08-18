@@ -3,12 +3,14 @@ import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '@/components/u
 import { DATA, type DropdownItem } from "./content"
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/context/theme'
+import { useAuth } from '@/context/auth'
 import { NavLink } from 'react-router-dom'
 
 export const HeaderAvatar = () => {
 
     const { t, i18n } = useTranslation()
     const { toggleTheme } = useTheme()
+    const { logout } = useAuth()
 
     const handleAction = (action?: string) => {
         if (!action) return
@@ -19,7 +21,7 @@ export const HeaderAvatar = () => {
         } else if (action === "lang-en") {
             i18n.changeLanguage("en")
         } else if (action === "logout") {
-            console.log("Logging out...")
+            logout()
         }
     }
 

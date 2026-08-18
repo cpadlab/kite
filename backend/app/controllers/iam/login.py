@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 import jwt
 from fastapi import HTTPException, Request, status
-from sqlalchemy import or_, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
@@ -215,10 +215,12 @@ async def authenticate_user(
 
     now = datetime.now(timezone.utc)
 
+    clean_identifier = credentials.identifier.lower().strip()
+
     stmt = select(User).where(
         or_(
-            User.email == credentials.identifier.lower().strip(),
-            User.username == credentials.identifier.strip(),
+            func.lower(User.email) == clean_identifier,
+            func.lower(User.username) == clean_identifier,
         )
     )
     result = await session.execute(stmt)
