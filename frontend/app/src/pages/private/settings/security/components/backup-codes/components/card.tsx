@@ -20,7 +20,7 @@ export const BackupCodesCard: React.FC<BackupCodesCardProps> = ({
                 
                 <div className="flex items-start gap-4">
                     
-                    <div className={`p-3 rounded-xl flex items-center justify-center shrink-0 ${ is2FAEnabled ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-destructive/15 text-destructive border border-destructive/30'}`}>
+                    <div className={`p-2 rounded-xl flex items-center justify-center shrink-0 ${ is2FAEnabled ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-destructive/15 text-destructive border border-destructive/30'}`}>
                         {is2FAEnabled ? (<KeyRoundIcon className="size-6" />
                         ) : (<TriangleAlertIcon className="size-6" />)}
                     </div>

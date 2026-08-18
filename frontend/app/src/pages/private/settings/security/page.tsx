@@ -42,7 +42,7 @@ const SettingsSecurityPage = () => {
 
             <section className="space-y-6">
                 <TOTPSection is2FAEnabled={is2FAEnabled} isLoadingStatus={isLoading} onStatusChange={(enabled) => setIs2FAEnabled(enabled)} />
-                <BackupCodesSection is2FAEnabled={Boolean(is2FAEnabled)} />
+                <BackupCodesSection is2FAEnabled={Boolean(is2FAEnabled)} isLoadingStatus={isLoading} />
             </section>
             
         </div>
