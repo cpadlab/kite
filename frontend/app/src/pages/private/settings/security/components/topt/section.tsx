@@ -8,34 +8,50 @@ import type { TOTPSetupResponse } from '@/types/iam'
 
 import { TOTPCard } from './components/card'
 import { Setup2FADialog } from './components/modals/setup/dialog'
-import { Disable2FADialog } from './components/modals/disable-dialog'
+import { Disable2FADialog } from './components/modals/disable'
 
-export const TOTPSection: React.FC = () => {
-    
+interface TOTPSectionProps {
+    is2FAEnabled?: boolean | null
+    isLoadingStatus?: boolean
+    onStatusChange?: (enabled: boolean) => void
+}
+
+export const TOTPSection: React.FC<TOTPSectionProps> = ({
+    is2FAEnabled: prop2FAEnabled,
+    isLoadingStatus: propLoadingStatus,
+    onStatusChange,
+}) => {
+
     const { t } = useTranslation()
 
-    const [is2FAEnabled, setIs2FAEnabled] = useState<boolean | null>(null)
-    const [isLoadingStatus, setIsLoadingStatus] = useState<boolean>(true)
+    const [internal2FAEnabled, setInternal2FAEnabled] = useState<boolean | null>(null)
+    const [internalLoading, setInternalLoading] = useState<boolean>(true)
     const [isSetupOpen, setIsSetupOpen] = useState<boolean>(false)
     const [setupData, setSetupData] = useState<TOTPSetupResponse | null>(null)
     const [isSettingUp, setIsSettingUp] = useState<boolean>(false)
     const [isDisableOpen, setIsDisableOpen] = useState<boolean>(false)
 
+    const is2FAEnabled = prop2FAEnabled !== undefined ? prop2FAEnabled : internal2FAEnabled
+    const isLoadingStatus = propLoadingStatus !== undefined ? propLoadingStatus : internalLoading
+
     const fetchUser2FAStatus = useCallback(async () => {
         try {
-            setIsLoadingStatus(true)
+            setInternalLoading(true)
             const profile = await loginService.getMe()
-            setIs2FAEnabled(profile.is_2fa_enabled)
+            setInternal2FAEnabled(profile.is_2fa_enabled)
+            onStatusChange?.(profile.is_2fa_enabled)
         } catch (err) {
             console.error('Failed to fetch user 2FA status:', err)
         } finally {
-            setIsLoadingStatus(false)
+            setInternalLoading(false)
         }
-    }, [])
+    }, [onStatusChange])
 
     useEffect(() => {
-        fetchUser2FAStatus()
-    }, [fetchUser2FAStatus])
+        if (prop2FAEnabled === undefined) {
+            fetchUser2FAStatus()
+        }
+    }, [prop2FAEnabled, fetchUser2FAStatus])
 
     const handleStartSetup = async () => {
         setIsSettingUp(true)
@@ -55,6 +71,16 @@ export const TOTPSection: React.FC = () => {
         }
     }
 
+    const handleEnableSuccess = () => {
+        setInternal2FAEnabled(true)
+        onStatusChange?.(true)
+    }
+
+    const handleDisableSuccess = () => {
+        setInternal2FAEnabled(false)
+        onStatusChange?.(false)
+    }
+
     if (isLoadingStatus) {
         return (
             <div className="rounded-xl bg-card space-y-4">
@@ -71,9 +97,9 @@ export const TOTPSection: React.FC = () => {
 
     return (
         <div className="space-y-4">
-            <TOTPCard is2FAEnabled={Boolean(is2FAEnabled)} isSettingUp={isSettingUp} onStartSetup={handleStartSetup} onStartDisable={() => setIsDisableOpen(true)}/>
-            <Setup2FADialog isOpen={isSetupOpen} onOpenChange={setIsSetupOpen} setupData={setupData} onSuccess={() => setIs2FAEnabled(true)}/>
-            <Disable2FADialog isOpen={isDisableOpen} onOpenChange={setIsDisableOpen} onSuccess={() => setIs2FAEnabled(false)} />
+            <TOTPCard is2FAEnabled={Boolean(is2FAEnabled)} isSettingUp={isSettingUp} onStartSetup={handleStartSetup} onStartDisable={() => setIsDisableOpen(true)} />
+            <Setup2FADialog isOpen={isSetupOpen} onOpenChange={setIsSetupOpen} setupData={setupData} onSuccess={handleEnableSuccess} />
+            <Disable2FADialog isOpen={isDisableOpen} onOpenChange={setIsDisableOpen} onSuccess={handleDisableSuccess} />
         </div>
     )
 }

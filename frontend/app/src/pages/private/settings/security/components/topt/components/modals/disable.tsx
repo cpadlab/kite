@@ -3,16 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ShieldAlertIcon, Loader2Icon, ChevronRightIcon, XIcon, RectangleEllipsisIcon, FingerprintPatternIcon } from 'lucide-react'
 
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@/components/ui/input-otp'
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogCancel,
-    AlertDialogAction,
-} from '@/components/ui/alert-dialog'
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { toast } from '@/components/ui/toast'
 import { totpService } from '@/lib/api/services/iam/totp'
