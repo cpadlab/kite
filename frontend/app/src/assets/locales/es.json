@@ -95,6 +95,8 @@
                         "disable_modal_desc": "Para confirmar la desactivación de 2FA, por favor introduce un código de verificación de 6 dígitos o un código de respaldo.",
                         "disable_submit": "Confirmar y Desactivar",
                         "cancel": "Cancelar",
+                        "next": "Siguiente",
+                        "back": "Atrás",
                         "verifying": "Verificando...",
                         "success_enabled": "La autenticación de doble factor ha sido activada correctamente.",
                         "success_disabled": "La autenticación de doble factor ha sido desactivada correctamente.",

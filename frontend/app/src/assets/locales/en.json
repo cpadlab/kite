@@ -94,6 +94,8 @@
                         "disable_modal_desc": "To confirm disabling 2FA, please enter a 6-digit verification code or an emergency backup code.",
                         "disable_submit": "Confirm & Disable",
                         "cancel": "Cancel",
+                        "next": "Next",
+                        "back": "Back",
                         "verifying": "Verifying...",
                         "success_enabled": "Two-factor authentication enabled successfully.",
                         "success_disabled": "Two-factor authentication disabled successfully.",
