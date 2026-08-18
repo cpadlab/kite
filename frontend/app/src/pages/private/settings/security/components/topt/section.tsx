@@ -57,7 +57,7 @@ export const TOTPSection: React.FC = () => {
 
     if (isLoadingStatus) {
         return (
-            <div className="rounded-xl border bg-card p-6 shadow-xs space-y-4">
+            <div className="rounded-xl bg-card space-y-4">
                 <div className="flex items-center justify-between">
                     <div className="space-y-2">
                         <Skeleton className="h-6 w-64" />

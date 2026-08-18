@@ -69,10 +69,17 @@
         <h1 class="brand-title">{{ project_title }}</h1>
     </div>
 
-    <h2 class="title">Two-Factor Authentication (2FA) Activated</h2>
-    <p>Hello <strong>{{ recipient_name }}</strong>,</p>
-    <p>Two-Factor Authentication (TOTP) has been successfully enabled on your account (<strong>{{ username }}</strong>).</p>
-    <p>Your account is now protected with Time-based One-Time Passwords. Please ensure your emergency backup codes are stored in a safe location.</p>
+    {% if disabled %}
+        <h2 class="title" style="color: #dc2626;">SECURITY ALERT: Two-Factor Authentication (2FA) Disabled</h2>
+        <p>Hello <strong>{{ recipient_name }}</strong>,</p>
+        <p>Two-Factor Authentication (TOTP) has been <strong>disabled</strong> on your account (<strong>{{ username }}</strong>).</p>
+        <p>If you did not perform this action, please change your password immediately and contact security support.</p>
+    {% else %}
+        <h2 class="title">Two-Factor Authentication (2FA) Activated</h2>
+        <p>Hello <strong>{{ recipient_name }}</strong>,</p>
+        <p>Two-Factor Authentication (TOTP) has been successfully enabled on your account (<strong>{{ username }}</strong>).</p>
+        <p>Your account is now protected with Time-based One-Time Passwords. Please ensure your emergency backup codes are stored in a safe location.</p>
+    {% endif %}
     
     <div class="footer">
         <p>&copy; {{ project_title }}. All rights reserved.</p>

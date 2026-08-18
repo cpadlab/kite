@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ShieldCheckIcon, ArrowRightIcon, ArrowLeftIcon, Loader2Icon } from 'lucide-react'
+import { ShieldCheckIcon, ArrowRightIcon, ArrowLeftIcon, Loader2Icon, XIcon, BadgeCheckIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
@@ -114,9 +114,10 @@ export const Setup2FADialog: React.FC<Setup2FADialogProps> = ({ isOpen, onOpenCh
                             {currentStep === 1 && (
                                 <>
                                     <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                                        <XIcon />
                                         {t('pages.private.settings.security.totp.cancel')}
                                     </Button>
-                                    <Button type="button" onClick={() => setCurrentStep(2)} className="gap-2">
+                                    <Button type="button" onClick={() => setCurrentStep(2)}>
                                         {t('pages.private.settings.security.totp.next')}
                                         <ArrowRightIcon className="size-4" />
                                     </Button>
@@ -125,11 +126,11 @@ export const Setup2FADialog: React.FC<Setup2FADialogProps> = ({ isOpen, onOpenCh
 
                             {currentStep === 2 && (
                                 <>
-                                    <Button type="button" variant="outline" onClick={() => setCurrentStep(1)} className="gap-2">
+                                    <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>
                                         <ArrowLeftIcon className="size-4" />
                                         {t('pages.private.settings.security.totp.back')}
                                     </Button>
-                                    <Button type="button" onClick={() => setCurrentStep(3)} className="gap-2">
+                                    <Button type="button" onClick={() => setCurrentStep(3)}>
                                         {t('pages.private.settings.security.totp.next')}
                                         <ArrowRightIcon className="size-4" />
                                     </Button>
@@ -138,13 +139,14 @@ export const Setup2FADialog: React.FC<Setup2FADialogProps> = ({ isOpen, onOpenCh
 
                             {currentStep === 3 && (
                                 <>
-                                    <Button type="button" variant="outline" onClick={() => setCurrentStep(2)} disabled={isEnabling} className="gap-2">
+                                    <Button type="button" variant="outline" onClick={() => setCurrentStep(2)} disabled={isEnabling}>
                                         <ArrowLeftIcon className="size-4" />
                                         {t('pages.private.settings.security.totp.back')}
                                     </Button>
-                                    <Button type="button" onClick={handleConfirmEnable} disabled={enableCode.length !== 6 || isEnabling} className="gap-2">
+                                    <Button type="button" onClick={handleConfirmEnable} disabled={enableCode.length !== 6 || isEnabling}>
                                         {isEnabling && <Loader2Icon className="size-4 animate-spin" />}
                                         {isEnabling ? t('pages.private.settings.security.totp.verifying') : t('pages.private.settings.security.totp.enable_submit')}
+                                        {!isEnabling && <BadgeCheckIcon />}
                                     </Button>
                                 </>
                             )}
