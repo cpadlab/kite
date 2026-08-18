@@ -120,6 +120,45 @@
                         "not_enabled": "La autenticación de doble factor (2FA) debe estar activada para acceder a los códigos de respaldo."
                     }
                 }
+            },
+            "platform": {
+                "tenants": {
+                    "title": "Empresas & Organismos",
+                    "subtitle": "Gestión centralizada de organizaciones, licencias de usuarios y cuotas de almacenamiento contratado.",
+                    "create_button": "Crear Empresa",
+                    "modal": {
+                        "title": "Registrar Nueva Empresa",
+                        "description": "Crea una nueva organización en la plataforma y despacha la invitación al propietario asignado.",
+                        "name_label": "Nombre de la Empresa",
+                        "name_placeholder": "Ej: Kite Corporation",
+                        "owner_first_name_label": "Nombre del Propietario",
+                        "owner_first_name_placeholder": "Carlos",
+                        "owner_last_name_label": "Apellidos del Propietario",
+                        "owner_last_name_placeholder": "Padilla",
+                        "owner_username_label": "Usuario del Propietario",
+                        "owner_username_placeholder": "cpadilla",
+                        "owner_email_label": "Correo Electrónico",
+                        "owner_email_placeholder": "carlos@empresa.com",
+                        "max_users_label": "Número de Licencias (Usuarios)",
+                        "storage_quota_label": "Almacenamiento Contratado (GB)",
+                        "cancel": "Cancelar",
+                        "submit": "Crear Empresa y Enviar Invitación",
+                        "submitting": "Registrando..."
+                    },
+                    "validation": {
+                        "name_required": "El nombre de la empresa debe tener al menos 2 caracteres.",
+                        "first_name_required": "El nombre del propietario es obligatorio.",
+                        "last_name_required": "El apellido del propietario es obligatorio.",
+                        "username_required": "El usuario debe tener al menos 3 caracteres.",
+                        "email_invalid": "Introduce una dirección de correo electrónico válida.",
+                        "max_users_min": "El número de licencias debe ser de al menos 1.",
+                        "storage_min": "El almacenamiento debe ser de al menos 1 GB."
+                    },
+                    "messages": {
+                        "success": "Empresa y propietario registrados correctamente. Invitación enviada.",
+                        "error_default": "Ocurrió un error al registrar la empresa."
+                    }
+                }
             }
         },
         "public": {

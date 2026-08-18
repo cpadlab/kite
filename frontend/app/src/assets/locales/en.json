@@ -119,6 +119,45 @@
                         "not_enabled": "Two-factor authentication (2FA) must be active to access emergency backup codes."
                     }
                 }
+            },
+            "platform": {
+                "tenants": {
+                    "title": "Companies & Organizations",
+                    "subtitle": "Centralized management of organizations, user seat licenses, and contracted storage quotas.",
+                    "create_button": "Create Company",
+                    "modal": {
+                        "title": "Register New Company",
+                        "description": "Creates a new platform organization and dispatches an invitation link to the designated owner.",
+                        "name_label": "Company Name",
+                        "name_placeholder": "e.g. Kite Corporation",
+                        "owner_first_name_label": "Owner First Name",
+                        "owner_first_name_placeholder": "Carlos",
+                        "owner_last_name_label": "Owner Last Name",
+                        "owner_last_name_placeholder": "Padilla",
+                        "owner_username_label": "Owner Username",
+                        "owner_username_placeholder": "cpadilla",
+                        "owner_email_label": "Email Address",
+                        "owner_email_placeholder": "carlos@company.com",
+                        "max_users_label": "User License Limit (Seats)",
+                        "storage_quota_label": "Contracted Storage (GB)",
+                        "cancel": "Cancel",
+                        "submit": "Create Company & Send Invitation",
+                        "submitting": "Registering..."
+                    },
+                    "validation": {
+                        "name_required": "Company name must be at least 2 characters long.",
+                        "first_name_required": "Owner first name is required.",
+                        "last_name_required": "Owner last name is required.",
+                        "username_required": "Username must be at least 3 characters long.",
+                        "email_invalid": "Please enter a valid email address.",
+                        "max_users_min": "User license limit must be at least 1.",
+                        "storage_min": "Storage quota must be at least 1 GB."
+                    },
+                    "messages": {
+                        "success": "Company and owner registered successfully. Invitation sent.",
+                        "error_default": "An error occurred while registering the company."
+                    }
+                }
             }
         },
         "public": {

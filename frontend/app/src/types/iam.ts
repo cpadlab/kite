@@ -1,4 +1,3 @@
-
 export interface LoginCredentials {
     identifier: string
     password: string
@@ -16,7 +15,6 @@ export interface TokenResponse {
     requires_2fa: boolean
     pre_auth_token?: string
 }
-
 
 export interface TOTPSetupResponse {
     totp_secret: string
@@ -40,4 +38,41 @@ export interface UserProfileResponse {
     is_email_verified: boolean
     is_2fa_enabled: boolean
     scopes: string[]
+}
+
+export interface TenantCreatePayload {
+    name: string
+    max_users: number
+    storage_quota_gb: number
+    owner_email: string
+    owner_first_name: string
+    owner_last_name: string
+    owner_username: string
+}
+
+export interface TenantItem {
+    id: string
+    name: string
+    slug?: string
+    max_users: number
+    storage_quota_gb: number
+    storage_used_bytes: number
+    is_active: boolean
+    created_at: string
+}
+
+export interface PaginatedTenantResponse {
+    items: TenantItem[]
+    total: number
+    page: number
+    page_size: number
+    total_pages: number
+}
+
+export interface TenantCreateResponse {
+    tenant: TenantItem
+    invitation_token: string
+    registration_url: string
+    expires_at: string
+    message: string
 }
