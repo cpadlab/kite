@@ -8,6 +8,7 @@ from app.core.middlewares.security import SecurityMiddleware
 from app.endpoints.auth import router as auth_router
 from app.endpoints.health import router as health_router
 from app.endpoints.tenant import router as tenant_router
+from app.endpoints.api_key import router as api_key_router
 
 api: FastAPI = FastAPI(
     title=settings.PROJECT_TITLE,
@@ -34,3 +35,4 @@ api.add_middleware(SecurityMiddleware)
 api.include_router(health_router)
 api.include_router(auth_router, prefix="/api/v1")
 api.include_router(tenant_router, prefix="/api/v1")
+api.include_router(api_key_router, prefix="/api/v1")
