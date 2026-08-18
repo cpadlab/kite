@@ -92,6 +92,7 @@
                         "enable_submit": "Verify & Enable",
                         "disable_modal_title": "Disable Two-Factor Authentication",
                         "disable_modal_desc": "To confirm disabling 2FA, please enter a 6-digit verification code or an emergency backup code.",
+                        "disable_hint": "You can enter your 6-digit TOTP code or an 8-character emergency backup code.",
                         "disable_submit": "Confirm & Disable",
                         "cancel": "Cancel",
                         "next": "Next",

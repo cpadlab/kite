@@ -93,6 +93,7 @@
                         "enable_submit": "Verificar y Activar",
                         "disable_modal_title": "Desactivar Autenticación de Doble Factor",
                         "disable_modal_desc": "Para confirmar la desactivación de 2FA, por favor introduce un código de verificación de 6 dígitos o un código de respaldo.",
+                        "disable_hint": "Puedes introducir tu código TOTP de 6 dígitos o un código de respaldo de 8 caracteres.",
                         "disable_submit": "Confirmar y Desactivar",
                         "cancel": "Cancelar",
                         "next": "Siguiente",
