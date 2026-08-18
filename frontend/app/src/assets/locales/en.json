@@ -248,9 +248,10 @@
                         "page_info": "Page <1>{{page}}</1> of <3>{{totalPages}}</3>",
                         "columns": {
                             "name": "Name and Prefix",
+                            "status": "Status",
+                            "expires_at": "Expiration",
                             "scopes": "Scopes",
                             "created_by": "Created By",
-                            "expires_at": "Expiration & Status",
                             "actions": "Actions"
                         }
                     },

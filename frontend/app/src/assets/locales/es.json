@@ -249,9 +249,10 @@
                         "page_info": "Página <1>{{page}}</1> de <3>{{totalPages}}</3>",
                         "columns": {
                             "name": "Nombre y Prefijo",
+                            "status": "Estado",
+                            "expires_at": "Vencimiento",
                             "scopes": "Permisos (Scopes)",
                             "created_by": "Creada Por",
-                            "expires_at": "Vencimiento y Estado",
                             "actions": "Acciones"
                         }
                     },
