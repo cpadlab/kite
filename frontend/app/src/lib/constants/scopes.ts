@@ -28,7 +28,7 @@ export const SYSTEM_SCOPES: ScopeGroup[] = [
                 descriptionKey: 'scopes.audit.actions.write.description',
             },
         ],
-    },
+    }
 ]
 
 export const ALL_SCOPES_FLAT: string[] = SYSTEM_SCOPES.flatMap((group) =>
