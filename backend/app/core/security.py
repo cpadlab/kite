@@ -108,3 +108,26 @@ async def get_current_superuser(
         )
         
     return current_user
+
+
+async def get_current_tenant_owner_or_admin(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    """
+    FastAPI dependency ensuring the authenticated user belongs to an organization
+    and has 'owner' or 'admin' role. Superusers with tenant context are also permitted.
+    """
+    if not current_user.tenant_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="This operation requires an assigned organization context.",
+        )
+
+    user_role = (current_user.role or "").lower().strip()
+    if user_role not in ("owner", "admin") and not current_user.is_superuser:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only Tenant Owners and Administrators are authorized to perform this action.",
+        )
+
+    return current_user
