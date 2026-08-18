@@ -102,14 +102,15 @@ class SecurityMiddleware(BaseHTTPMiddleware):
 
         response = await call_next(request)
 
+        response.headers["X-CSRF-Token"] = csrf_token
+
         if new_csrf_generated or csrf_cookie is None:
             response.set_cookie(
                 key="csrf_token",
                 value=csrf_token,
-                httponly=True,
+                httponly=False,
                 samesite="lax",
                 secure=settings.ENVIRONMENT != "development",
             )
-            response.headers["X-CSRF-Token"] = csrf_token
 
         return response

@@ -24,7 +24,7 @@ const Layout = () => {
 
                 <main className="flex flex-col flex-1 overflow-hidden">
                     <Header />
-                    <div className="flex-1 overflow-auto p-4">
+                    <div className="flex-1 overflow-auto md:p-8 p-4">
                         <Outlet />
                     </div>
                 </main>
