@@ -229,7 +229,48 @@
                 "errors": {
                     "code_length": "The code must be a 6-digit verification code or an 8-character backup code."
                 }
+            },
+            "register": {
+                "title": "Activate Company Account",
+                "subtitle": "Set your owner account password to access the platform.",
+                "invalid_token_title": "Expired or Invalid Invitation",
+                "invalid_token_desc": "The invitation link you used is invalid, has expired, or was already accepted. Contact the superuser to request a new activation link.",
+                "tenant_label": "Assigned Organization",
+                "email_label": "Email Address",
+                "name_label": "Owner Name",
+                "username_label": "Username",
+                "password_label": "Access Password",
+                "confirm_password_label": "Confirm Password",
+                "confirm_password_placeholder": "Repeat your password",
+                "update_hint": "Your personal details and email address were preset by the invitation. You will be able to update them later from Security Settings.",
+                "submit_button": "Activate Account & Complete",
+                "submitting": "Activating account...",
+                "success_toast": "Owner registration completed successfully. You can now sign in.",
+                "back_to_login": "Go back to Sign In",
+                "errors": {
+                    "password_match": "Passwords do not match.",
+                    "password_weak": "Password must meet all minimum security criteria."
+                }
             }
+        }
+    },
+    "components": {
+        "password_strength": {
+            "label": "Password",
+            "placeholder": "Secure password",
+            "enter_password": "Enter a password",
+            "weak": "Weak password",
+            "medium": "Medium password",
+            "strong": "Strong password",
+            "very_strong": "Very strong password",
+            "must_contain": "Must contain:",
+            "min_12_chars": "At least 12 characters",
+            "min_lowercase": "At least 1 lowercase letter",
+            "min_uppercase": "At least 1 uppercase letter",
+            "min_number": "At least 1 number",
+            "min_special": "At least 1 special character",
+            "show": "Show password",
+            "hide": "Hide password"
         }
     },
     "theme": {

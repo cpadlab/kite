@@ -90,3 +90,23 @@ export interface TenantCreateResponse {
     expires_at: string
     message: string
 }
+
+export interface TenantInvitationPublic {
+    token: string
+    email: string
+    tenant_name: string
+    first_name?: string
+    last_name?: string
+    username?: string
+    status: string
+    expires_at: string
+    is_valid: boolean
+}
+
+export interface AcceptInvitationPayload {
+    token: string
+    password: string
+    first_name?: string
+    last_name?: string
+    username?: string
+}

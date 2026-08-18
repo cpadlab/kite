@@ -231,7 +231,48 @@
                 "errors": {
                     "code_length": "El código debe tener 6 dígitos o ser un código de respaldo de 8 caracteres."
                 }
+            },
+            "register": {
+                "title": "Activar Cuenta de Empresa",
+                "subtitle": "Establece la contraseña de tu cuenta de propietario para acceder a la plataforma.",
+                "invalid_token_title": "Invitación Expirada o Inválida",
+                "invalid_token_desc": "El enlace de invitación que has utilizado es inválido, ha caducado o ya ha sido aceptado anteriormente. Contacta con el superusuario para solicitar un nuevo enlace de activación.",
+                "tenant_label": "Organización Asignada",
+                "email_label": "Correo Electrónico",
+                "name_label": "Nombre del Propietario",
+                "username_label": "Nombre de Usuario",
+                "password_label": "Contraseña de Acceso",
+                "confirm_password_label": "Confirmar Contraseña",
+                "confirm_password_placeholder": "Repite tu contraseña",
+                "update_hint": "Tus datos personales y correo electrónico han sido prefijados por la invitación. Podrás modificarlos posteriormente desde la sección de Ajustes de Seguridad.",
+                "submit_button": "Activar Cuenta y Finalizar",
+                "submitting": "Activando cuenta...",
+                "success_toast": "Registro de propietario completado con éxito. Ya puedes iniciar sesión.",
+                "back_to_login": "Volver al inicio de sesión",
+                "errors": {
+                    "password_match": "Las contraseñas no coinciden.",
+                    "password_weak": "La contraseña debe cumplir todos los criterios de seguridad mínimos."
+                }
             }
+        }
+    },
+    "components": {
+        "password_strength": {
+            "label": "Contraseña",
+            "placeholder": "Contraseña segura",
+            "enter_password": "Introduce una contraseña",
+            "weak": "Contraseña débil",
+            "medium": "Contraseña media",
+            "strong": "Contraseña fuerte",
+            "very_strong": "Contraseña muy fuerte",
+            "must_contain": "Debe contener:",
+            "min_12_chars": "Al menos 12 caracteres",
+            "min_lowercase": "Al menos 1 letra minúscula",
+            "min_uppercase": "Al menos 1 letra mayúscula",
+            "min_number": "Al menos 1 número",
+            "min_special": "Al menos 1 carácter especial",
+            "show": "Mostrar contraseña",
+            "hide": "Ocultar contraseña"
         }
     },
     "theme": {

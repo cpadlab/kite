@@ -3,6 +3,8 @@ import type {
     TenantCreatePayload,
     TenantCreateResponse,
     PaginatedTenantResponse,
+    TenantInvitationPublic,
+    AcceptInvitationPayload,
 } from '../../../../types/iam'
 
 export const tenantService = {
@@ -17,5 +19,13 @@ export const tenantService = {
         sort_order?: 'asc' | 'desc'
     }): Promise<PaginatedTenantResponse> {
         return await api.get<PaginatedTenantResponse>('/tenants', { params })
+    },
+
+    async validateInvitationToken(token: string): Promise<TenantInvitationPublic> {
+        return await api.get<TenantInvitationPublic>(`/tenants/invitations/${token}`)
+    },
+
+    async acceptInvitation(payload: AcceptInvitationPayload): Promise<{ status: string; message: string }> {
+        return await api.post<{ status: string; message: string }>('/tenants/invitations/accept', payload)
     },
 }
