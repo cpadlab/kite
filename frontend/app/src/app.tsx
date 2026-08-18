@@ -6,13 +6,15 @@ import { AuthProvider } from './context/auth.tsx'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/toast'
 
-import Layout from './layout/layout.tsx'
 import LoadingScreen from './components/blocks/loading/component.tsx'
 
-const LoginPage = lazy(() => import('./pages/public/login/page.tsx'))
 const PublicLayout = lazy(() => import('./pages/public/layout.tsx'))
+const Layout = lazy(() => import('./layout/layout.tsx'))
+
+const LoginPage = lazy(() => import('./pages/public/login/page.tsx'))
 const TOTPPage = lazy(() => import('./pages/public/totp/page.tsx'))
 const DashboardPage = lazy(() => import('./pages/private/home/dashboard/page.tsx'))
+const SettingsSecurityPage = lazy(() => import('./pages/private/settings/security/page.tsx'))
 
 function App() {
     return (
@@ -31,7 +33,11 @@ function App() {
                             </Route>
 
                             <Route element={<Layout />}>
+                                
                                 <Route path="/" element={<DashboardPage />} />
+
+                                <Route path="/settings/security" element={<SettingsSecurityPage />} />
+
                             </Route>
 
                             <Route path="/404" element={<div className="flex min-h-screen items-center justify-center font-semibold text-lg text-muted-foreground bg-background">404 - Page Not Found</div>} />
