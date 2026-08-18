@@ -20,4 +20,11 @@ export const totpService = {
         }
         return api.post<{ status: string; message: string }>('/auth/2fa/disable', payload)
     },
+
+    async getBackupCodes(code: string): Promise<{ backup_codes: string[] }> {
+        const payload: Verify2FAPayload = {
+            code: code.trim(),
+        }
+        return api.post<{ backup_codes: string[] }>('/auth/2fa/backup-codes', payload)
+    },
 }
