@@ -50,6 +50,14 @@ export interface TenantCreatePayload {
     owner_username: string
 }
 
+export interface UserAuditInfo {
+    id: string
+    first_name: string
+    last_name: string
+    username: string
+    email: string
+}
+
 export interface TenantItem {
     id: string
     name: string
@@ -59,9 +67,12 @@ export interface TenantItem {
     storage_used_bytes: number
     is_active: boolean
     created_at: string
+    updated_at?: string
     owner_name?: string
     owner_email?: string
     owner_status?: string
+    created_by?: UserAuditInfo
+    updated_by?: UserAuditInfo
 }
 
 export interface PaginatedTenantResponse {
