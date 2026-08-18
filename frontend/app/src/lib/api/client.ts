@@ -65,8 +65,27 @@ function getCsrfToken(): string | null {
     return null
 }
 
+import NProgress from 'nprogress'
+
+let activeRequestsCount = 0
+
+const startProgress = () => {
+    if (activeRequestsCount === 0) {
+        NProgress.start()
+    }
+    activeRequestsCount++
+}
+
+const stopProgress = () => {
+    activeRequestsCount = Math.max(0, activeRequestsCount - 1)
+    if (activeRequestsCount === 0) {
+        NProgress.done()
+    }
+}
+
 apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
+        startProgress()
 
         if (inMemoryAccessToken) {
             config.headers.Authorization = `Bearer ${inMemoryAccessToken}`
@@ -83,12 +102,14 @@ apiClient.interceptors.request.use(
         return config
     },
     (error: AxiosError) => {
+        stopProgress()
         return Promise.reject(error)
     }
 )
 
 apiClient.interceptors.response.use(
     (response: AxiosResponse) => {
+        stopProgress()
         const newCsrfToken = response.headers['x-csrf-token'] as string | undefined
         if (newCsrfToken) {
             setCsrfToken(newCsrfToken)
@@ -96,6 +117,7 @@ apiClient.interceptors.response.use(
         return response
     },
     (error: AxiosError<{ detail?: string | { message?: string }; message?: string }>) => {
+        stopProgress()
         const statusCode = error.response?.status || 500
         let errorMessage = 'An unexpected network error occurred. Please try again.'
 

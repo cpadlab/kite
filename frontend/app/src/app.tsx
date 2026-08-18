@@ -7,6 +7,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/toast'
 
 import LoadingScreen from './components/blocks/loading/component.tsx'
+import { TopProgressBar, SuspenseTopLoader } from './components/blocks/top-loader/component.tsx'
 
 const PublicLayout = lazy(() => import('./pages/public/layout.tsx'))
 const Layout = lazy(() => import('./layout/layout.tsx'))
@@ -41,8 +42,12 @@ function App() {
                 <TooltipProvider>
                     
                     <Toaster />
+                    <TopProgressBar />
 
-                    <Suspense fallback={<LoadingScreen />}>
+                    <Suspense fallback={<>
+                        <SuspenseTopLoader />
+                        <LoadingScreen />
+                    </>}>
                         <Routes>
 
                             <Route element={<PublicLayout />}>
