@@ -16,6 +16,14 @@ export const Body = () => {
         if (group.requiresSuperuser && !user?.isSuperuser) {
             return false
         }
+        if (group.requiresTenantOwnerOrAdmin) {
+            const hasTenant = Boolean(user?.tenantId)
+            const userRole = (user?.role || '').toLowerCase()
+            const isOwnerOrAdmin = userRole === 'owner' || userRole === 'admin'
+            if (!hasTenant || !isOwnerOrAdmin) {
+                return false
+            }
+        }
         return true
     })
 

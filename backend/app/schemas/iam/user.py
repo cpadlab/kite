@@ -20,6 +20,7 @@ class UserReadSchema(BaseModel):
     id: uuid.UUID
     tenant_id: uuid.UUID | None = None
     tenant_name: str | None = None
+    role: str | None = None
     first_name: str
     last_name: str
     username: str

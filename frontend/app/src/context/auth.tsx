@@ -11,6 +11,7 @@ export interface AuthUser {
     lastName: string
     tenantId?: string
     tenantName?: string
+    role?: string
     scopes: string[]
     isSuperuser: boolean
 }
@@ -39,6 +40,7 @@ interface DecodedToken {
     first_name: string
     last_name: string
     tenant_id?: string
+    role?: string
     scopes: string[]
     is_superuser?: boolean
     exp: number
@@ -89,6 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                             lastName: profile.last_name,
                             tenantId: profile.tenant_id,
                             tenantName: profile.tenant_name,
+                            role: profile.role || decoded.role,
                             scopes: profile.scopes,
                             isSuperuser: profile.is_superuser ?? false,
                         })
@@ -135,9 +138,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAccessTokenState(token)
 
         let tenantName: string | undefined = undefined
+        let role: string | undefined = decoded.role
         try {
             const profile = await loginService.getMe()
             tenantName = profile.tenant_name
+            role = profile.role || role
         } catch {}
 
         setUser({
@@ -148,6 +153,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             lastName: decoded.last_name,
             tenantId: decoded.tenant_id,
             tenantName: tenantName,
+            role: role,
             scopes: decoded.scopes,
             isSuperuser: decoded.is_superuser ?? false,
         })

@@ -57,7 +57,8 @@
         "support_group": "Soporte",
         "developer_group": "Desarrollador",
         "graphql_query": "Editor GraphQL",
-        "tenants": "Tenants"
+        "tenants": "Tenants",
+        "tenant": "Tenant"
     },
     "pages": {
         "private": {

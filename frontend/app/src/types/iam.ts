@@ -30,6 +30,7 @@ export interface UserProfileResponse {
     id: string
     tenant_id?: string
     tenant_name?: string
+    role?: string
     first_name: string
     last_name: string
     username: string

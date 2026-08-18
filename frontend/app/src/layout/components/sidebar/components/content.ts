@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, LockIcon, Building2Icon, type LucideIcon } from 'lucide-react'
+import { LayoutDashboardIcon, LockIcon, Building2Icon, type LucideIcon, KeyRoundIcon } from 'lucide-react'
 
 export interface SidebarSubItem {
     name: string;
@@ -17,6 +17,7 @@ export interface SidebarItem {
 export interface SidebarGroupSection {
     title?: string;
     requiresSuperuser?: boolean;
+    requiresTenantOwnerOrAdmin?: boolean;
     items: SidebarItem[];
 }
 
@@ -29,6 +30,17 @@ export const DATA: SidebarGroupSection[] = [
                 icon: LayoutDashboardIcon,
                 link: "/"
             },
+        ]
+    },
+    {
+        title: "layout.tenant",
+        requiresTenantOwnerOrAdmin: true,
+        items: [
+            {
+                name: "layout.api_keys",
+                icon: KeyRoundIcon,
+                link: "/tenant/api-keys"
+            }
         ]
     },
     {
