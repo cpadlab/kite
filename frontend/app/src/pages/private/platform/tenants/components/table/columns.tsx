@@ -143,7 +143,6 @@ export const getColumns = (t: (key: string, options?: Record<string, unknown>) =
 
             return (
                 <div className="flex items-center gap-1.5 text-xs">
-                    <ShieldCheckIcon className="size-3.5 text-primary shrink-0" />
                     <div className="flex flex-col">
                         <span className="font-medium text-foreground">{creatorName}</span>
                         {username && <span className="text-[10px] text-muted-foreground">{username}</span>}
