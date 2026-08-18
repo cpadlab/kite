@@ -42,35 +42,34 @@ export const PageBreadcrumb: React.FC<PageBreadcrumbProps> = ({ category, items,
 
                 <BreadcrumbSeparator />
 
-                <BreadcrumbItem>
-                    <DropdownMenu>
+                <DropdownMenu>
 
-                        <DropdownMenuTrigger
-                            render={
-                                <BreadcrumbItem className="cursor-pointer">
-                                    <BreadcrumbLink>
-                                        <span className="flex items-center gap-1.5">
-                                            {category.icon && <category.icon className='size-3.5' />}
-                                            <span>{t(category.label)}</span>
-                                        </span>
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-                            }
-                        />
+                    <DropdownMenuTrigger
+                        nativeButton={false}
+                        render={
+                            <BreadcrumbItem className="cursor-pointer">
+                                <BreadcrumbLink>
+                                    <span className="flex items-center gap-1.5">
+                                        {category.icon && <category.icon className='size-3.5' />}
+                                        <span>{t(category.label)}</span>
+                                    </span>
+                                </BreadcrumbLink>
+                            </BreadcrumbItem>
+                        }
+                    />
 
-                        <DropdownMenuContent className="text-nowrap w-auto" align="start">
-                            <DropdownMenuGroup>
-                                {items.map((item, index) => (
-                                    <DropdownMenuItem key={`${item.to}-${index}`} render={<Link to={item.to} className="cursor-pointer" />}>
-                                        {item.icon && <item.icon className="h-4 w-4" />}
-                                        <span>{t(item.label)}</span>
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuGroup>
-                        </DropdownMenuContent>
+                    <DropdownMenuContent className="text-nowrap w-auto" align="start">
+                        <DropdownMenuGroup>
+                            {items.map((item, index) => (
+                                <DropdownMenuItem key={`${item.to}-${index}`} render={<Link to={item.to} className="cursor-pointer" />}>
+                                    {item.icon && <item.icon className="h-4 w-4" />}
+                                    <span>{t(item.label)}</span>
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
 
-                    </DropdownMenu>
-                </BreadcrumbItem>
+                </DropdownMenu>
 
                 <BreadcrumbSeparator />
 

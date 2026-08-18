@@ -68,7 +68,7 @@ export const HeaderAvatar = () => {
     return (
         <DropdownMenu>
             
-            <DropdownMenuTrigger render={
+            <DropdownMenuTrigger nativeButton={false} render={
                 <div className="cursor-pointer flex items-center gap-2">
                     <Avatar>
                         <AvatarFallback>LK</AvatarFallback>
