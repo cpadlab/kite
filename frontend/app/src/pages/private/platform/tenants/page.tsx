@@ -6,7 +6,8 @@ import { PageBreadcrumb } from '@/components/blocks/breadcrumb'
 import { CreateTenantModal } from './components/modals/create'
 import { TenantsTable } from './components/table/table'
 import { tenantService } from '@/lib/api/services/iam/tenant'
-import { type TenantItem } from '@/types/iam'
+import type { TenantItem, PaginatedTenantResponse } from '@/types/iam'
+import { routeCache } from '@/lib/api/route-cache'
 
 const PlatformTenantsPage = () => {
     
@@ -26,6 +27,16 @@ const PlatformTenantsPage = () => {
     const [isCreateOpen, setIsCreateOpen] = useState(false)
 
     const fetchTenants = useCallback(async () => {
+        const cached = routeCache.get<PaginatedTenantResponse>('/platform/tenants')
+        if (cached && page === 1 && !search.trim() && sortOrder === 'desc') {
+            setTenants(cached.items || [])
+            setTotal(cached.total || 0)
+            setTotalPages(cached.total_pages || 1)
+            setIsLoading(false)
+            routeCache.clear('/platform/tenants')
+            return
+        }
+
         try {
             setIsLoading(true)
             const response = await tenantService.getTenants({

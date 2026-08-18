@@ -6,6 +6,8 @@ import { PageBreadcrumb } from '@/components/blocks/breadcrumb'
 import { TOTPSection } from './components/topt/section'
 import { BackupCodesSection } from './components/backup-codes/section'
 import { loginService } from '@/lib/api/services/iam/login'
+import type { UserProfileResponse } from '@/types/iam'
+import { routeCache } from '@/lib/api/route-cache'
 
 const SettingsSecurityPage = () => {
     
@@ -14,6 +16,14 @@ const SettingsSecurityPage = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const fetchStatus = useCallback(async () => {
+        const cached = routeCache.get<UserProfileResponse>('/settings/security')
+        if (cached) {
+            setIs2FAEnabled(cached.is_2fa_enabled)
+            setIsLoading(false)
+            routeCache.clear('/settings/security')
+            return
+        }
+
         try {
             setIsLoading(true)
             const profile = await loginService.getMe()
