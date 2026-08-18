@@ -106,6 +106,17 @@
                         "success_enabled": "La autenticación de doble factor ha sido activada correctamente.",
                         "success_disabled": "La autenticación de doble factor ha sido desactivada correctamente.",
                         "invalid_code": "El código introducido no es válido. Por favor inténtalo de nuevo."
+                    },
+                    "backup_codes": {
+                        "title": "Códigos de Respaldo de Emergencia",
+                        "description": "Accede o descarga los códigos de emergencia de tu cuenta para usarlos en caso de perder acceso a tu aplicación de autenticación.",
+                        "view_button": "Ver códigos de respaldo",
+                        "dialog_title": "Verificación de Seguridad",
+                        "dialog_desc": "Para visualizar tus códigos de respaldo, introduce el código de 6 dígitos de tu aplicación de autenticación.",
+                        "dialog_submit": "Verificar y Mostrar Códigos",
+                        "codes_modal_title": "Tus Códigos de Respaldo",
+                        "codes_modal_desc": "Guarda estos códigos en un lugar seguro. Cada código se puede utilizar solo una vez.",
+                        "not_enabled": "La autenticación de doble factor (2FA) debe estar activada para acceder a los códigos de respaldo."
                     }
                 }
             }

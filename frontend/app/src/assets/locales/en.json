@@ -105,6 +105,17 @@
                         "success_enabled": "Two-factor authentication enabled successfully.",
                         "success_disabled": "Two-factor authentication disabled successfully.",
                         "invalid_code": "The code provided is invalid. Please try again."
+                    },
+                    "backup_codes": {
+                        "title": "Emergency Backup Codes",
+                        "description": "Access or download your account emergency codes in case you lose access to your authenticator app.",
+                        "view_button": "View backup codes",
+                        "dialog_title": "Security Verification",
+                        "dialog_desc": "To view your backup codes, enter the 6-digit verification code from your authenticator app.",
+                        "dialog_submit": "Verify & Show Codes",
+                        "codes_modal_title": "Your Emergency Backup Codes",
+                        "codes_modal_desc": "Keep these codes in a safe location. Each code can be used only once.",
+                        "not_enabled": "Two-factor authentication (2FA) must be active to access emergency backup codes."
                     }
                 }
             }
