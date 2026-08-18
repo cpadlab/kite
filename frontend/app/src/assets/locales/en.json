@@ -231,13 +231,13 @@
                 }
             },
             "register": {
-                "title": "Activate Company Account",
-                "subtitle": "Set your owner account password to access the platform.",
+                "title": "Activate Account",
+                "subtitle": "Set your account password to access the platform.",
                 "invalid_token_title": "Expired or Invalid Invitation",
-                "invalid_token_desc": "The invitation link you used is invalid, has expired, or was already accepted. Contact the superuser to request a new activation link.",
+                "invalid_token_desc": "The invitation link you used is invalid, has expired, or was already accepted. Contact the administrator to request a new activation link.",
                 "tenant_label": "Assigned Organization",
                 "email_label": "Email Address",
-                "name_label": "Owner Name",
+                "name_label": "User Name",
                 "username_label": "Username",
                 "password_label": "Access Password",
                 "confirm_password_label": "Confirm Password",
@@ -245,7 +245,7 @@
                 "update_hint": "Your personal details and email address were preset by the invitation. You will be able to update them later from Security Settings.",
                 "submit_button": "Activate Account & Complete",
                 "submitting": "Activating account...",
-                "success_toast": "Owner registration completed successfully. You can now sign in.",
+                "success_toast": "Account registration completed successfully. You can now sign in.",
                 "back_to_login": "Go back to Sign In",
                 "errors": {
                     "password_match": "Passwords do not match.",

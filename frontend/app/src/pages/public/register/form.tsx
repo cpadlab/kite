@@ -66,8 +66,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ token, invitation })
         }
     }
 
-    const ownerFullName = [invitation.first_name, invitation.last_name].filter(Boolean).join(' ') || 'Propietario'
-    const ownerUsername = invitation.username || invitation.email.split('@')[0]
+    const userFullName = [invitation.first_name, invitation.last_name].filter(Boolean).join(' ') || 'Usuario'
+    const userUsername = invitation.username || invitation.email.split('@')[0]
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
@@ -94,7 +94,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ token, invitation })
                         <InputGroupAddon align="inline-start">
                             <UserIcon className="size-4" />
                         </InputGroupAddon>
-                        <InputGroupInput value={ownerFullName} disabled className="bg-muted/50" />
+                        <InputGroupInput value={userFullName} disabled className="bg-muted/50" />
                     </InputGroup>
                 </div>
 
@@ -106,7 +106,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ token, invitation })
                         <InputGroupAddon align="inline-start">
                             <AtSignIcon className="size-4" />
                         </InputGroupAddon>
-                        <InputGroupInput value={ownerUsername} disabled className="bg-muted/50" />
+                        <InputGroupInput value={userUsername} disabled className="bg-muted/50" />
                     </InputGroup>
                 </div>
 

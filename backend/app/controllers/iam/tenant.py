@@ -109,6 +109,7 @@ async def create_tenant_and_invite_owner(
                 context={
                     "recipient_name": f"{payload.owner_first_name} {payload.owner_last_name}",
                     "tenant_name": new_tenant.name,
+                    "role_title": (invitation.role or "owner").capitalize(),
                     "registration_url": registration_url,
                     "expires_at": expires_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
                 },
@@ -244,6 +245,34 @@ async def accept_tenant_invitation(
     log.info(
         f"Tenant owner '{target_user.username}' ({target_user.email}) successfully registered and bound to tenant ID {invitation.tenant_id}."
     )
+
+    tenant_stmt = select(Tenant).where(Tenant.id == invitation.tenant_id)
+    tenant_res = await session.execute(tenant_stmt)
+    tenant = tenant_res.scalar_one_or_none()
+    tenant_name = tenant.name if tenant else "Organization"
+
+    async def _send_welcome_email():
+        try:
+            recipient_name = f"{target_user.first_name} {target_user.last_name}".strip()
+            login_url = f"{settings.FRONTEND_URL}/login"
+            await email_service.send_html_email(
+                to_email=target_user.email,
+                subject=f"Welcome to {settings.PROJECT_NAME} - {tenant_name}",
+                template_name="auth/welcome.html",
+                context={
+                    "project_title": settings.PROJECT_NAME,
+                    "recipient_name": recipient_name,
+                    "tenant_name": tenant_name,
+                    "role_title": (target_user.role or "member").capitalize(),
+                    "username": target_user.username,
+                    "login_url": login_url,
+                },
+            )
+            log.info(f"Welcome email dispatched to {target_user.email} for tenant '{tenant_name}'.")
+        except Exception as exc:
+            log.error(f"Failed to dispatch welcome email to {target_user.email}: {exc}")
+
+    asyncio.create_task(_send_welcome_email())
 
     return {
         "status": "accepted",
