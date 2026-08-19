@@ -295,3 +295,26 @@ async def handle_get_backup_codes(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred while retrieving backup codes.",
         )
+
+
+def verify_totp_code(secret: str, code: str, backup_codes: list[str] | None = None) -> bool:
+    """
+    Utility function to verify a 6-digit TOTP code or emergency backup code against a user's secret.
+    """
+    if not secret or not code:
+        return False
+    clean_code = code.strip()
+    try:
+        totp = pyotp.TOTP(secret)
+        if totp.verify(clean_code):
+            return True
+    except Exception:
+        pass
+
+    if backup_codes:
+        upper_code = clean_code.upper()
+        if upper_code in backup_codes:
+            return True
+
+    return False
+

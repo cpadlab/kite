@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.controllers.iam.totp import verify_totp_code
-from app.models.iam import Tenant, TenantInvitation, User
+from app.models.iam import Tenant, TenantInvitation, User, UserSession
 from app.schemas.iam.tenant_user import (
     PaginatedTenantInvitationResponseSchema,
     PaginatedTenantMemberResponseSchema,
@@ -19,11 +19,35 @@ from app.schemas.iam.tenant_user import (
     TenantOwnershipTransferSchema,
     TenantUserInviteResponseSchema,
     TenantUserInviteSchema,
+    TenantUserRemoveSchema,
     TenantUserRoleUpdateSchema,
     TenantUserScopesUpdateSchema,
+    TenantUserStatusToggleSchema,
 )
 from app.shared.email import email_service
 from app.shared.logger import log
+
+
+def _verify_actor_totp_if_enabled(current_user: User, totp_code: Optional[str]) -> None:
+    """
+    Enforce 2FA TOTP verification if 2FA is active on the requesting account.
+    """
+    if current_user.is_2fa_enabled:
+        if not totp_code or not totp_code.strip():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="2FA TOTP verification code is required to perform this administrative action.",
+            )
+        is_valid = verify_totp_code(
+            secret=current_user.totp_secret or "",
+            code=totp_code.strip(),
+            backup_codes=current_user.backup_codes or [],
+        )
+        if not is_valid:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid 2FA TOTP code. Operation rejected.",
+            )
 
 
 async def invite_tenant_user(
@@ -297,11 +321,12 @@ async def list_tenant_members(
 ) -> PaginatedTenantMemberResponseSchema:
     """
     List all active user members belonging to the current tenant organization.
+    Accessible to ALL authenticated members of the tenant (directory view).
     """
     if not current_user.tenant_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Organization context required.",
+            detail="Organization context required to view team members.",
         )
 
     stmt = select(User).where(User.tenant_id == current_user.tenant_id)
@@ -352,7 +377,7 @@ async def update_tenant_user_role(
 ) -> TenantMemberReadSchema:
     """
     Update the role of a tenant team member (admin or analyst).
-    Only Owners and Admins can update roles. Admins cannot demote other Admins or the Owner.
+    Dispatches an email notification to the affected user.
     """
     if not current_user.tenant_id:
         raise HTTPException(
@@ -371,24 +396,53 @@ async def update_tenant_user_role(
             detail="Organization team member not found.",
         )
 
-    if (target_user.role or "").lower() == "owner":
+    previous_role = (target_user.role or "").lower().strip()
+    if previous_role == "owner":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot change the role of the tenant owner directly. Use ownership transfer instead.",
         )
 
     current_role = (current_user.role or "").lower().strip()
-    target_current_role = (target_user.role or "").lower().strip()
-
-    if current_role == "admin" and target_current_role in ("admin", "owner"):
+    if current_role == "admin" and previous_role in ("admin", "owner"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Administrators cannot modify the role of other Administrators or the Owner.",
         )
 
-    target_user.role = payload.role.lower().strip()
-    await session.commit()
-    await session.refresh(target_user)
+    new_role = payload.role.lower().strip()
+    if previous_role != new_role:
+        target_user.role = new_role
+        await session.commit()
+        await session.refresh(target_user)
+
+        tenant_stmt = select(Tenant).where(Tenant.id == current_user.tenant_id)
+        tenant = (await session.execute(tenant_stmt)).scalar_one_or_none()
+        tenant_name = tenant.name if tenant else "Organization"
+        updated_by_name = f"{current_user.first_name} {current_user.last_name}".strip() or current_user.username
+        new_role_title = "Administrator" if new_role == "admin" else "Analyst"
+
+        async def _send_role_update_email():
+            try:
+                update_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+                await email_service.send_html_email(
+                    to_email=target_user.email,
+                    subject=f"[{settings.PROJECT_NAME}] Security Alert: Your Organization Role Has Been Updated",
+                    template_name="auth/role_updated.html",
+                    context={
+                        "project_title": settings.PROJECT_NAME,
+                        "recipient_name": f"{target_user.first_name} {target_user.last_name}".strip(),
+                        "tenant_name": tenant_name,
+                        "new_role_title": new_role_title,
+                        "updated_by_name": updated_by_name,
+                        "update_date": update_date,
+                    },
+                )
+                log.info(f"Role update notification email sent to '{target_user.email}'.")
+            except Exception as exc:
+                log.error(f"Failed to send role update notification email to '{target_user.email}': {exc}")
+
+        asyncio.create_task(_send_role_update_email())
 
     return TenantMemberReadSchema.model_validate(target_user)
 
@@ -401,6 +455,7 @@ async def update_tenant_user_scopes(
 ) -> TenantMemberReadSchema:
     """
     Update assigned scopes for a tenant team member.
+    Dispatches an email notification ONLY IF new scopes were added to the user.
     """
     if not current_user.tenant_id:
         raise HTTPException(
@@ -432,11 +487,185 @@ async def update_tenant_user_scopes(
             detail="Administrators cannot modify the scopes of other Administrators.",
         )
 
+    previous_scopes = set(target_user.scopes or [])
+    new_scopes = set(payload.scopes or [])
+    added_scopes = new_scopes - previous_scopes
+
     target_user.scopes = payload.scopes
     await session.commit()
     await session.refresh(target_user)
 
+    if len(added_scopes) > 0:
+        tenant_stmt = select(Tenant).where(Tenant.id == current_user.tenant_id)
+        tenant = (await session.execute(tenant_stmt)).scalar_one_or_none()
+        tenant_name = tenant.name if tenant else "Organization"
+        updated_by_name = f"{current_user.first_name} {current_user.last_name}".strip() or current_user.username
+
+        async def _send_scopes_update_email():
+            try:
+                update_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+                await email_service.send_html_email(
+                    to_email=target_user.email,
+                    subject=f"[{settings.PROJECT_NAME}] Security Alert: System Permissions Updated",
+                    template_name="auth/scopes_updated.html",
+                    context={
+                        "project_title": settings.PROJECT_NAME,
+                        "recipient_name": f"{target_user.first_name} {target_user.last_name}".strip(),
+                        "tenant_name": tenant_name,
+                        "added_scopes": ", ".join(sorted(list(added_scopes))),
+                        "total_scopes": ", ".join(sorted(list(new_scopes))) if new_scopes else "None",
+                        "updated_by_name": updated_by_name,
+                        "update_date": update_date,
+                    },
+                )
+                log.info(f"Scopes update notification email sent to '{target_user.email}'.")
+            except Exception as exc:
+                log.error(f"Failed to send scopes update notification email to '{target_user.email}': {exc}")
+
+        asyncio.create_task(_send_scopes_update_email())
+
     return TenantMemberReadSchema.model_validate(target_user)
+
+
+async def toggle_tenant_user_status(
+    target_user_id: uuid.UUID,
+    payload: TenantUserStatusToggleSchema,
+    session: AsyncSession,
+    current_user: User,
+) -> TenantMemberReadSchema:
+    """
+    Disable or enable a tenant team member account.
+    Requires 2FA TOTP verification if 2FA is active on the requesting account.
+    Disabled users cannot log in.
+    """
+    if not current_user.tenant_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Organization context required.",
+        )
+
+    if current_user.id == target_user_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="You cannot disable your own account.",
+        )
+
+    _verify_actor_totp_if_enabled(current_user, payload.totp_code)
+
+    stmt = select(User).where(
+        User.id == target_user_id,
+        User.tenant_id == current_user.tenant_id,
+    )
+    target_user = (await session.execute(stmt)).scalar_one_or_none()
+    if not target_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Organization team member not found.",
+        )
+
+    if (target_user.role or "").lower() == "owner":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Tenant owner account cannot be disabled.",
+        )
+
+    current_role = (current_user.role or "").lower().strip()
+    if current_role == "admin" and (target_user.role or "").lower() == "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Administrators cannot disable other Administrators.",
+        )
+
+    target_user.is_active = payload.is_active
+
+    if not payload.is_active:
+        sessions_stmt = select(UserSession).where(
+            UserSession.user_id == target_user.id,
+            UserSession.is_active == True,
+        )
+        active_sessions = (await session.execute(sessions_stmt)).scalars().all()
+        for s in active_sessions:
+            s.is_active = False
+
+    await session.commit()
+    await session.refresh(target_user)
+
+    action_text = "enabled" if payload.is_active else "disabled"
+    log.info(f"User account '{target_user.username}' {action_text} by '{current_user.username}'.")
+
+    return TenantMemberReadSchema.model_validate(target_user)
+
+
+async def remove_tenant_user(
+    target_user_id: uuid.UUID,
+    payload: TenantUserRemoveSchema,
+    session: AsyncSession,
+    current_user: User,
+) -> dict:
+    """
+    Remove/unbind a user member from the tenant.
+    Requires 2FA TOTP verification if 2FA is active on the requesting account.
+    Once removed, user can log in (if active), but has NO organization access.
+    """
+    if not current_user.tenant_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Organization context required.",
+        )
+
+    if current_user.id == target_user_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="You cannot remove yourself from the organization.",
+        )
+
+    _verify_actor_totp_if_enabled(current_user, payload.totp_code)
+
+    stmt = select(User).where(
+        User.id == target_user_id,
+        User.tenant_id == current_user.tenant_id,
+    )
+    target_user = (await session.execute(stmt)).scalar_one_or_none()
+    if not target_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Organization team member not found.",
+        )
+
+    if (target_user.role or "").lower() == "owner":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Organization owner cannot be removed. Transfer ownership first.",
+        )
+
+    current_role = (current_user.role or "").lower().strip()
+    if current_role == "admin" and (target_user.role or "").lower() == "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Administrators cannot remove other Administrators.",
+        )
+
+    target_user.tenant_id = None
+    target_user.role = None
+    target_user.scopes = []
+    target_user.is_active = False
+
+    sessions_stmt = select(UserSession).where(
+        UserSession.user_id == target_user.id,
+        UserSession.is_active == True,
+    )
+    active_sessions = (await session.execute(sessions_stmt)).scalars().all()
+    for s in active_sessions:
+        s.is_active = False
+
+    await session.commit()
+
+    log.info(f"User '{target_user.username}' removed from tenant by '{current_user.username}'.")
+
+    return {
+        "status": "success",
+        "message": f"User '{target_user.username}' removed from the organization successfully.",
+    }
 
 
 async def transfer_tenant_ownership(
@@ -467,21 +696,7 @@ async def transfer_tenant_ownership(
             detail="You are already the owner of this organization.",
         )
 
-    if current_user.is_2fa_enabled:
-        if not payload.totp_code or not payload.totp_code.strip():
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="2FA TOTP verification code is required to transfer organization ownership.",
-            )
-        is_valid_totp = verify_totp_code(
-            secret=current_user.totp_secret or "",
-            code=payload.totp_code.strip(),
-        )
-        if not is_valid_totp:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid 2FA TOTP code. Ownership transfer rejected.",
-            )
+    _verify_actor_totp_if_enabled(current_user, payload.totp_code)
 
     target_stmt = select(User).where(
         User.id == payload.target_user_id,
@@ -541,61 +756,4 @@ async def transfer_tenant_ownership(
         "message": f"Organization ownership transferred to {new_owner_name} ({target_user.email}).",
         "new_owner_id": str(target_user.id),
         "previous_owner_role": "admin",
-    }
-
-
-async def remove_tenant_user(
-    target_user_id: uuid.UUID,
-    session: AsyncSession,
-    current_user: User,
-) -> dict:
-    """
-    Remove or deactivate a user from the tenant.
-    """
-    if not current_user.tenant_id:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Organization context required.",
-        )
-
-    if current_user.id == target_user_id:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="You cannot remove yourself from the organization.",
-        )
-
-    stmt = select(User).where(
-        User.id == target_user_id,
-        User.tenant_id == current_user.tenant_id,
-    )
-    target_user = (await session.execute(stmt)).scalar_one_or_none()
-    if not target_user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Organization team member not found.",
-        )
-
-    if (target_user.role or "").lower() == "owner":
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Organization owner cannot be removed. Transfer ownership first.",
-        )
-
-    current_role = (current_user.role or "").lower().strip()
-    if current_role == "admin" and (target_user.role or "").lower() == "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Administrators cannot remove other Administrators.",
-        )
-
-    target_user.tenant_id = None
-    target_user.role = None
-    target_user.scopes = []
-    target_user.is_active = False
-
-    await session.commit()
-
-    return {
-        "status": "success",
-        "message": f"User '{target_user.username}' removed from the organization successfully.",
     }
