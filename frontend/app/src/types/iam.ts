@@ -42,6 +42,8 @@ export interface UserProfileResponse {
     scopes: string[]
 }
 
+export type UserItem = UserProfileResponse
+
 export interface TenantCreatePayload {
     name: string
     max_users: number
