@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 from sqlalchemy import DateTime, ForeignKey, String
-from sqlalchemy.dialects.postgresql import UUID as PG_UUID
+from sqlalchemy.dialects.postgresql import JSONB, UUID as PG_UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.models import BaseModel
@@ -29,9 +29,11 @@ class TenantInvitation(BaseModel):
     email: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
     first_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     last_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    username: Mapped[Optional[str]] = mapped_column(String(50), nullable=True, index=True)
     token: Mapped[str] = mapped_column(String(128), unique=True, index=True, nullable=False)
 
     role: Mapped[str] = mapped_column(String(50), default="owner", nullable=False)
+    scopes: Mapped[list[str]] = mapped_column(JSONB, default=list, nullable=False)
     status: Mapped[str] = mapped_column(String(20), default="pending", nullable=False, index=True)
 
     invited_by_id: Mapped[uuid.UUID] = mapped_column(
