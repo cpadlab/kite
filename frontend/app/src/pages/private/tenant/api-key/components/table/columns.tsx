@@ -1,6 +1,17 @@
 import React from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
-import { KeyRoundIcon, MoreVerticalIcon, RefreshCwIcon, Trash2Icon, CopyIcon, CheckIcon } from 'lucide-react'
+import {
+    KeyRoundIcon,
+    MoreVerticalIcon,
+    RefreshCwIcon,
+    Trash2Icon,
+    CopyIcon,
+    CheckIcon,
+    ActivityIcon,
+    CalendarIcon,
+    ShieldIcon,
+    UserCheckIcon,
+} from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
@@ -24,7 +35,12 @@ export const getColumns = ({ t, onOpenRotate, onOpenDelete }: GetColumnsProps): 
     {
         id: 'name',
         accessorKey: 'name',
-        header: () => t('pages.private.tenant.api_keys.table.columns.name'),
+        header: () => (
+            <div className="flex items-center gap-1.5">
+                <KeyRoundIcon className="size-3.5 text-muted-foreground" />
+                <span>{t('pages.private.tenant.api_keys.table.columns.name')}</span>
+            </div>
+        ),
         cell: ({ row }) => {
             const item = row.original
             const [copied, setCopied] = React.useState(false)
@@ -38,7 +54,7 @@ export const getColumns = ({ t, onOpenRotate, onOpenDelete }: GetColumnsProps): 
                 })
                 setTimeout(() => setCopied(false), 2000)
             }
-  
+
             return (
                 <div className="flex items-center gap-2.5">
                     <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -59,7 +75,12 @@ export const getColumns = ({ t, onOpenRotate, onOpenDelete }: GetColumnsProps): 
     },
     {
         id: 'status',
-        header: () => t('pages.private.tenant.api_keys.table.columns.status'),
+        header: () => (
+            <div className="flex items-center gap-1.5">
+                <ActivityIcon className="size-3.5 text-muted-foreground" />
+                <span>{t('pages.private.tenant.api_keys.table.columns.status')}</span>
+            </div>
+        ),
         cell: ({ row }) => {
             const expiresAt = new Date(row.original.expires_at)
             const now = new Date()
@@ -95,7 +116,12 @@ export const getColumns = ({ t, onOpenRotate, onOpenDelete }: GetColumnsProps): 
     {
         id: 'expires_at',
         accessorKey: 'expires_at',
-        header: () => t('pages.private.tenant.api_keys.table.columns.expires_at'),
+        header: () => (
+            <div className="flex items-center gap-1.5">
+                <CalendarIcon className="size-3.5 text-muted-foreground" />
+                <span>{t('pages.private.tenant.api_keys.table.columns.expires_at')}</span>
+            </div>
+        ),
         cell: ({ row }) => {
             const createdAt = new Date(row.original.created_at)
             const expiresAt = new Date(row.original.expires_at)
@@ -122,7 +148,12 @@ export const getColumns = ({ t, onOpenRotate, onOpenDelete }: GetColumnsProps): 
     {
         id: 'scopes',
         accessorKey: 'scopes',
-        header: () => t('pages.private.tenant.api_keys.table.columns.scopes'),
+        header: () => (
+            <div className="flex items-center gap-1.5">
+                <ShieldIcon className="size-3.5 text-muted-foreground" />
+                <span>{t('pages.private.tenant.api_keys.table.columns.scopes')}</span>
+            </div>
+        ),
         cell: ({ row }) => {
             const scopes = row.original.scopes || []
             if (!scopes.length) {
@@ -154,7 +185,12 @@ export const getColumns = ({ t, onOpenRotate, onOpenDelete }: GetColumnsProps): 
     },
     {
         id: 'created_by',
-        header: () => t('pages.private.tenant.api_keys.table.columns.created_by'),
+        header: () => (
+            <div className="flex items-center gap-1.5">
+                <UserCheckIcon className="size-3.5 text-muted-foreground" />
+                <span>{t('pages.private.tenant.api_keys.table.columns.created_by')}</span>
+            </div>
+        ),
         cell: ({ row }) => {
             const creator = row.original.created_by
             if (!creator) return <span className="text-muted-foreground text-xs">-</span>

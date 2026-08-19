@@ -147,3 +147,81 @@ export interface PaginatedApiKeyResponse {
     page_size: number
     total_pages: number
 }
+
+export interface TenantMemberItem {
+    id: string
+    tenant_id?: string | null
+    email: string
+    first_name: string
+    last_name: string
+    username: string
+    role?: 'owner' | 'admin' | 'analyst' | string | null
+    scopes: string[]
+    is_active: boolean
+    is_2fa_enabled: boolean
+    created_at: string
+    last_login_at?: string | null
+}
+
+export interface PaginatedTenantMemberResponse {
+    items: TenantMemberItem[]
+    total: number
+    page: number
+    page_size: number
+    total_pages: number
+}
+
+export interface TenantInvitationItem {
+    id: string
+    tenant_id: string
+    email: string
+    first_name?: string | null
+    last_name?: string | null
+    username?: string | null
+    role: string
+    scopes: string[]
+    status: 'pending' | 'accepted' | 'revoked' | 'expired' | string
+    expires_at: string
+    created_at: string
+    invited_by_name?: string | null
+    invited_by_email?: string | null
+}
+
+export interface PaginatedTenantInvitationResponse {
+    items: TenantInvitationItem[]
+    total: number
+    page: number
+    page_size: number
+    total_pages: number
+}
+
+export interface TenantUserInvitePayload {
+    email: string
+    first_name: string
+    last_name: string
+    username: string
+    role: 'admin' | 'analyst'
+    scopes: string[]
+}
+
+export interface TenantUserRoleUpdatePayload {
+    role: 'admin' | 'analyst'
+}
+
+export interface TenantUserScopesUpdatePayload {
+    scopes: string[]
+}
+
+export interface TenantUserStatusTogglePayload {
+    is_active: boolean
+    totp_code?: string
+}
+
+export interface TenantUserRemovePayload {
+    totp_code?: string
+}
+
+export interface TenantOwnershipTransferPayload {
+    target_user_id: string
+    totp_code?: string
+}
