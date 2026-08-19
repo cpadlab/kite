@@ -1,2 +1,6 @@
 export { loginService } from './login'
 export { totpService } from './totp'
+export { tenantService } from './tenant'
+export { apiKeyService } from './api-key'
+export { tenantUserService } from './tenant-user'
+export { scopesService } from './scopes'
