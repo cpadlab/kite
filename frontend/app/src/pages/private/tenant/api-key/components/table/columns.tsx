@@ -190,9 +190,7 @@ export const getColumns = ({ t, onOpenRotate, onOpenDelete }: GetColumnsProps): 
                                 {t('pages.private.tenant.api_keys.actions.rotate')}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                                onClick={() => onOpenDelete(item)} variant="destructive"
-                            >
+                            <DropdownMenuItem onClick={() => onOpenDelete(item)} variant="destructive">
                                 <Trash2Icon />
                                 {t('pages.private.tenant.api_keys.actions.revoke')}
                             </DropdownMenuItem>

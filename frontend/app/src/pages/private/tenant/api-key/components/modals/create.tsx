@@ -11,6 +11,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { toast } from '@/components/ui/toast'
 import { apiKeyService } from '@/lib/api/services/iam/api-key'
 import { SYSTEM_SCOPES } from '@/lib/constants/scopes'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface CreateApiKeyModalProps {
     isOpen: boolean
@@ -160,37 +161,33 @@ export const CreateApiKeyModal: React.FC<CreateApiKeyModalProps> = ({
 
                     </div>
 
-                    <div className="space-y-3 pt-2">
+                    <div className="space-y-3 pt-2 flex-1 min-h-0 flex flex-col">
                         <Label>{t('pages.private.tenant.api_keys.modals.create.fields.scopes.label')}</Label>
-                        <div className="space-y-4 rounded-lg border p-3 bg-muted/30">
-                            {SYSTEM_SCOPES.map((group) => (
-                                <div key={group.key} className="space-y-2">
-                                    <div className="text-xs font-semibold uppercase text-muted-foreground">
-                                        {t(group.labelKey)}
-                                    </div>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                        {group.actions.map((action) => {
-                                            const isChecked = selectedScopes.includes(action.id)
-                                            return (
-                                                <label key={action.id} className={`flex items-start gap-2.5 p-2.5 rounded-md border text-xs cursor-pointer transition-colors ${isChecked ? 'bg-primary/5 border-primary/40' : 'bg-card border-border hover:bg-muted/50'}`}>
-                                                    <Checkbox  checked={isChecked}onCheckedChange={(checked) =>    handleScopeToggle(action.id, Boolean(checked))}disabled={isSubmitting}className="mt-0.5"/>
-                                                    <div className="space-y-0.5">
-                                                        <div className="font-medium text-foreground">
-                                                            {t(action.labelKey)}
+                        <ScrollArea className="h-64 w-full rounded-lg border p-3 bg-muted/30">
+                            <div className="space-y-4 pr-3">
+                                {SYSTEM_SCOPES.map((group) => (
+                                    <div key={group.key} className="space-y-2">
+                                        <div className="text-xs font-semibold uppercase text-muted-foreground">{t(group.labelKey)}</div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                            {group.actions.map((action) => {
+                                                const isChecked = selectedScopes.includes(action.id)
+                                                return (
+                                                    <label key={action.id} className={`flex items-start gap-2.5 p-2.5 rounded-md border text-xs cursor-pointer transition-colors ${ isChecked ? 'bg-primary/5 border-primary/40' : 'bg-card border-border hover:bg-muted/50' }`}>
+                                                        <Checkbox checked={isChecked}onCheckedChange={(checked) =>handleScopeToggle(action.id, Boolean(checked))}disabled={isSubmitting} className="mt-0.5"/>
+                                                        <div className="space-y-0.5">
+                                                            <div className="font-medium text-foreground">{t(action.labelKey)}</div>
+                                                            {action.descriptionKey && (
+                                                                <div className="text-[11px] text-muted-foreground">{t(action.descriptionKey)}</div>
+                                                            )}
                                                         </div>
-                                                        {action.descriptionKey && (
-                                                            <div className="text-[11px] text-muted-foreground">
-                                                                {t(action.descriptionKey)}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </label>
-                                            )
-                                        })}
+                                                    </label>
+                                                )
+                                            })}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                        </ScrollArea>
                     </div>
 
                     <DialogFooter className="pt-4">
