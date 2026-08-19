@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, LockIcon, Building2Icon, type LucideIcon, KeyRoundIcon } from 'lucide-react'
+import { LayoutDashboardIcon, LockIcon, Building2Icon, type LucideIcon, KeyRoundIcon, UsersIcon } from 'lucide-react'
 
 export interface SidebarSubItem {
     name: string;
@@ -40,6 +40,11 @@ export const DATA: SidebarGroupSection[] = [
                 name: "layout.api_keys",
                 icon: KeyRoundIcon,
                 link: "/tenant/api-keys"
+            },
+            {
+                name: "layout.users",
+                icon: UsersIcon,
+                link: "/tenant/users"
             }
         ]
     },
