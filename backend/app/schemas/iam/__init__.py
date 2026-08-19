@@ -21,6 +21,8 @@ from app.schemas.iam.tenant_user import (
     TenantUserRoleUpdateSchema,
     TenantUserScopesUpdateSchema,
     TenantOwnershipTransferSchema,
+    TenantUserStatusToggleSchema,
+    TenantUserRemoveSchema,
 )
 
 __all__ = [
@@ -46,4 +48,6 @@ __all__ = [
     "TenantUserRoleUpdateSchema",
     "TenantUserScopesUpdateSchema",
     "TenantOwnershipTransferSchema",
+    "TenantUserStatusToggleSchema",
+    "TenantUserRemoveSchema",
 ]

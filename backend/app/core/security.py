@@ -95,6 +95,9 @@ async def get_current_user(
     return user
 
 
+get_current_active_user = get_current_user
+
+
 async def get_current_superuser(
     current_user: User = Depends(get_current_user),
 ) -> User:

@@ -82,10 +82,20 @@ class PaginatedTenantMemberResponseSchema(BaseModel):
 class TenantUserRoleUpdateSchema(BaseModel):
     role: Literal["admin", "analyst"] = Field(...)
 
+
 class TenantUserScopesUpdateSchema(BaseModel):
     scopes: list[str] = Field(...)
 
 
 class TenantOwnershipTransferSchema(BaseModel):
     target_user_id: uuid.UUID = Field(...)
+    totp_code: Optional[str] = Field(default=None, min_length=6, max_length=6)
+
+
+class TenantUserStatusToggleSchema(BaseModel):
+    is_active: bool = Field(...)
+    totp_code: Optional[str] = Field(default=None, min_length=6, max_length=6)
+
+
+class TenantUserRemoveSchema(BaseModel):
     totp_code: Optional[str] = Field(default=None, min_length=6, max_length=6)
