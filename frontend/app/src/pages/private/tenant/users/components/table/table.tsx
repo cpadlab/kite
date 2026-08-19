@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
-import { useReactTable, getCoreRowModel, flexRender, type VisibilityState } from '@tanstack/react-table'
+import { useReactTable, getCoreRowModel, flexRender, type VisibilityState, type ColumnDef } from '@tanstack/react-table'
 import { ChevronLeftIcon, ChevronRightIcon, UsersIcon, MailIcon } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getMemberColumns } from './columns'
-import { getInvitationColumns } from './invitations-columns'
+import { getMemberColumns } from '../columns/members'
+import { getInvitationColumns } from '../columns/invitations'
 import { TableToolbar } from './toolbar/component'
 import type { TenantMemberItem, TenantInvitationItem } from '@/types/iam'
 
@@ -192,7 +192,7 @@ export const UsersTable: React.FC<UsersTableProps> = ({
                     <Button variant="outline" size="icon-xs" onClick={() => onPageChange(page + 1)} disabled={page >= totalPages || isLoading} className="cursor-pointer" >
                         <ChevronRightIcon />
                     </Button>
-                    
+
                 </div>
 
             </div>
