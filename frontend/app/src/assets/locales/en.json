@@ -310,6 +310,130 @@
                             "done_button": "I have saved the key securely"
                         }
                     }
+                },
+                "users": {
+                    "title": "Users & Team Members",
+                    "subtitle": "Manage organization members, invite new analysts or administrators, and control permissions and account statuses.",
+                    "tabs": {
+                        "members": "Team Members",
+                        "invitations": "Pending Invitations"
+                    },
+                    "toolbar": {
+                        "search_placeholder": "Search by name, email, or username...",
+                        "search_invitations_placeholder": "Search invitation by email or username...",
+                        "invite_button": "Invite User",
+                        "transfer_ownership_button": "Transfer Ownership"
+                    },
+                    "roles": {
+                        "owner": "Owner",
+                        "admin": "Administrator",
+                        "analyst": "Analyst"
+                    },
+                    "status": {
+                        "active": "Active",
+                        "disabled": "Disabled",
+                        "pending": "Pending",
+                        "expired": "Expired",
+                        "revoked": "Revoked"
+                    },
+                    "actions": {
+                        "edit_role": "Edit Role",
+                        "edit_scopes": "Edit Scopes",
+                        "enable": "Enable Account",
+                        "disable": "Disable Account",
+                        "remove": "Remove from Organization",
+                        "transfer": "Transfer Ownership",
+                        "revoke_invite": "Revoke Invitation"
+                    },
+                    "table": {
+                        "empty_members": "No organization members found.",
+                        "empty_invitations": "No pending invitations.",
+                        "showing_info": "Showing <1>{{showing}}</1> of <3>{{total}}</3> records",
+                        "page_info": "Page <1>{{page}}</1> of <3>{{totalPages}}</3>",
+                        "columns": {
+                            "user": "User & Details",
+                            "role": "Role",
+                            "status": "Status",
+                            "scopes": "Scopes",
+                            "totp": "2FA Security",
+                            "last_login_at": "Last Sign-In",
+                            "created_at": "Joined Date",
+                            "invitee": "Invitee",
+                            "invited_by": "Invited By",
+                            "expires_at": "Expiration",
+                            "actions": "Actions"
+                        }
+                    },
+                    "modals": {
+                        "invite": {
+                            "title": "Invite New Team Member",
+                            "description": "Send an email invitation to join your organization.",
+                            "fields": {
+                                "first_name": { "label": "First Name", "placeholder": "Ex: John" },
+                                "last_name": { "label": "Last Name", "placeholder": "Ex: Doe" },
+                                "email": { "label": "Email Address", "placeholder": "john.doe@company.com" },
+                                "username": { "label": "Username", "placeholder": "john.doe" },
+                                "role": { "label": "Organization Role" },
+                                "scopes": { "label": "Assigned Scopes" }
+                            },
+                            "submit": "Send Invitation",
+                            "success_title": "Invitation Dispatched",
+                            "error_title": "Failed to send invitation"
+                        },
+                        "edit_role": {
+                            "title": "Change User Role",
+                            "description": "Update the team member's role in the organization. An email notification will be dispatched.",
+                            "submit": "Save New Role",
+                            "success_title": "Role Updated",
+                            "error_title": "Failed to change role"
+                        },
+                        "edit_scopes": {
+                            "title": "Edit System Scopes",
+                            "description": "Modify permissions assigned to {{name}}. An email notification will be sent if new scopes are added.",
+                            "submit": "Save Scopes",
+                            "success_title": "Scopes Updated",
+                            "error_title": "Failed to update scopes"
+                        },
+                        "toggle_status": {
+                            "title_disable": "Disable User Account",
+                            "title_enable": "Enable User Account",
+                            "description_disable": "Are you sure you want to disable {{name}}? They will be unable to log in.",
+                            "description_enable": "Are you sure you want to enable {{name}}? They will be able to log in again.",
+                            "totp_label": "2FA TOTP Verification Code (6 digits)",
+                            "totp_hint": "Your account has 2FA active. Enter the code from your authenticator app to confirm.",
+                            "confirm_disable": "Disable Account",
+                            "confirm_enable": "Enable Account",
+                            "success_title": "Status Updated",
+                            "error_title": "Failed to update status"
+                        },
+                        "remove": {
+                            "title": "Remove Member from Organization",
+                            "description": "Are you sure you want to remove {{name}} from the organization? They will lose access to all company data.",
+                            "totp_label": "2FA TOTP Verification Code (6 digits)",
+                            "totp_hint": "Your account has 2FA active. Enter the code from your authenticator app to confirm.",
+                            "confirm": "Remove Member",
+                            "success_title": "Member Removed",
+                            "error_title": "Failed to remove user"
+                        },
+                        "transfer_ownership": {
+                            "title": "Transfer Organization Ownership",
+                            "description": "This action will transfer Owner status to {{name}} and change your role to Administrator.",
+                            "warning_title": "Critical and Irreversible Action",
+                            "warning_desc": "The new Owner will have full control over the organization. You cannot undo this unless the new Owner transfers ownership back to you.",
+                            "totp_label": "2FA TOTP Verification Code (6 digits)",
+                            "totp_hint": "Your account has 2FA active. Enter the code from your authenticator app to confirm.",
+                            "confirm": "Confirm Ownership Transfer",
+                            "success_title": "Ownership Transferred",
+                            "error_title": "Failed to transfer ownership"
+                        },
+                        "revoke_invite": {
+                            "title": "Revoke Pending Invitation",
+                            "description": "Are you sure you want to revoke the invitation sent to {{email}}? The registration link will no longer work.",
+                            "confirm": "Revoke Invitation",
+                            "success_title": "Invitation Revoked",
+                            "error_title": "Failed to revoke invitation"
+                        }
+                    }
                 }
             }
         },

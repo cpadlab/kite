@@ -311,6 +311,130 @@
                             "done_button": "He guardado la clave de forma segura"
                         }
                     }
+                },
+                "users": {
+                    "title": "Usuarios y Miembros del Equipo",
+                    "subtitle": "Gestiona los miembros de la organización, invita a nuevos analistas o administradores y controla sus permisos y estados.",
+                    "tabs": {
+                        "members": "Miembros del Equipo",
+                        "invitations": "Invitaciones Pendientes"
+                    },
+                    "toolbar": {
+                        "search_placeholder": "Buscar por nombre, email o usuario...",
+                        "search_invitations_placeholder": "Buscar invitación por email o usuario...",
+                        "invite_button": "Invitar Usuario",
+                        "transfer_ownership_button": "Transferir Propiedad"
+                    },
+                    "roles": {
+                        "owner": "Propietario (Owner)",
+                        "admin": "Administrador",
+                        "analyst": "Analista"
+                    },
+                    "status": {
+                        "active": "Activo",
+                        "disabled": "Deshabilitado",
+                        "pending": "Pendiente",
+                        "expired": "Expirada",
+                        "revoked": "Revocada"
+                    },
+                    "actions": {
+                        "edit_role": "Editar Rol",
+                        "edit_scopes": "Editar Permisos (Scopes)",
+                        "enable": "Habilitar Cuenta",
+                        "disable": "Deshabilitar Cuenta",
+                        "remove": "Expulsar de la Organización",
+                        "transfer": "Transferir Propiedad",
+                        "revoke_invite": "Revocar Invitación"
+                    },
+                    "table": {
+                        "empty_members": "No se encontraron miembros en la organización.",
+                        "empty_invitations": "No hay invitaciones pendientes.",
+                        "showing_info": "Mostrando <1>{{showing}}</1> de <3>{{total}}</3> registros",
+                        "page_info": "Página <1>{{page}}</1> de <3>{{totalPages}}</3>",
+                        "columns": {
+                            "user": "Usuario y Datos",
+                            "role": "Rol",
+                            "status": "Estado",
+                            "scopes": "Permisos (Scopes)",
+                            "totp": "Seguridad 2FA",
+                            "last_login_at": "Último Acceso",
+                            "created_at": "Fecha de Registro",
+                            "invitee": "Invitado",
+                            "invited_by": "Invitado Por",
+                            "expires_at": "Vencimiento",
+                            "actions": "Acciones"
+                        }
+                    },
+                    "modals": {
+                        "invite": {
+                            "title": "Invitar Nuevo Miembro",
+                            "description": "Envía una invitación por correo electrónico para unirte a la organización.",
+                            "fields": {
+                                "first_name": { "label": "Nombre", "placeholder": "Ej: Juan" },
+                                "last_name": { "label": "Apellidos", "placeholder": "Ej: Pérez" },
+                                "email": { "label": "Correo Electrónico", "placeholder": "juan.perez@empresa.com" },
+                                "username": { "label": "Nombre de Usuario", "placeholder": "juan.perez" },
+                                "role": { "label": "Rol en la Organización" },
+                                "scopes": { "label": "Permisos Asignados (Scopes)" }
+                            },
+                            "submit": "Enviar Invitación",
+                            "success_title": "Invitación Enviada",
+                            "error_title": "Error al enviar invitación"
+                        },
+                        "edit_role": {
+                            "title": "Cambiar Rol de Usuario",
+                            "description": "Actualiza el rol del miembro en la organización. Se le enviará una notificación por correo electrónico.",
+                            "submit": "Guardar Nuevo Rol",
+                            "success_title": "Rol Actualizado",
+                            "error_title": "Error al cambiar rol"
+                        },
+                        "edit_scopes": {
+                            "title": "Editar Permisos (Scopes)",
+                            "description": "Modifica los permisos asignados a {{name}}. Se enviará una notificación si se agregan nuevos permisos.",
+                            "submit": "Guardar Permisos",
+                            "success_title": "Permisos Actualizados",
+                            "error_title": "Error al actualizar permisos"
+                        },
+                        "toggle_status": {
+                            "title_disable": "Deshabilitar Cuenta de Usuario",
+                            "title_enable": "Habilitar Cuenta de Usuario",
+                            "description_disable": "¿Seguro que deseas deshabilitar a {{name}}? No podrá iniciar sesión en el sistema.",
+                            "description_enable": "¿Seguro que deseas habilitar a {{name}}? Podrá volver a iniciar sesión.",
+                            "totp_label": "Código de Verificación 2FA TOTP (6 dígitos)",
+                            "totp_hint": "Tu cuenta tiene activado el 2FA. Introduce el código de tu aplicación autenticadora para confirmar.",
+                            "confirm_disable": "Deshabilitar Cuenta",
+                            "confirm_enable": "Habilitar Cuenta",
+                            "success_title": "Estado Actualizado",
+                            "error_title": "Error al actualizar estado"
+                        },
+                        "remove": {
+                            "title": "Expulsar Miembro de la Organización",
+                            "description": "¿Seguro que deseas expulsar a {{name}} de la organización? Perderá todo acceso a los datos de la empresa.",
+                            "totp_label": "Código de Verificación 2FA TOTP (6 dígitos)",
+                            "totp_hint": "Tu cuenta tiene activado el 2FA. Introduce el código de tu aplicación autenticadora para confirmar.",
+                            "confirm": "Expulsar de la Organización",
+                            "success_title": "Miembro Expulsado",
+                            "error_title": "Error al expulsar usuario"
+                        },
+                        "transfer_ownership": {
+                            "title": "Transferir Propiedad de la Organización",
+                            "description": "Esta acción transferirá el rol de Owner a {{name}} y cambiará tu rol a Administrador.",
+                            "warning_title": "Acción Crítica e Irreversible",
+                            "warning_desc": "El nuevo Owner tendrá control total sobre la organización y no podrás revertir este cambio salvo que el nuevo Owner te transfiera la propiedad.",
+                            "totp_label": "Código de Verificación 2FA TOTP (6 dígitos)",
+                            "totp_hint": "Tu cuenta tiene activado el 2FA. Introduce el código de tu aplicación autenticadora para confirmar.",
+                            "confirm": "Confirmar Transferencia de Propiedad",
+                            "success_title": "Propiedad Transferida",
+                            "error_title": "Error al transferir propiedad"
+                        },
+                        "revoke_invite": {
+                            "title": "Revocar Invitación Pendiente",
+                            "description": "¿Seguro que deseas revocar la invitación enviada a {{email}}? El enlace ya no podrá ser utilizado.",
+                            "confirm": "Revocar Invitación",
+                            "success_title": "Invitación Revocada",
+                            "error_title": "Error al revocar invitación"
+                        }
+                    }
                 }
             }
         },
