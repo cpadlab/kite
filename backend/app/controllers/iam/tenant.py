@@ -204,9 +204,12 @@ async def accept_tenant_invitation(
                 detail="This user account already belongs to a tenant.",
             )
 
+        assigned_role = (invitation.role or "analyst").lower().strip()
+        assigned_scopes = ["*"] if assigned_role == "owner" else (invitation.scopes or [])
+
         existing_user.tenant_id = invitation.tenant_id
-        existing_user.role = "owner"
-        existing_user.scopes = ["*"]
+        existing_user.role = assigned_role
+        existing_user.scopes = assigned_scopes
         if payload.password:
             existing_user.hashed_password = hash_password(payload.password)
         target_user = existing_user
@@ -214,22 +217,25 @@ async def accept_tenant_invitation(
         suggested_username = (
             payload.username.strip().lower()
             if payload.username
-            else clean_email.split("@")[0]
+            else (invitation.username or clean_email.split("@")[0])
         )
         
         un_stmt = select(User).where(func.lower(User.username) == suggested_username)
         if (await session.execute(un_stmt)).scalar_one_or_none():
             suggested_username = f"{suggested_username}_{secrets.token_hex(2)}"
 
+        assigned_role = (invitation.role or "analyst").lower().strip()
+        assigned_scopes = ["*"] if assigned_role == "owner" else (invitation.scopes or [])
+
         target_user = User(
-            first_name=payload.first_name.strip() if payload.first_name else (invitation.first_name or "Tenant"),
-            last_name=payload.last_name.strip() if payload.last_name else (invitation.last_name or "Owner"),
+            first_name=payload.first_name.strip() if payload.first_name else (invitation.first_name or "Team"),
+            last_name=payload.last_name.strip() if payload.last_name else (invitation.last_name or "Member"),
             username=suggested_username,
             email=clean_email,
             hashed_password=hash_password(payload.password),
             tenant_id=invitation.tenant_id,
-            role="owner",
-            scopes=["*"],
+            role=assigned_role,
+            scopes=assigned_scopes,
             is_active=True,
             is_email_verified=True,
             invited_by_id=invitation.invited_by_id,

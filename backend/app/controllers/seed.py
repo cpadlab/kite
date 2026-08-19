@@ -40,6 +40,8 @@ async def seed_root_user() -> None:
             await conn.execute(text("ALTER TABLE sessions ADD COLUMN IF NOT EXISTS tenant_id UUID;"))
             await conn.execute(text("ALTER TABLE tenant_invitations ADD COLUMN IF NOT EXISTS first_name VARCHAR(100);"))
             await conn.execute(text("ALTER TABLE tenant_invitations ADD COLUMN IF NOT EXISTS last_name VARCHAR(100);"))
+            await conn.execute(text("ALTER TABLE tenant_invitations ADD COLUMN IF NOT EXISTS username VARCHAR(50);"))
+            await conn.execute(text("ALTER TABLE tenant_invitations ADD COLUMN IF NOT EXISTS scopes JSONB DEFAULT '[]'::jsonb;"))
             await conn.execute(text("ALTER TABLE tenants ADD COLUMN IF NOT EXISTS created_by_id UUID;"))
             await conn.execute(text("ALTER TABLE tenants ADD COLUMN IF NOT EXISTS updated_by_id UUID;"))
             await conn.execute(text("""
