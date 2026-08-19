@@ -213,6 +213,33 @@ async def list_tenant_invitations(
             detail="Organization context required to view invitations.",
         )
 
+    now = datetime.now(timezone.utc)
+    pending_stmt = select(TenantInvitation).where(
+        TenantInvitation.tenant_id == current_user.tenant_id,
+        TenantInvitation.status == "pending",
+    )
+    pending_invs = (await session.execute(pending_stmt)).scalars().all()
+    status_changed = False
+    for inv in pending_invs:
+        usr_stmt = select(User).where(
+            User.tenant_id == current_user.tenant_id,
+            or_(
+                func.lower(User.email) == func.lower(inv.email),
+                func.lower(User.username) == func.lower(inv.username),
+            ),
+        )
+        existing_m = (await session.execute(usr_stmt)).scalar_one_or_none()
+        if existing_m:
+            inv.status = "accepted"
+            inv.accepted_at = now
+            status_changed = True
+        elif inv.expires_at and inv.expires_at < now:
+            inv.status = "expired"
+            status_changed = True
+
+    if status_changed:
+        await session.commit()
+
     stmt = select(TenantInvitation).where(TenantInvitation.tenant_id == current_user.tenant_id)
     count_stmt = select(func.count()).select_from(TenantInvitation).where(
         TenantInvitation.tenant_id == current_user.tenant_id
@@ -357,7 +384,30 @@ async def list_tenant_members(
     users_result = await session.execute(stmt)
     members = users_result.scalars().all()
 
-    items = [TenantMemberReadSchema.model_validate(m) for m in members]
+    user_role = (current_user.role or "").lower().strip()
+    is_privileged = user_role in ("owner", "admin") or current_user.is_superuser
+
+    items = []
+    for m in members:
+        if is_privileged:
+            items.append(TenantMemberReadSchema.model_validate(m))
+        else:
+            items.append(
+                TenantMemberReadSchema(
+                    id=m.id,
+                    tenant_id=m.tenant_id,
+                    email=m.email,
+                    first_name=m.first_name,
+                    last_name=m.last_name,
+                    username=m.username,
+                    role=m.role,
+                    scopes=[],
+                    is_active=m.is_active,
+                    is_2fa_enabled=False,
+                    created_at=m.created_at,
+                    last_login_at=None,
+                )
+            )
     total_pages = math.ceil(total / page_size) if total > 0 else 1
 
     return PaginatedTenantMemberResponseSchema(
