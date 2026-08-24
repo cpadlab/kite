@@ -98,7 +98,8 @@ async def create_tenant_and_invite_owner(
     await session.commit()
     await session.refresh(new_tenant)
 
-    registration_url = f"http://localhost:5173/register?token={token}"
+    registration_url = f"{settings.FRONTEND_URL}/register?token={token}"
+
 
     async def _send_invitation_email():
         try:

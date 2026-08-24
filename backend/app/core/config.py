@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     CORS_ALLOW_METHODS: str = "*"
     CORS_ALLOW_HEADERS: str = "*"
 
+    FRONTEND_URL: str = "http://localhost:5173"
+
+
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
 
