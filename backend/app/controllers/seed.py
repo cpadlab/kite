@@ -65,7 +65,30 @@ async def seed_root_user() -> None:
             """))
             await conn.execute(text("CREATE INDEX IF NOT EXISTS ix_tenant_api_keys_tenant_id ON tenant_api_keys(tenant_id);"))
             await conn.execute(text("CREATE INDEX IF NOT EXISTS ix_tenant_api_keys_key_prefix ON tenant_api_keys(key_prefix);"))
+            await conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS tenant_apps (
+                    id UUID PRIMARY KEY,
+                    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+                    name VARCHAR(255) NOT NULL,
+                    app_id VARCHAR(64) NOT NULL UNIQUE,
+                    is_active BOOLEAN DEFAULT TRUE NOT NULL,
+                    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL
+                );
+            """))
+            await conn.execute(text("CREATE INDEX IF NOT EXISTS ix_tenant_apps_tenant_id ON tenant_apps(tenant_id);"))
+            await conn.execute(text("CREATE INDEX IF NOT EXISTS ix_tenant_apps_app_id ON tenant_apps(app_id);"))
+            await conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS user_app_association (
+                    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                    app_id UUID NOT NULL REFERENCES tenant_apps(id) ON DELETE CASCADE,
+                    PRIMARY KEY (user_id, app_id)
+                );
+            """))
+            await conn.execute(text("CREATE INDEX IF NOT EXISTS ix_user_app_association_user_id ON user_app_association(user_id);"))
+            await conn.execute(text("CREATE INDEX IF NOT EXISTS ix_user_app_association_app_id ON user_app_association(app_id);"))
     except SQLAlchemyError as ddl_exc:
+
         log.critical(f"DDL schema synchronization failed: {ddl_exc}")
         raise ddl_exc
 
