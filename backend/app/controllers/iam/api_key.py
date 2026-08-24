@@ -103,10 +103,10 @@ async def create_tenant_api_key(
         await _notify_tenant_admins_and_owners(
             tenant_id=tenant_id,
             session=session,
-            subject=f"[{settings.PROJECT_NAME}] New Platform API Key Created - {payload.name}",
+            subject=f"[{settings.PROJECT_TITLE}] New Platform API Key Created - {payload.name}",
             template_name="auth/api_key_created.html",
             context_builder=lambda recipient_name, tenant_name: {
-                "project_title": settings.PROJECT_NAME,
+                "project_title": settings.PROJECT_TITLE,
                 "recipient_name": recipient_name,
                 "tenant_name": tenant_name,
                 "creator_name": creator_name,
@@ -239,10 +239,10 @@ async def rotate_tenant_api_key(
         await _notify_tenant_admins_and_owners(
             tenant_id=tenant_id,
             session=session,
-            subject=f"[{settings.PROJECT_NAME}] Platform API Key Rotated - {key_record.name}",
+            subject=f"[{settings.PROJECT_TITLE}] Platform API Key Rotated - {key_record.name}",
             template_name="auth/api_key_rotated.html",
             context_builder=lambda recipient_name, tenant_name: {
-                "project_title": settings.PROJECT_NAME,
+                "project_title": settings.PROJECT_TITLE,
                 "recipient_name": recipient_name,
                 "tenant_name": tenant_name,
                 "rotator_name": rotator_name,
@@ -314,10 +314,10 @@ async def check_api_key_expiration_reminders(session: AsyncSession):
         await _notify_tenant_admins_and_owners(
             tenant_id=k.tenant_id,
             session=session,
-            subject=f"[{settings.PROJECT_NAME}] Warning: API Key '{k.name}' expires in 30 days",
+            subject=f"[{settings.PROJECT_TITLE}] Warning: API Key '{k.name}' expires in 30 days",
             template_name="auth/api_key_expiring.html",
             context_builder=lambda recipient_name, tenant_name: {
-                "project_title": settings.PROJECT_NAME,
+                "project_title": settings.PROJECT_TITLE,
                 "recipient_name": recipient_name,
                 "tenant_name": tenant_name,
                 "key_name": k.name,
@@ -341,10 +341,10 @@ async def check_api_key_expiration_reminders(session: AsyncSession):
         await _notify_tenant_admins_and_owners(
             tenant_id=k.tenant_id,
             session=session,
-            subject=f"[{settings.PROJECT_NAME}] CRITICAL: API Key '{k.name}' expires in 24 hours",
+            subject=f"[{settings.PROJECT_TITLE}] CRITICAL: API Key '{k.name}' expires in 24 hours",
             template_name="auth/api_key_expiring.html",
             context_builder=lambda recipient_name, tenant_name: {
-                "project_title": settings.PROJECT_NAME,
+                "project_title": settings.PROJECT_TITLE,
                 "recipient_name": recipient_name,
                 "tenant_name": tenant_name,
                 "key_name": k.name,

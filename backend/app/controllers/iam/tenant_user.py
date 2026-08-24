@@ -160,10 +160,10 @@ async def invite_tenant_user(
         try:
             await email_service.send_html_email(
                 to_email=clean_email,
-                subject=f"Invitation to join {tenant.name} on {settings.PROJECT_NAME}",
+                subject=f"Invitation to join {tenant.name} on {settings.PROJECT_TITLE}",
                 template_name="auth/tenant_user_invitation.html",
                 context={
-                    "project_title": settings.PROJECT_NAME,
+                    "project_title": settings.PROJECT_TITLE,
                     "recipient_name": f"{payload.first_name} {payload.last_name}".strip(),
                     "inviter_name": inviter_name,
                     "tenant_name": tenant.name,
@@ -477,10 +477,10 @@ async def update_tenant_user_role(
                 update_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
                 await email_service.send_html_email(
                     to_email=target_user.email,
-                    subject=f"[{settings.PROJECT_NAME}] Security Alert: Your Organization Role Has Been Updated",
+                    subject=f"[{settings.PROJECT_TITLE}] Security Alert: Your Organization Role Has Been Updated",
                     template_name="auth/role_updated.html",
                     context={
-                        "project_title": settings.PROJECT_NAME,
+                        "project_title": settings.PROJECT_TITLE,
                         "recipient_name": f"{target_user.first_name} {target_user.last_name}".strip(),
                         "tenant_name": tenant_name,
                         "new_role_title": new_role_title,
@@ -556,10 +556,10 @@ async def update_tenant_user_scopes(
                 update_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
                 await email_service.send_html_email(
                     to_email=target_user.email,
-                    subject=f"[{settings.PROJECT_NAME}] Security Alert: System Permissions Updated",
+                    subject=f"[{settings.PROJECT_TITLE}] Security Alert: System Permissions Updated",
                     template_name="auth/scopes_updated.html",
                     context={
-                        "project_title": settings.PROJECT_NAME,
+                        "project_title": settings.PROJECT_TITLE,
                         "recipient_name": f"{target_user.first_name} {target_user.last_name}".strip(),
                         "tenant_name": tenant_name,
                         "added_scopes": ", ".join(sorted(list(added_scopes))),
@@ -786,7 +786,7 @@ async def transfer_tenant_ownership(
                 subject=f"Ownership Transferred - {tenant_name}",
                 template_name="auth/tenant_ownership_transferred.html",
                 context={
-                    "project_title": settings.PROJECT_NAME,
+                    "project_title": settings.PROJECT_TITLE,
                     "recipient_name": new_owner_name,
                     "tenant_name": tenant_name,
                     "new_owner_name": new_owner_name,

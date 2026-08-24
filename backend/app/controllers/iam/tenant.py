@@ -264,10 +264,10 @@ async def accept_tenant_invitation(
             login_url = f"{settings.FRONTEND_URL}/login"
             await email_service.send_html_email(
                 to_email=target_user.email,
-                subject=f"Welcome to {settings.PROJECT_NAME} - {tenant_name}",
+                subject=f"Welcome to {settings.PROJECT_TITLE} - {tenant_name}",
                 template_name="auth/welcome.html",
                 context={
-                    "project_title": settings.PROJECT_NAME,
+                    "project_title": settings.PROJECT_TITLE,
                     "recipient_name": recipient_name,
                     "tenant_name": tenant_name,
                     "role_title": (target_user.role or "member").capitalize(),
