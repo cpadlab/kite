@@ -68,8 +68,15 @@ async def create_tenant_api_key(
     """
     tenant_id = current_user.tenant_id
 
+    if not payload.scopes or len(payload.scopes) == 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="At least one scope must be selected to create an API key.",
+        )
+
     raw_secret = secrets.token_hex(20)
     secret_key = f"kite_ak_{raw_secret}"
+
     key_prefix = secret_key[:12]
     hashed_key = hashlib.sha256(secret_key.encode("utf-8")).hexdigest()
 
@@ -283,15 +290,41 @@ async def revoke_tenant_api_key(
             detail="Platform API Key not found or does not belong to your organization.",
         )
 
+    key_name = key_record.name
+    key_prefix = key_record.key_prefix
+
     await session.delete(key_record)
     await session.commit()
 
-    log.info(f"API key '{key_record.name}' ({key_record.key_prefix}) revoked by {current_user.email}.")
+    log.info(f"API key '{key_name}' ({key_prefix}) revoked by {current_user.email}.")
+
+    revoker_name = f"{current_user.first_name} {current_user.last_name}".strip()
+    revoker_email = current_user.email
+
+    async def _dispatch_revocation_emails():
+        await _notify_tenant_admins_and_owners(
+            tenant_id=tenant_id,
+            session=session,
+            subject=f"[{settings.PROJECT_TITLE}] Platform API Key Revoked - {key_name}",
+            template_name="auth/api_key_deleted.html",
+            context_builder=lambda recipient_name, tenant_name: {
+                "project_title": settings.PROJECT_TITLE,
+                "recipient_name": recipient_name,
+                "tenant_name": tenant_name,
+                "revoker_name": revoker_name,
+                "revoker_email": revoker_email,
+                "key_name": key_name,
+                "key_prefix": key_prefix,
+            },
+        )
+
+    asyncio.create_task(_dispatch_revocation_emails())
 
     return {
         "status": "revoked",
-        "message": f"Platform API Key '{key_record.name}' has been permanently revoked.",
+        "message": f"Platform API Key '{key_name}' has been permanently revoked.",
     }
+
 
 
 async def check_api_key_expiration_reminders(session: AsyncSession):
