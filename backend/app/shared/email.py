@@ -141,5 +141,25 @@ class EmailService:
             log.error(f"Failed to send email via SMTP ({settings.SMTP_HOST}:{settings.SMTP_PORT}) to {recipients}: {exc}")
             raise exc
 
+    async def send_html_email(
+        self,
+        to_email: str | Sequence[str],
+        subject: str,
+        template_name: str,
+        context: dict[str, Any],
+        cc: Sequence[str] | None = None,
+        bcc: Sequence[str] | None = None,
+    ) -> None:
+        """
+        """
+        await self.send_email(
+            to=to_email,
+            subject=subject,
+            template_name=template_name,
+            context=context,
+            cc=cc,
+            bcc=bcc,
+        )
+
 
 email_service = EmailService()
