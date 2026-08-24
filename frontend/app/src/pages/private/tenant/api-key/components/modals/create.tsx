@@ -57,9 +57,18 @@ export const CreateApiKeyModal: React.FC<CreateApiKeyModalProps> = ({
             return
         }
 
+        if (!selectedScopes || selectedScopes.length === 0) {
+            toast.add({
+                title: t('pages.private.tenant.api_keys.modals.create.errors.scopes_required'),
+                type: 'error',
+            })
+            return
+        }
+
         const calculatedDays = selectedDate
             ? Math.max(1, Math.min(365, Math.ceil((selectedDate.getTime() - new Date().getTime()) / (1000 * 3600 * 24))))
             : 365
+
 
         try {
             setIsSubmitting(true)
@@ -195,7 +204,8 @@ export const CreateApiKeyModal: React.FC<CreateApiKeyModalProps> = ({
                             <XIcon />
                             {t('pages.private.tenant.api_keys.cancel')}
                         </Button>
-                        <Button type="submit" disabled={isSubmitting || !name.trim() || !selectedDate}>
+                        <Button type="submit" disabled={isSubmitting || !name.trim() || !selectedDate || selectedScopes.length === 0}>
+
                             {isSubmitting && <Loader2Icon className="size-4 animate-spin" />}
                             {t('pages.private.tenant.api_keys.modals.create.submit')}
                             {!isSubmitting && <KeyIcon />}

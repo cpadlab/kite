@@ -275,8 +275,10 @@
                                 }
                             },
                             "errors": {
-                                "name_required": "Introduce un nombre descriptivo para la clave API."
+                                "name_required": "Introduce un nombre descriptivo para la clave API.",
+                                "scopes_required": "Debes seleccionar al menos un permiso (scope) para la clave API."
                             },
+
                             "submit": "Generar Clave API",
                             "success_title": "Clave API Generada",
                             "error_title": "Error al generar la clave API",

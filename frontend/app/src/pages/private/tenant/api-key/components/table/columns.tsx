@@ -157,8 +157,9 @@ export const getColumns = ({ t, onOpenRotate, onOpenDelete }: GetColumnsProps): 
         cell: ({ row }) => {
             const scopes = row.original.scopes || []
             if (!scopes.length) {
-                return <Badge variant="secondary" className="text-[11px] font-normal">{t('pages.private.tenant.api_keys.full_access')}</Badge>
+                return <Badge variant="secondary" className="text-[11px] font-normal">No Scopes</Badge>
             }
+
 
             const visibleScopes = scopes.slice(0, 2)
             const remainingCount = scopes.length - 2

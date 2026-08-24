@@ -274,8 +274,10 @@
                                 }
                             },
                             "errors": {
-                                "name_required": "Please enter a descriptive name for the API key."
+                                "name_required": "Please enter a descriptive name for the API key.",
+                                "scopes_required": "You must select at least one scope for the API key."
                             },
+
                             "submit": "Generate API Key",
                             "success_title": "API Key Generated",
                             "error_title": "Error generating API key",
