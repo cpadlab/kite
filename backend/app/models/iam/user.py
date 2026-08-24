@@ -9,6 +9,8 @@ from app.database.models import BaseModel
 
 if TYPE_CHECKING:
     from app.models.iam.tenant import Tenant
+    from app.models.iam.app import TenantApp
+
 
 
 class User(BaseModel):
@@ -55,6 +57,12 @@ class User(BaseModel):
     tenant: Mapped[Optional["Tenant"]] = relationship("Tenant", back_populates="users", foreign_keys=[tenant_id])
     invited_by: Mapped[Optional["User"]] = relationship("User", remote_side="User.id", foreign_keys=[invited_by_id])
     sessions: Mapped[List["UserSession"]] = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
+    apps: Mapped[List["TenantApp"]] = relationship(
+        "TenantApp",
+        secondary="user_app_association",
+        back_populates="users",
+    )
+
 
 
 class UserSession(BaseModel):
